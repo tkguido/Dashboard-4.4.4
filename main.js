@@ -99,8 +99,8 @@ var currentLat = -30.0346; // Padrão Porto Alegre
 var currentLon = -51.2177;
 
 function fetchWeather(lat, lon) {
-    // Usando HTTP puro em vez de HTTPS para evitar erros de SSL no Android 4.4
-    var url = 'http://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,weather_code&timezone=auto';
+    // Restaurando HTTPS: o GitHub Pages (onde está hospedado) bloqueia requisições HTTP (Mixed Content Error)
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,weather_code&timezone=auto';
     
     ajaxGet(url, function(data) {
         // Clima Atual

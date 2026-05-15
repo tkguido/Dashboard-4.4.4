@@ -373,8 +373,6 @@ h1, h2, h3, h4, p {
     background-color: #000000;
     z-index: 9999;
     opacity: 1; /* Oculta totalmente o dashboard atrás */
-    text-align: center;
-    line-height: 100vh; /* Truque perfeito de centralização vertical */
 }
 
 #night-mode-overlay.hidden {
@@ -382,15 +380,18 @@ h1, h2, h3, h4, p {
 }
 
 #night-time {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 1; /* Reseta a linha para a fonte */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     color: #e0f2fe;
     opacity: 0.35; /* Reduz drasticamente o brilho percebido (Dimmer via Software) */
-    font-size: 40vh; /* Altura baseada na tela para nunca cortar embaixo */
+    font-size: 35vh; /* Altura segura */
     font-weight: 300;
     letter-spacing: 0.05em;
     margin: 0;
+    white-space: nowrap;
 }
 
 /* =========================================
