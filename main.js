@@ -127,10 +127,11 @@ function initWeather() {
                 fetchWeather(currentLat, currentLon);
             },
             function(error) {
-                console.warn('Geoloc bloqueada, usando POA.', error);
+                console.warn('Geoloc bloqueada ou timeout, usando POA.', error);
                 document.getElementById('location-status').textContent = 'Local padrão: Porto Alegre';
                 fetchWeather(currentLat, currentLon);
-            }
+            },
+            { timeout: 5000, maximumAge: 60000 } // Obriga a falhar em 5s se travar
         );
     } else {
         document.getElementById('location-status').textContent = 'Geolocalização não suportada';
