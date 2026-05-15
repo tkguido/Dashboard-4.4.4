@@ -339,7 +339,7 @@ h1, h2, h3, h4, p {
 
 /* --- Responsividade Básica (Tablets Verticais e Mobile) --- */
 @media (max-width: 900px) {
-    .weather-card, .finance-card {
+    .top-bar-card, .finance-card {
         width: 100%;
         float: none;
         margin-right: 0;
@@ -494,7 +494,7 @@ h1, h2, h3, h4, p {
     .calendar-card { height: 280px; margin-bottom: 0; padding: 10px; }
     
     /* Alturas fixas para preencher 100% da coluna direita */
-    .weather-card { height: 130px; margin-bottom: 20px; padding: 20px 15px; text-align: center; }
+    .top-bar-card { height: 130px; margin-bottom: 20px; padding: 15px; }
     .player-card { height: calc(100% - 130px - 20px); margin-bottom: 0; padding: 10px; }
     
     #time { font-size: 3.5rem !important; }
@@ -509,7 +509,7 @@ h1, h2, h3, h4, p {
 
 @media (max-width: 900px) {
     .col-left, .col-right { width: 100%; float: none; height: auto; padding-right: 0; }
-    .clock-card, .weather-card, .finance-card, .player-card, .calendar-card {
+    .clock-card, .top-bar-card, .finance-card, .player-card, .calendar-card {
         width: 100% !important;
         float: none !important;
         margin-right: 0 !important;
