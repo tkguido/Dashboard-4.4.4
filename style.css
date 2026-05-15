@@ -224,6 +224,7 @@ h1, h2, h3, h4, p {
 /* --- YouTube Player --- */
 .player-card {
     padding: 1rem;
+}
 /* Removido o equalizador por impossibilidade técnica do CORS */
 
 /* --- Calendário --- */
