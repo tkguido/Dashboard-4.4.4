@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=34">
+    <link rel="stylesheet" href="style.css?v=35">
 </head>
 <body>
     
@@ -64,15 +64,15 @@
 
             <!-- Coluna da Direita (75%) -->
             <div class="col-right">
-                <!-- Top Bar: Clima + Notícias -->
-                <div class="card glass top-bar-card" style="display: flex; justify-content: space-between; align-items: stretch; padding: 15px;">
+                <!-- Top Bar: Clima + Notícias (Compatível com Android 4.4 usando display: table) -->
+                <div class="card glass top-bar-card" style="display: table; width: 100%; padding: 15px; box-sizing: border-box; height: 130px; margin-bottom: 20px;">
                     <!-- Lado Esquerdo: Clima -->
-                    <div class="weather-info" style="flex: 0 0 35%; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div class="weather-item" style="text-align: left;">
+                    <div class="weather-section" style="display: table-cell; width: 40%; vertical-align: middle; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px;">
+                        <div style="display: table; width: 100%;">
+                            <div style="display: table-cell; text-align: left; width: 50%;">
                                 <h2 id="temperature" style="font-size: 2.2rem; margin: 0;">--°C</h2>
                             </div>
-                            <div class="weather-item" style="text-align: right;">
+                            <div style="display: table-cell; text-align: right; width: 50%;">
                                 <h2 id="humidity" style="font-size: 2.2rem; margin: 0; color: #0ea5e9;">--%</h2>
                             </div>
                         </div>
@@ -80,12 +80,13 @@
                     </div>
 
                     <!-- Lado Direito: Notícias G1/CNN -->
-                    <div class="news-info" style="flex: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 0.85rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">📰 Plantão de Notícias</span>
-                            <span id="news-status" style="font-size: 0.75rem; color: #64748b;">Buscando...</span>
+                    <div class="news-section" style="display: table-cell; width: 60%; vertical-align: middle; padding-left: 20px; overflow: hidden; max-width: 0;">
+                        <div style="display: block; margin-bottom: 8px;">
+                            <span style="font-size: 0.85rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; float: left;">📰 Plantão de Notícias</span>
+                            <span id="news-status" style="font-size: 0.75rem; color: #64748b; float: right;">Buscando...</span>
+                            <div style="clear: both;"></div>
                         </div>
-                        <div id="news-ticker" style="font-size: 1.15rem; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
+                        <div id="news-ticker" style="font-size: 1.15rem; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; width: 100%;">
                             Carregando manchetes do G1 e CNN Brasil...
                         </div>
                     </div>
