@@ -221,51 +221,58 @@ h1, h2, h3, h4, p {
     position: relative;
 }
 
-/* Equalizador Cyberpunk Colorido (Gigante) */
+/* Equalizador Cyberpunk Colorido (Fiel à Referência) */
 .equalizer {
     display: flex;
-    justify-content: space-between;
-    align-items: center; /* Expande do centro para cima e para baixo */
-    flex: 1; /* Ocupa todo o resto da tela */
-    height: 35px; /* Mesma altura do seletor */
-    gap: 2px;
+    justify-content: center;
+    align-items: center; /* Mantém o centro como eixo (espelhado) */
+    flex: 1; 
+    height: 45px; 
+    gap: 1px;
+    margin-left: 20px;
     margin-bottom: 5px;
 }
 .equalizer.hidden { display: none; }
 .equalizer .bar {
     flex: 1;
-    height: 100%;
-    border-radius: 2px;
-    transform-origin: center; /* Anima a partir do centro (estilo espelhado) */
-    transform: scaleY(0.1);
-    animation: eq-wave 1s infinite alternate ease-in-out;
-    -webkit-animation: eq-wave 1s infinite alternate ease-in-out;
+    border-radius: 1px;
+    transform-origin: center;
+    /* A altura base vem do style inline no HTML para formar o desenho da onda */
 }
 
-/* Cores das bandas (Espectro Frequência) */
-.bar-g { background-color: #2dd4bf; box-shadow: 0 0 6px #2dd4bf; } /* Ciano/Verde */
-.bar-b { background-color: #3b82f6; box-shadow: 0 0 6px #3b82f6; } /* Azul */
-.bar-p { background-color: #d946ef; box-shadow: 0 0 6px #d946ef; } /* Rosa */
-.bar-y { background-color: #f59e0b; box-shadow: 0 0 6px #f59e0b; } /* Laranja */
-.bar-r { background-color: #ef4444; box-shadow: 0 0 6px #ef4444; } /* Vermelho */
-
-/* Bagunça aleatória de tempos e delays para criar a onda orgânica */
-.equalizer .bar:nth-child(8n+1) { animation-duration: 0.3s; animation-delay: -0.1s; }
-.equalizer .bar:nth-child(8n+2) { animation-duration: 0.5s; animation-delay: -0.4s; }
-.equalizer .bar:nth-child(8n+3) { animation-duration: 0.4s; animation-delay: -0.2s; }
-.equalizer .bar:nth-child(8n+4) { animation-duration: 0.6s; animation-delay: -0.5s; }
-.equalizer .bar:nth-child(8n+5) { animation-duration: 0.35s; animation-delay: -0.3s; }
-.equalizer .bar:nth-child(8n+6) { animation-duration: 0.55s; animation-delay: -0.1s; }
-.equalizer .bar:nth-child(8n+7) { animation-duration: 0.45s; animation-delay: -0.4s; }
-.equalizer .bar:nth-child(8n+8) { animation-duration: 0.5s; animation-delay: -0.2s; }
-
-@-webkit-keyframes eq-wave {
-    0% { transform: scaleY(0.05); opacity: 0.4; }
-    100% { transform: scaleY(1); opacity: 1; }
+/* Cores das 4 bandas principais */
+/* 1 a 13: Verde (Graves) */
+.equalizer .bar:nth-child(-n+13) { 
+    background-color: #00ffcc; box-shadow: 0 0 6px #00ffcc; 
+    animation: eq-pulse 0.4s infinite alternate ease-in-out;
+    -webkit-animation: eq-pulse 0.4s infinite alternate ease-in-out;
 }
-@keyframes eq-wave {
-    0% { transform: scaleY(0.05); opacity: 0.4; }
-    100% { transform: scaleY(1); opacity: 1; }
+/* 14 a 24: Azul (Médio-Graves) */
+.equalizer .bar:nth-child(n+14):nth-child(-n+24) { 
+    background-color: #0088ff; box-shadow: 0 0 6px #0088ff; 
+    animation: eq-pulse 0.5s infinite alternate ease-in-out;
+    -webkit-animation: eq-pulse 0.5s infinite alternate ease-in-out;
+}
+/* 25 a 39: Rosa (Médios) */
+.equalizer .bar:nth-child(n+25):nth-child(-n+39) { 
+    background-color: #ff00ff; box-shadow: 0 0 6px #ff00ff; 
+    animation: eq-pulse 0.35s infinite alternate ease-in-out;
+    -webkit-animation: eq-pulse 0.35s infinite alternate ease-in-out;
+}
+/* 40 a 50: Amarelo (Agudos) */
+.equalizer .bar:nth-child(n+40) { 
+    background-color: #ffaa00; box-shadow: 0 0 6px #ffaa00; 
+    animation: eq-pulse 0.45s infinite alternate ease-in-out;
+    -webkit-animation: eq-pulse 0.45s infinite alternate ease-in-out;
+}
+
+@-webkit-keyframes eq-pulse {
+    0% { transform: scaleY(0.7); opacity: 0.6; }
+    100% { transform: scaleY(1.2); opacity: 1; }
+}
+@keyframes eq-pulse {
+    0% { transform: scaleY(0.7); opacity: 0.6; }
+    100% { transform: scaleY(1.2); opacity: 1; }
 }
 
 /* --- Calendário --- */
