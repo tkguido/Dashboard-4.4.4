@@ -99,31 +99,24 @@ var currentLat = -30.0346; // Padrão Porto Alegre
 var currentLon = -51.2177;
 
 function fetchWeather(lat, lon) {
-    // Trocamos para a API HG Brasil (Cloudflare SSL = Suportado pelo Android 4.4)
-    var url = 'https://api.hgbrasil.com/weather?format=json-cors&user_ip=remote';
+    // A cartada final: O Open-Meteo tem Let's Encrypt (bloqueado no Android 4.4)
+    // Então embrulhamos a requisição em um Proxy Público que roda em Cloudflare (Liberado no Android 4.4!)
+    var baseWeatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,weather_code&timezone=auto';
+    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(baseWeatherUrl);
     
     ajaxGet(url, function(data) {
-        if(data && data.results) {
-            var temp = data.results.temp;
-            var humidity = data.results.humidity;
-            var condition = data.results.condition_slug;
+        if(data && data.current) {
+            var temp = data.current.temperature_2m;
+            var humidity = data.current.relative_humidity_2m;
+            var code = data.current.weather_code;
             
-            var icon = '☁️';
-            if (condition === 'clear_day') icon = '☀️';
-            else if (condition === 'clear_night') icon = '🌙';
-            else if (condition === 'cloud' || condition === 'cloudly_day' || condition === 'cloudly_night') icon = '🌤️';
-            else if (condition === 'rain') icon = '🌧️';
-            else if (condition === 'storm') icon = '⛈️';
-            else if (condition === 'fog') icon = '🌫️';
-            else if (condition === 'snow') icon = '❄️';
-            
-            document.getElementById('temperature').innerHTML = temp + '°C <span style="font-size: 2rem;">' + icon + '</span>';
+            document.getElementById('temperature').innerHTML = Math.round(temp) + '°C <span style="font-size: 2rem;">' + getWeatherIcon(code) + '</span>';
             document.getElementById('humidity').textContent = humidity + '%';
             
-            document.getElementById('location-status').textContent = data.results.city;
+            document.getElementById('location-status').textContent = 'Dados do clima atualizados';
         }
     }, function(error) {
-        console.error('Erro clima HG Brasil:', error);
+        console.error('Erro clima Proxy:', error);
         document.getElementById('location-status').textContent = 'Erro ao atualizar clima';
     });
 }
