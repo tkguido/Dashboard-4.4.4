@@ -221,38 +221,46 @@ h1, h2, h3, h4, p {
     position: relative;
 }
 
-/* Equalizador Cyberpunk */
+/* Equalizador Cyberpunk Colorido */
 .equalizer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 24px;
-    height: 15px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    z-index: 10;
+    width: 60px;
+    height: 35px;
+    gap: 3px;
+    margin-bottom: 5px; /* Alinhar opticamente com o Select */
 }
 .equalizer.hidden { display: none; }
 .equalizer .bar {
-    width: 4px;
-    background-color: #0ea5e9;
-    box-shadow: 0 0 5px #0ea5e9;
+    flex: 1;
     border-radius: 2px 2px 0 0;
     animation: eq-bounce 0.5s infinite alternate;
     -webkit-animation: eq-bounce 0.5s infinite alternate;
 }
-.equalizer .bar:nth-child(1) { animation-duration: 0.4s; -webkit-animation-duration: 0.4s; }
-.equalizer .bar:nth-child(2) { animation-duration: 0.6s; -webkit-animation-duration: 0.6s; }
-.equalizer .bar:nth-child(3) { animation-duration: 0.5s; -webkit-animation-duration: 0.5s; }
-.equalizer .bar:nth-child(4) { animation-duration: 0.7s; -webkit-animation-duration: 0.7s; }
+
+.bar-red { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
+.bar-yellow { background-color: #eab308; box-shadow: 0 0 8px #eab308; }
+.bar-green { background-color: #22c55e; box-shadow: 0 0 8px #22c55e; }
+.bar-blue { background-color: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+.bar-purple { background-color: #a855f7; box-shadow: 0 0 8px #a855f7; }
+.bar-pink { background-color: #ec4899; box-shadow: 0 0 8px #ec4899; }
+.bar-cyan { background-color: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+
+.equalizer .bar:nth-child(1) { animation-duration: 0.3s; -webkit-animation-duration: 0.3s; }
+.equalizer .bar:nth-child(2) { animation-duration: 0.5s; -webkit-animation-duration: 0.5s; }
+.equalizer .bar:nth-child(3) { animation-duration: 0.4s; -webkit-animation-duration: 0.4s; }
+.equalizer .bar:nth-child(4) { animation-duration: 0.6s; -webkit-animation-duration: 0.6s; }
+.equalizer .bar:nth-child(5) { animation-duration: 0.35s; -webkit-animation-duration: 0.35s; }
+.equalizer .bar:nth-child(6) { animation-duration: 0.55s; -webkit-animation-duration: 0.55s; }
+.equalizer .bar:nth-child(7) { animation-duration: 0.45s; -webkit-animation-duration: 0.45s; }
 
 @-webkit-keyframes eq-bounce {
-    0% { height: 2px; }
+    0% { height: 10%; }
     100% { height: 100%; }
 }
 @keyframes eq-bounce {
-    0% { height: 2px; }
+    0% { height: 10%; }
     100% { height: 100%; }
 }
 

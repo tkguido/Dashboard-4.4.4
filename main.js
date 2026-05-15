@@ -310,51 +310,11 @@ function loadPresetYouTube() {
     var val = select.value;
     
     var finalUrl = '';
-    // Troca o src pelo novo vídeo ou playlist (Autoplay=0 para evitar tela preta)
+    // Troca o src pelo novo vídeo ou playlist (Autoplay=1 para iniciar na hora)
     if (val.indexOf('list=') !== -1) {
-        finalUrl = 'https://www.youtube.com/embed/videoseries?' + val + '&autoplay=0&controls=1';
+        finalUrl = 'https://www.youtube.com/embed/videoseries?' + val + '&autoplay=1&controls=1';
     } else {
-        finalUrl = 'https://www.youtube.com/embed/' + val + '?autoplay=0&controls=1';
-    }
-    
-    setYouTubeIframe(finalUrl);
-    
-    // Limpa o input de texto
-    document.getElementById('yt-link').value = '';
-}
-
-function loadCustomYouTube() {
-    var input = document.getElementById('yt-link').value;
-    
-    // Se clicou no botão Tocar mas não colou nenhum link, carrega o que estiver no Dropdown
-    if (!input || input.trim() === '') {
-        loadPresetYouTube();
-        return;
-    }
-    
-    var finalUrl = '';
-    
-    // Testa se é link de Playlist
-    if (input.indexOf('list=') !== -1) {
-        var listId = input.split('list=')[1].split('&')[0];
-        finalUrl = 'https://www.youtube.com/embed/videoseries?list=' + listId + '&autoplay=0&controls=1';
-    } 
-    // Testa se é link normal (watch?v=)
-    else if (input.indexOf('watch?v=') !== -1) {
-        var videoId = input.split('watch?v=')[1].split('&')[0];
-        finalUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=0&controls=1';
-    } 
-    // Testa se é link encurtado (youtu.be/)
-    else if (input.indexOf('youtu.be/') !== -1) {
-        var videoId = input.split('youtu.be/')[1].split('?')[0];
-        finalUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=0&controls=1';
-    } 
-    // Se digitou apenas o ID direto
-    else if (input.length === 11) {
-        finalUrl = 'https://www.youtube.com/embed/' + input + '?autoplay=0&controls=1';
-    } else {
-        alert("Link inválido. Cole o link completo do YouTube.");
-        return;
+        finalUrl = 'https://www.youtube.com/embed/' + val + '?autoplay=1&controls=1';
     }
     
     setYouTubeIframe(finalUrl);
