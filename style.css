@@ -440,12 +440,15 @@ h1, h2, h3, h4, p {
         padding: 20px; 
         max-width: 100%; 
         box-sizing: border-box;
-        height: 100vh;
+        position: absolute;
+        top: 0; bottom: 0; left: 0; right: 0;
+        height: auto;
+        min-height: auto;
         overflow: hidden; /* Evita scroll na tela toda */
     }
     
     .dashboard-container {
-        height: calc(100vh - 40px); /* Subtrai o padding */
+        height: 100%; 
     }
     
     /* Layout de Colunas */
