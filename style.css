@@ -448,7 +448,7 @@ h1, h2, h3, h4, p {
    ========================================= */
 
 /* Desktop/Tablet Landscape: 2 Colunas! */
-@media (min-width: 900px) {
+@media (min-width: 700px) {
     #dashboard-wrapper { 
         padding: 20px; 
         max-width: 100%; 
@@ -507,7 +507,7 @@ h1, h2, h3, h4, p {
     .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 699px) {
     .col-left, .col-right { width: 100%; float: none; height: auto; padding-right: 0; }
     .clock-card, .top-bar-card, .finance-card, .player-card, .calendar-card {
         width: 100% !important;
