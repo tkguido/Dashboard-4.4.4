@@ -37,6 +37,11 @@ function updateTime() {
             // Desliga a rádio/vídeo ao entrar no modo noturno
             var iframe = document.getElementById('yt-iframe');
             if (iframe) iframe.src = '';
+            
+            // Oculta o equalizador
+            var eq = document.getElementById('equalizer');
+            if(eq) eq.className = "equalizer hidden";
+            
             wasNight = true;
         }
     } else {
@@ -109,6 +114,12 @@ function fetchWeather(lat, lon) {
             var temp = data.current.temperature_2m;
             var humidity = data.current.relative_humidity_2m;
             var code = data.current.weather_code;
+            
+            // Fundo Dinâmico Sensorial baseado no clima
+            document.body.className = ''; // Limpa classes
+            if (code === 0) document.body.className = 'bg-sun';
+            else if (code >= 1 && code <= 48) document.body.className = 'bg-cloud';
+            else if (code >= 51 && code <= 99) document.body.className = 'bg-rain';
             
             document.getElementById('temperature').innerHTML = Math.round(temp) + '°C <span style="font-size: 2rem;">' + getWeatherIcon(code) + '</span>';
             document.getElementById('humidity').textContent = humidity + '%';
@@ -288,6 +299,10 @@ document.querySelector('.clock-card').addEventListener('click', function() {
 function setYouTubeIframe(url) {
     var container = document.querySelector('.iframe-container');
     container.innerHTML = '<iframe id="yt-iframe" width="100%" height="100%" src="' + url + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px;"></iframe>';
+    
+    // Liga o equalizador cyberpunk
+    var eq = document.getElementById('equalizer');
+    if(eq) eq.className = "equalizer";
 }
 
 function loadPresetYouTube() {
