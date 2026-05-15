@@ -1,0 +1,502 @@
+/* Cores Fixas (Sem Variáveis CSS) */
+body {
+    background-color: #000000; /* Preto Absoluto */
+    color: #f8fafc; /* Slate 50 */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Container Principal */
+#dashboard-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Clearfix para flutuações */
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Estilo Base dos Cartões */
+.card {
+    background: rgba(25, 25, 25, 0.95); /* 97% Preto para melhor contraste com o fundo */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Alinhando com o horizontal */
+    /* Sombras para Android 4.4 */
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+
+
+/* Tipografia e Textos */
+h1, h2, h3, h4, p {
+    margin: 0;
+}
+
+/* =========================================
+   CONTROLES DO YOUTUBE (HUB)
+   ========================================= */
+.yt-controls {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    height: 40px;
+}
+.yt-controls select, .yt-controls input, .yt-controls button {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    padding: 8px;
+    border-radius: 6px;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    outline: none;
+}
+.yt-controls select {
+    width: 30%;
+    float: left;
+}
+.yt-controls input {
+    width: 55%;
+    float: left;
+    margin-left: 2%;
+    border-color: rgba(56, 189, 248, 0.3); /* Destaque leve em azul */
+}
+.yt-controls button {
+    width: 11%;
+    float: right;
+    background: rgba(20, 20, 20, 0.9);
+    color: rgba(56, 189, 248, 1);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+}
+.yt-controls button:active {
+    background: rgba(56, 189, 248, 0.2);
+}
+
+.player-card {
+    position: relative;
+}
+.iframe-container {
+    position: absolute;
+    top: 60px; /* 10px card padding + 40px controls + 10px margin */
+    bottom: 10px; /* 10px card padding */
+    left: 10px;
+    right: 10px;
+}
+
+.label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8; /* Slate 400 */
+    font-weight: 500;
+}
+
+.subtext {
+    font-size: 0.9rem;
+    color: #94a3b8; /* Slate 400 */
+}
+
+/* --- Relógio --- */
+.clock-card {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    cursor: pointer; /* Indica que é clicável para o modo fullscreen */
+}
+
+#time {
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.date-text {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    font-weight: 400;
+}
+
+/* --- Clima --- */
+.weather-info {
+    display: table;
+    width: 100%;
+}
+.weather-item {
+    display: table-cell;
+    width: 50%;
+}
+.weather-item h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+/* --- Finanças --- */
+.finance-grid {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+.finance-item {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    margin-bottom: 0.8rem;
+    text-align: center;
+}
+.finance-item h2 {
+    font-size: 1.1rem; /* Fonte reduzida */
+    font-weight: 600;
+    margin: 0;
+}
+.finance-item .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+}
+.finance-item .var-label {
+    font-size: 0.7rem;
+}
+
+.var-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* --- Links Rápidos --- */
+.links-card {
+    text-align: center;
+}
+.links-grid {
+    display: block;
+}
+.link-btn {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    text-align: center;
+    margin: 5px;
+    width: 18%; /* Aproximadamente 5 colunas no desktop */
+    box-sizing: border-box;
+}
+.link-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- YouTube Player --- */
+.player-card {
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* --- Calendário --- */
+.calendar-card {
+    text-align: center;
+}
+.calendars-grid {
+    display: block;
+}
+.month-container {
+    display: inline-block;
+    width: 30%;
+    margin: 0 1.5%;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+.month-name {
+    color: #38bdf8;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+.days-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.days-header {
+    display: table-row;
+}
+.days-row {
+    display: table-row;
+}
+.day-cell {
+    display: table-cell;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 0.85rem;
+    color: #f8fafc;
+    vertical-align: middle;
+}
+.day-cell.header {
+    color: #94a3b8;
+    font-weight: 500;
+    font-size: 0.75rem;
+    padding-bottom: 10px;
+}
+.day-cell.empty {
+    color: transparent;
+}
+.day-cell .today-marker {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #38bdf8;
+    color: #0f172a;
+    border-radius: 50%;
+    font-weight: 600;
+}
+
+/* --- Letreiro de Notícias --- */
+.news-card {
+    width: 100%;
+    clear: both;
+    padding: 10px 15px;
+    height: 60px; /* Altura fixa */
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.news-ticker-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    line-height: 40px;
+    white-space: nowrap;
+}
+
+.news-ticker {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    /* Compatibilidade para navegadores antigos */
+    -webkit-animation: ticker 120s linear infinite;
+    animation: ticker 120s linear infinite;
+}
+
+.news-item {
+    display: inline-block;
+    padding-right: 80px;
+    font-size: 1.1rem;
+    color: #f8fafc;
+}
+
+.news-source {
+    color: #f59e0b;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+/* Animações (ES5 / CSS3 Legado) */
+@-webkit-keyframes ticker {
+    0% { -webkit-transform: translate3d(0, 0, 0); }
+    100% { -webkit-transform: translate3d(-100%, 0, 0); }
+}
+
+@keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* --- Responsividade Básica (Tablets Verticais e Mobile) --- */
+@media (max-width: 900px) {
+    .weather-card, .finance-card {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+    }
+    .month-container {
+        width: 100%;
+        display: block;
+        margin: 0 0 20px 0;
+    }
+    .link-btn {
+        width: 45%;
+        margin: 5px 2%;
+    }
+}
+@media (max-width: 600px) {
+    #dashboard-wrapper {
+        padding: 0.5rem;
+    }
+    .card {
+        padding: 1rem;
+        margin-bottom: 10px;
+        border-radius: 16px;
+    }
+    #time {
+        font-size: 3.5rem;
+    }
+    .clock-card {
+        padding: 1.5rem 1rem;
+    }
+    .link-btn {
+        padding: 0.8rem;
+    }
+}
+
+/* =========================================
+   NIGHT MODE (RELOGIO PRO)
+   ========================================= */
+#night-mode-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    z-index: 9999;
+    opacity: 1; /* Oculta totalmente o dashboard atrás */
+    text-align: center;
+    line-height: 100vh; /* Truque perfeito de centralização vertical */
+}
+
+#night-mode-overlay.hidden {
+    display: none;
+}
+
+#night-time {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1; /* Reseta a linha para a fonte */
+    color: #e0f2fe;
+    opacity: 0.35; /* Reduz drasticamente o brilho percebido (Dimmer via Software) */
+    font-size: 40vh; /* Altura baseada na tela para nunca cortar embaixo */
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+/* =========================================
+   EFEITO COMEMORATIVO (EDGE LIGHTING)
+   ========================================= */
+#celebration-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 8000;
+    pointer-events: none;
+    opacity: 0;
+    -webkit-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+    box-sizing: border-box;
+}
+
+#celebration-overlay.active {
+    opacity: 1;
+    -webkit-animation: edgePulse 2s infinite;
+    animation: edgePulse 2s infinite;
+}
+
+@-webkit-keyframes edgePulse {
+    0% { box-shadow: inset 0 0 100px 30px rgba(56, 189, 248, 1), inset 0 0 30px 10px rgba(56, 189, 248, 1); } /* Azul */
+    25% { box-shadow: inset 0 0 100px 30px rgba(74, 222, 128, 1), inset 0 0 30px 10px rgba(74, 222, 128, 1); } /* Verde */
+    50% { box-shadow: inset 0 0 100px 30px rgba(245, 158, 11, 1), inset 0 0 30px 10px rgba(245, 158, 11, 1); } /* Laranja */
+    75% { box-shadow: inset 0 0 100px 30px rgba(248, 113, 113, 1), inset 0 0 30px 10px rgba(248, 113, 113, 1); } /* Vermelho */
+    100% { box-shadow: inset 0 0 100px 30px rgba(56, 189, 248, 1), inset 0 0 30px 10px rgba(56, 189, 248, 1); }
+}
+
+@keyframes edgePulse {
+    0% { box-shadow: inset 0 0 100px 30px rgba(56, 189, 248, 1), inset 0 0 30px 10px rgba(56, 189, 248, 1); }
+    25% { box-shadow: inset 0 0 100px 30px rgba(74, 222, 128, 1), inset 0 0 30px 10px rgba(74, 222, 128, 1); }
+    50% { box-shadow: inset 0 0 100px 30px rgba(245, 158, 11, 1), inset 0 0 30px 10px rgba(245, 158, 11, 1); }
+    75% { box-shadow: inset 0 0 100px 30px rgba(248, 113, 113, 1), inset 0 0 30px 10px rgba(248, 113, 113, 1); }
+    100% { box-shadow: inset 0 0 100px 30px rgba(56, 189, 248, 1), inset 0 0 30px 10px rgba(56, 189, 248, 1); }
+}
+
+/* =========================================
+   MEDIA QUERIES (SEMPRE NO FIM DO ARQUIVO)
+   ========================================= */
+
+/* Desktop/Tablet Landscape: 2 Colunas! */
+@media (min-width: 900px) {
+    #dashboard-wrapper { 
+        padding: 20px; 
+        max-width: 100%; 
+        box-sizing: border-box;
+        height: 100vh;
+        overflow: hidden; /* Evita scroll na tela toda */
+    }
+    
+    .dashboard-container {
+        height: calc(100vh - 40px); /* Subtrai o padding */
+    }
+    
+    /* Layout de Colunas */
+    .col-left {
+        width: 25%;
+        float: left;
+        height: 100%;
+        padding-right: 20px; /* Margem direita como padding interno pra n quebrar width */
+        box-sizing: border-box;
+    }
+    
+    .col-right {
+        width: 75%;
+        float: left;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Alturas fixas para preencher 100% da coluna esquerda (gaps de 20px no margin-bottom dos cartões) */
+    .clock-card { height: 130px; margin-bottom: 20px; padding: 20px 10px; }
+    .finance-card { 
+        height: calc(100% - 130px - 280px - 40px); 
+        margin-bottom: 20px; 
+        overflow: hidden; 
+        padding: 10px;
+        display: -webkit-box; display: -webkit-flex; display: flex;
+        -webkit-box-orient: vertical; -webkit-flex-direction: column; flex-direction: column;
+        -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    }
+    .calendar-card { height: 280px; margin-bottom: 0; padding: 10px; }
+    
+    /* Alturas fixas para preencher 100% da coluna direita */
+    .weather-card { height: 130px; margin-bottom: 20px; padding: 20px 15px; text-align: center; }
+    .player-card { height: calc(100% - 130px - 20px); margin-bottom: 0; padding: 10px; }
+    
+    #time { font-size: 3.5rem !important; }
+    .date-text { font-size: 0.9rem !important; margin-top: 0.5rem !important; }
+    .weather-item h2 { font-size: 2.5rem !important; margin: 0.5rem 0 !important; display: inline-block; padding: 0 20px; }
+    .finance-item h2 { font-size: 1.1rem !important; margin: 0 !important; }
+    
+    .month-container { width: 100%; margin: 0; } /* 1 mês ocupa tudo */
+    .day-cell { font-size: 0.9rem; padding: 4px 0; }
+    .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
+}
+
+@media (max-width: 900px) {
+    .col-left, .col-right { width: 100%; float: none; height: auto; padding-right: 0; }
+    .clock-card, .weather-card, .finance-card, .player-card, .calendar-card {
+        width: 100% !important;
+        float: none !important;
+        margin-right: 0 !important;
+        height: auto !important;
+        clear: both !important;
+    }
+}
