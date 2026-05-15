@@ -38,10 +38,6 @@ function updateTime() {
             var iframe = document.getElementById('yt-iframe');
             if (iframe) iframe.src = '';
             
-            // Oculta o equalizador
-            var eq = document.getElementById('equalizer');
-            if(eq) eq.className = "equalizer hidden";
-            
             wasNight = true;
         }
     } else {
@@ -152,9 +148,102 @@ function initWeather() {
         fetchWeather(currentLat, currentLon);
     }
 }
-function updateWeather() { fetchWeather(currentLat, currentLon); }
+
+// ==========================================
+// 7. NOTÍCIAS (G1 & CNN)
+// ==========================================
+var newsItems = [];
+var currentNewsIndex = 0;
+var newsInterval = null;
+
+function fetchNews() {
+    var statusEl = document.getElementById('news-status');
+    if(statusEl) statusEl.textContent = 'Atualizando...';
+    
+    var g1Url = 'https://api.codetabs.com/v1/proxy/?quest=https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/rss/g1/';
+    var cnnUrl = 'https://api.codetabs.com/v1/proxy/?quest=https://api.rss2json.com/v1/api.json?rss_url=https://www.cnnbrasil.com.br/feed/';
+    
+    var tempNews = [];
+    var requestsCompleted = 0;
+    
+    function processResponse(data, sourceName) {
+        if (data && data.items) {
+            for (var i = 0; i < Math.min(data.items.length, 10); i++) {
+                var item = data.items[i];
+                var pubDate = item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')) : new Date();
+                tempNews.push({
+                    title: item.title,
+                    source: sourceName,
+                    date: pubDate
+                });
+            }
+        }
+        requestsCompleted++;
+        if (requestsCompleted === 2) {
+            finishNewsLoad(tempNews);
+        }
+    }
+    
+    ajaxGet(g1Url, function(data) { processResponse(data, 'G1'); }, function() { processResponse(null, 'G1'); });
+    ajaxGet(cnnUrl, function(data) { processResponse(data, 'CNN'); }, function() { processResponse(null, 'CNN'); });
+}
+
+function finishNewsLoad(articles) {
+    var statusEl = document.getElementById('news-status');
+    var tickerEl = document.getElementById('news-ticker');
+    
+    if (articles.length === 0) {
+        if(statusEl) statusEl.textContent = 'Erro';
+        if(tickerEl) tickerEl.innerHTML = 'Não foi possível carregar as notícias no momento.';
+        return;
+    }
+    
+    // Ordenar por data mais recente
+    articles.sort(function(a, b) {
+        return b.date - a.date;
+    });
+    
+    newsItems = articles;
+    currentNewsIndex = 0;
+    if(statusEl) statusEl.textContent = 'Atualizado';
+    
+    displayCurrentNews();
+    
+    if (newsInterval) clearInterval(newsInterval);
+    newsInterval = setInterval(displayCurrentNews, 8000); // Troca manchete a cada 8s
+}
+
+function displayCurrentNews() {
+    if (newsItems.length === 0) return;
+    
+    var tickerEl = document.getElementById('news-ticker');
+    if (!tickerEl) return;
+    
+    var item = newsItems[currentNewsIndex];
+    
+    // Style do Badge
+    var badgeColor = item.source === 'G1' ? '#c8102e' : '#cc0000'; 
+    var badgeStyle = 'background:' + badgeColor + '; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle;';
+    
+    tickerEl.innerHTML = '<span style="' + badgeStyle + '">' + item.source + '</span> ' + item.title;
+    
+    currentNewsIndex++;
+    if (currentNewsIndex >= newsItems.length) currentNewsIndex = 0;
+}
+
+// Inicialização Geral
+setInterval(updateTime, 1000);
+updateTime();
+fetchFinance();
 initWeather();
-setInterval(updateWeather, 30 * 60 * 1000);
+fetchNews();
+
+// Atualiza o clima, finanças e notícias a cada 15 minutos
+setInterval(function() {
+    fetchFinance();
+    if (currentLat && currentLon) fetchWeather(currentLat, currentLon);
+    fetchNews();
+}, 15 * 60 * 1000);
 
 // 3. Finanças (AwesomeAPI)
 function getVariationIndicator(pctChange) {
@@ -299,10 +388,6 @@ document.querySelector('.clock-card').addEventListener('click', function() {
 function setYouTubeIframe(url) {
     var container = document.querySelector('.iframe-container');
     container.innerHTML = '<iframe id="yt-iframe" width="100%" height="100%" src="' + url + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px;"></iframe>';
-    
-    // Liga o equalizador cyberpunk
-    var eq = document.getElementById('equalizer');
-    if(eq) eq.className = "equalizer";
 }
 
 function loadPresetYouTube() {

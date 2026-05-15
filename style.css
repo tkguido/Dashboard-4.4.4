@@ -39,9 +39,16 @@ body.bg-clear-night { background-color: #030508; } /* Noite clara muito escura *
     padding: 10px;
     box-sizing: border-box;
     margin-bottom: 20px; /* Alinhando com o horizontal */
-    /* Sombras para Android 4.4 */
-    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Glow sutil para Android 4.4 */
+    -webkit-box-shadow: 0 0 25px rgba(255, 255, 255, 0.03), inset 0 0 15px rgba(255, 255, 255, 0.02);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.03), inset 0 0 15px rgba(255, 255, 255, 0.02);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Intensifica o glow ao interagir/tocar no card (Hover/Active) */
+.card:hover {
+    -webkit-box-shadow: 0 0 30px rgba(255, 255, 255, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.04);
 }
 
 
@@ -217,63 +224,7 @@ h1, h2, h3, h4, p {
 /* --- YouTube Player --- */
 .player-card {
     padding: 1rem;
-    box-sizing: border-box;
-    position: relative;
-}
-
-/* Equalizador Cyberpunk Colorido (Fiel à Referência) */
-.equalizer {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Mantém o centro como eixo (espelhado) */
-    flex: 1; 
-    height: 45px; 
-    gap: 1px;
-    margin-left: 20px;
-    margin-bottom: 5px;
-}
-.equalizer.hidden { display: none; }
-.equalizer .bar {
-    flex: 1;
-    border-radius: 1px;
-    transform-origin: center;
-    /* A altura base vem do style inline no HTML para formar o desenho da onda */
-}
-
-/* Cores das 4 bandas principais */
-/* 1 a 13: Verde (Graves) */
-.equalizer .bar:nth-child(-n+13) { 
-    background-color: #00ffcc; box-shadow: 0 0 6px #00ffcc; 
-    animation: eq-pulse 0.4s infinite alternate ease-in-out;
-    -webkit-animation: eq-pulse 0.4s infinite alternate ease-in-out;
-}
-/* 14 a 24: Azul (Médio-Graves) */
-.equalizer .bar:nth-child(n+14):nth-child(-n+24) { 
-    background-color: #0088ff; box-shadow: 0 0 6px #0088ff; 
-    animation: eq-pulse 0.5s infinite alternate ease-in-out;
-    -webkit-animation: eq-pulse 0.5s infinite alternate ease-in-out;
-}
-/* 25 a 39: Rosa (Médios) */
-.equalizer .bar:nth-child(n+25):nth-child(-n+39) { 
-    background-color: #ff00ff; box-shadow: 0 0 6px #ff00ff; 
-    animation: eq-pulse 0.35s infinite alternate ease-in-out;
-    -webkit-animation: eq-pulse 0.35s infinite alternate ease-in-out;
-}
-/* 40 a 50: Amarelo (Agudos) */
-.equalizer .bar:nth-child(n+40) { 
-    background-color: #ffaa00; box-shadow: 0 0 6px #ffaa00; 
-    animation: eq-pulse 0.45s infinite alternate ease-in-out;
-    -webkit-animation: eq-pulse 0.45s infinite alternate ease-in-out;
-}
-
-@-webkit-keyframes eq-pulse {
-    0% { transform: scaleY(0.7); opacity: 0.6; }
-    100% { transform: scaleY(1.2); opacity: 1; }
-}
-@keyframes eq-pulse {
-    0% { transform: scaleY(0.7); opacity: 0.6; }
-    100% { transform: scaleY(1.2); opacity: 1; }
-}
+/* Removido o equalizador por impossibilidade técnica do CORS */
 
 /* --- Calendário --- */
 .calendar-card {
