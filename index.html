@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=28">
+    <link rel="stylesheet" href="style.css?v=29">
 </head>
 <body>
     
@@ -79,8 +79,8 @@
 
                 <!-- YouTube Player (Rádio Musical / Hub) -->
                 <div class="card glass player-card">
-                    <div class="yt-controls" style="display: flex; gap: 15px; align-items: center; justify-content: space-between;">
-                        <select id="yt-preset" onchange="loadPresetYouTube()" style="flex: 1; min-width: 0;">
+                    <div class="yt-controls" style="display: flex; gap: 20px; align-items: center; justify-content: space-between;">
+                        <select id="yt-preset" onchange="loadPresetYouTube()" style="width: 250px; flex-shrink: 0;">
                             <optgroup label="🎶 Música (Ao Vivo)">
                                 <option value="jfKfPfyJRdk" selected>🎵 Lofi Girl (Foco/Estudos)</option>
                                 <option value="9UMxZofMNbA">🎵 Chillout Lounge</option>
@@ -94,15 +94,13 @@
                             </optgroup>
                         </select>
                         
-                        <!-- Equalizador Colorido -->
+                        <!-- Equalizador Colorido Gigante Cyberpunk -->
                         <div id="equalizer" class="equalizer hidden">
-                            <div class="bar bar-red"></div>
-                            <div class="bar bar-yellow"></div>
-                            <div class="bar bar-green"></div>
-                            <div class="bar bar-blue"></div>
-                            <div class="bar bar-purple"></div>
-                            <div class="bar bar-pink"></div>
-                            <div class="bar bar-cyan"></div>
+                            <div class="bar bar-g"></div><div class="bar bar-g"></div><div class="bar bar-g"></div><div class="bar bar-g"></div><div class="bar bar-g"></div><div class="bar bar-g"></div>
+                            <div class="bar bar-b"></div><div class="bar bar-b"></div><div class="bar bar-b"></div><div class="bar bar-b"></div><div class="bar bar-b"></div><div class="bar bar-b"></div>
+                            <div class="bar bar-p"></div><div class="bar bar-p"></div><div class="bar bar-p"></div><div class="bar bar-p"></div><div class="bar bar-p"></div><div class="bar bar-p"></div>
+                            <div class="bar bar-y"></div><div class="bar bar-y"></div><div class="bar bar-y"></div><div class="bar bar-y"></div><div class="bar bar-y"></div><div class="bar bar-y"></div>
+                            <div class="bar bar-r"></div><div class="bar bar-r"></div><div class="bar bar-r"></div><div class="bar bar-r"></div><div class="bar bar-r"></div><div class="bar bar-r"></div>
                         </div>
                     </div>
                     <div class="iframe-container">

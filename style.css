@@ -221,47 +221,51 @@ h1, h2, h3, h4, p {
     position: relative;
 }
 
-/* Equalizador Cyberpunk Colorido */
+/* Equalizador Cyberpunk Colorido (Gigante) */
 .equalizer {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    width: 60px;
-    height: 35px;
-    gap: 3px;
-    margin-bottom: 5px; /* Alinhar opticamente com o Select */
+    align-items: center; /* Expande do centro para cima e para baixo */
+    flex: 1; /* Ocupa todo o resto da tela */
+    height: 35px; /* Mesma altura do seletor */
+    gap: 2px;
+    margin-bottom: 5px;
 }
 .equalizer.hidden { display: none; }
 .equalizer .bar {
     flex: 1;
-    border-radius: 2px 2px 0 0;
-    animation: eq-bounce 0.5s infinite alternate;
-    -webkit-animation: eq-bounce 0.5s infinite alternate;
+    height: 100%;
+    border-radius: 2px;
+    transform-origin: center; /* Anima a partir do centro (estilo espelhado) */
+    transform: scaleY(0.1);
+    animation: eq-wave 1s infinite alternate ease-in-out;
+    -webkit-animation: eq-wave 1s infinite alternate ease-in-out;
 }
 
-.bar-red { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
-.bar-yellow { background-color: #eab308; box-shadow: 0 0 8px #eab308; }
-.bar-green { background-color: #22c55e; box-shadow: 0 0 8px #22c55e; }
-.bar-blue { background-color: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
-.bar-purple { background-color: #a855f7; box-shadow: 0 0 8px #a855f7; }
-.bar-pink { background-color: #ec4899; box-shadow: 0 0 8px #ec4899; }
-.bar-cyan { background-color: #06b6d4; box-shadow: 0 0 8px #06b6d4; }
+/* Cores das bandas (Espectro Frequência) */
+.bar-g { background-color: #2dd4bf; box-shadow: 0 0 6px #2dd4bf; } /* Ciano/Verde */
+.bar-b { background-color: #3b82f6; box-shadow: 0 0 6px #3b82f6; } /* Azul */
+.bar-p { background-color: #d946ef; box-shadow: 0 0 6px #d946ef; } /* Rosa */
+.bar-y { background-color: #f59e0b; box-shadow: 0 0 6px #f59e0b; } /* Laranja */
+.bar-r { background-color: #ef4444; box-shadow: 0 0 6px #ef4444; } /* Vermelho */
 
-.equalizer .bar:nth-child(1) { animation-duration: 0.3s; -webkit-animation-duration: 0.3s; }
-.equalizer .bar:nth-child(2) { animation-duration: 0.5s; -webkit-animation-duration: 0.5s; }
-.equalizer .bar:nth-child(3) { animation-duration: 0.4s; -webkit-animation-duration: 0.4s; }
-.equalizer .bar:nth-child(4) { animation-duration: 0.6s; -webkit-animation-duration: 0.6s; }
-.equalizer .bar:nth-child(5) { animation-duration: 0.35s; -webkit-animation-duration: 0.35s; }
-.equalizer .bar:nth-child(6) { animation-duration: 0.55s; -webkit-animation-duration: 0.55s; }
-.equalizer .bar:nth-child(7) { animation-duration: 0.45s; -webkit-animation-duration: 0.45s; }
+/* Bagunça aleatória de tempos e delays para criar a onda orgânica */
+.equalizer .bar:nth-child(8n+1) { animation-duration: 0.3s; animation-delay: -0.1s; }
+.equalizer .bar:nth-child(8n+2) { animation-duration: 0.5s; animation-delay: -0.4s; }
+.equalizer .bar:nth-child(8n+3) { animation-duration: 0.4s; animation-delay: -0.2s; }
+.equalizer .bar:nth-child(8n+4) { animation-duration: 0.6s; animation-delay: -0.5s; }
+.equalizer .bar:nth-child(8n+5) { animation-duration: 0.35s; animation-delay: -0.3s; }
+.equalizer .bar:nth-child(8n+6) { animation-duration: 0.55s; animation-delay: -0.1s; }
+.equalizer .bar:nth-child(8n+7) { animation-duration: 0.45s; animation-delay: -0.4s; }
+.equalizer .bar:nth-child(8n+8) { animation-duration: 0.5s; animation-delay: -0.2s; }
 
-@-webkit-keyframes eq-bounce {
-    0% { height: 10%; }
-    100% { height: 100%; }
+@-webkit-keyframes eq-wave {
+    0% { transform: scaleY(0.05); opacity: 0.4; }
+    100% { transform: scaleY(1); opacity: 1; }
 }
-@keyframes eq-bounce {
-    0% { height: 10%; }
-    100% { height: 100%; }
+@keyframes eq-wave {
+    0% { transform: scaleY(0.05); opacity: 0.4; }
+    100% { transform: scaleY(1); opacity: 1; }
 }
 
 /* --- Calendário --- */
