@@ -272,6 +272,30 @@ function fetchAgenda() {
             var prefix = isToday ? 'Hoje às ' + h + ':' + m : nextEv.start.getDate() + '/' + (nextEv.start.getMonth()+1) + ' às ' + h + ':' + m;
             
             agendaText = nextEv.summary + ' (' + prefix + ')';
+            
+            // Injeta a agenda dinamicamente nas notícias para evitar Race Condition
+            if (typeof newsItems !== 'undefined') {
+                var agendaItem = {
+                    title: '<span style="color: #c084fc;">🗓️ Próximo Compromisso: ' + agendaText + '</span>',
+                    source: 'AGENDA',
+                    date: new Date()
+                };
+                
+                // Remove a agenda antiga se existir
+                var novaLista = [];
+                for(var j = 0; j < newsItems.length; j++) {
+                    if (newsItems[j].source !== 'AGENDA') {
+                        novaLista.push(newsItems[j]);
+                    }
+                }
+                novaLista.unshift(agendaItem);
+                newsItems = novaLista;
+                
+                // Se a notícia atual estivesse vazia, força a atualização
+                if (newsItems.length === 1 && typeof displayCurrentNews === 'function') {
+                    displayCurrentNews();
+                }
+            }
         } else {
             agendaText = '';
         }
@@ -311,12 +335,12 @@ function fetchNews() {
         }
         requestsCompleted++;
         if (requestsCompleted === 2) {
+            // A agenda já é inserida dinamicamente no outro método, mas se estiver pronta, injetamos agora
             if (agendaText) {
-                // Injeta a agenda como o primeiro item "falso" de notícia, piscando em roxo
                 tempNews.unshift({
                     title: '<span style="color: #c084fc;">🗓️ Próximo Compromisso: ' + agendaText + '</span>',
                     source: 'AGENDA',
-                    date: new Date() // Fica no topo da ordenação
+                    date: new Date()
                 });
             }
             finishNewsLoad(tempNews);
