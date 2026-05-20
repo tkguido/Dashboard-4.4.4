@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=41">
+    <link rel="stylesheet" href="style.css?v=44">
 </head>
 <body>
     
@@ -30,6 +30,12 @@
 
     <!-- Efeito Comemorativo (Hora Redonda) -->
     <div id="celebration-overlay" class="hidden"></div>
+
+    <!-- Barras de Progresso de Tempo (Dia/Ano) -->
+    <div id="progress-container">
+        <div class="progress-track"><div id="day-progress" class="progress-fill day-fill"></div></div>
+        <div class="progress-track"><div id="year-progress" class="progress-fill year-fill"></div></div>
+    </div>
 
     <div id="dashboard-wrapper">
         <div class="dashboard-container clearfix">
@@ -103,10 +109,10 @@
                     <div class="yt-controls" style="display: flex; gap: 20px; align-items: center; justify-content: space-between;">
                         <select id="yt-preset" onchange="loadPresetYouTube()" style="width: 100%; max-width: 300px; flex-shrink: 0;">
                             <optgroup label="🎶 Música (Ao Vivo)">
-                                <option value="jfKfPfyJRdk" selected>🎵 Lofi Girl (Foco/Estudos)</option>
+                                <option value="jfKfPfyJRdk">🎵 Lofi Girl (Foco/Estudos)</option>
                                 <option value="9UMxZofMNbA">🎵 Chillout Lounge</option>
                                 <option value="tL-t6mULgLU">🎵 Summer Pop Mix</option>
-                                <option value="WnCfvAMM9eY">🎵 Rádio 70s & 80s</option>
+                                <option value="WnCfvAMM9eY" selected>🎵 Rádio 70s & 80s</option>
                                 <option value="_wYENnYaboM">🎵 Rádio Hits 90s</option>
                                 <option value="9hylBusqpX8">🎵 Retro 80s & 90s</option>
                             </optgroup>
