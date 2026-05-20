@@ -1,10 +1,10 @@
 // Compatibilidade estrita com ES5 para Android 4.4.4
 // Sem 'let', 'const', '=>', '`', 'async/await', 'fetch'
 
-// Variável de controle para desligar rádio apenas uma vez na transição
-var wasNight = false;
+// Variável de controle de estado: 'START', 'DAY', 'NIGHT', 'WEEKEND'
+var previousMode = 'START';
 
-// 1. Relógio, Data e MODO NOTURNO
+// 1. Relógio, Data e MODO NOTURNO/FIM DE SEMANA
 function updateTime() {
     var now = new Date();
     var hours = now.getHours().toString();
@@ -15,34 +15,53 @@ function updateTime() {
     
     var timeString = hours + ':' + minutes;
     
-    // Atualiza relogio principal e relogio noturno
+    // Atualiza relogio principal, noturno e fim de semana
     document.getElementById('time').textContent = timeString;
-    document.getElementById('night-time').textContent = hours + '   ' + minutes; // Sem os dois pontos e com espaço
+    document.getElementById('night-time').textContent = hours + '   ' + minutes;
+    var wkTimeEl = document.getElementById('wk-time');
+    if (wkTimeEl) wkTimeEl.textContent = timeString;
     
     // Data
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var dateString = now.toLocaleDateString('pt-BR', options);
-    // Capitaliza primeira letra
     dateString = dateString.charAt(0).toUpperCase() + dateString.slice(1);
     document.getElementById('date').textContent = dateString;
+    var wkDateEl = document.getElementById('wk-date');
+    if (wkDateEl) wkDateEl.textContent = dateString;
 
-    // --- LÓGICA DO MODO NOTURNO (RELOGIO PRO) ---
+    // --- MÁQUINA DE ESTADOS DO PAINEL ---
     var currentHour = now.getHours();
-    var nightModeOverlay = document.getElementById('night-mode-overlay');
+    var currentDay = now.getDay(); // 0 = Domingo, 6 = Sábado
+    
     var isNight = (currentHour >= 19 || currentHour < 7);
-
-    if (isNight) {
-        nightModeOverlay.className = ""; // Remove 'hidden'
-        if (!wasNight) {
-            // Desliga a rádio/vídeo ao entrar no modo noturno
-            var iframe = document.getElementById('yt-iframe');
-            if (iframe) iframe.src = '';
-            
-            wasNight = true;
+    var isWeekend = (currentDay === 0 || currentDay === 6);
+    
+    var currentMode = isNight ? 'NIGHT' : (isWeekend ? 'WEEKEND' : 'DAY');
+    
+    if (currentMode !== previousMode) {
+        var nightOverlay = document.getElementById('night-mode-overlay');
+        var weekendOverlay = document.getElementById('weekend-mode-overlay');
+        var iframe = document.getElementById('yt-iframe');
+        
+        // 1. Esconde todos
+        if (nightOverlay) nightOverlay.className = "hidden";
+        if (weekendOverlay) weekendOverlay.className = "hidden";
+        
+        // 2. Aplica o novo estado
+        if (currentMode === 'NIGHT') {
+            if (nightOverlay) nightOverlay.className = "";
+            if (iframe) iframe.src = ''; // Desliga som
+        } else if (currentMode === 'WEEKEND') {
+            if (weekendOverlay) weekendOverlay.className = "";
+            if (iframe) iframe.src = ''; // Desliga som
+        } else if (currentMode === 'DAY') {
+            // Volta para a rádio normal
+            if (typeof loadPresetYouTube === 'function') {
+                loadPresetYouTube();
+            }
         }
-    } else {
-        nightModeOverlay.className = "hidden"; // Adiciona 'hidden'
-        wasNight = false;
+        
+        previousMode = currentMode;
     }
 
     // --- EFEITO COMEMORATIVO (HORA REDONDA) ---
@@ -119,6 +138,11 @@ function fetchWeather(lat, lon) {
             
             document.getElementById('temperature').innerHTML = Math.round(temp) + '°C <span style="font-size: 2rem;">' + getWeatherIcon(code) + '</span>';
             document.getElementById('humidity').textContent = humidity + '%';
+            
+            var wkTempEl = document.getElementById('wk-temp');
+            if (wkTempEl) wkTempEl.innerHTML = Math.round(temp) + '°C ' + getWeatherIcon(code);
+            var wkHumEl = document.getElementById('wk-hum');
+            if (wkHumEl) wkHumEl.textContent = humidity + '%';
             
             document.getElementById('location-status').textContent = 'Dados do clima atualizados';
         }
@@ -266,6 +290,15 @@ function fetchFinance() {
             priceEl.style.color = varObj.color; // Pinta o valor de verde/vermelho
             
             document.getElementById(idPrefix + '-var').innerHTML = '<span style="color:' + varObj.color + '">' + varObj.icon + ' ' + obj.pctChange + '%</span>';
+            
+            // Binding para o modo fim de semana
+            if (idPrefix === 'btc') {
+                var wkBtcEl = document.getElementById('wk-btc-price');
+                if (wkBtcEl) {
+                    wkBtcEl.textContent = valStr;
+                    wkBtcEl.style.color = varObj.color;
+                }
+            }
         }
         
         applyFinance('btc', data.BTCUSD, false);
