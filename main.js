@@ -29,6 +29,20 @@ function updateTime() {
     var wkDateEl = document.getElementById('wk-date');
     if (wkDateEl) wkDateEl.textContent = dateString;
 
+    // --- BARRAS DE PROGRESSO (DIA / ANO) ---
+    var daySeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+    var dayPct = (daySeconds / 86400) * 100;
+    
+    var startOfYear = new Date(now.getFullYear(), 0, 1);
+    var endOfYear = new Date(now.getFullYear() + 1, 0, 1);
+    var yearPct = ((now - startOfYear) / (endOfYear - startOfYear)) * 100;
+    
+    var dayProg = document.getElementById('day-progress');
+    if (dayProg) dayProg.style.width = dayPct + '%';
+    
+    var yearProg = document.getElementById('year-progress');
+    if (yearProg) yearProg.style.width = yearPct + '%';
+
     // --- MÁQUINA DE ESTADOS DO PAINEL ---
     var currentHour = now.getHours();
     var currentDay = now.getDay(); // 0 = Domingo, 6 = Sábado
@@ -82,16 +96,20 @@ setInterval(updateTime, 1000);
 updateTime();
 
 // Utilitário Ajax (Substituto do Fetch)
-function ajaxGet(url, onSuccess, onError) {
+function ajaxGet(url, onSuccess, onError, expectText) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
-            try {
-                var data = JSON.parse(xhr.responseText);
-                onSuccess(data);
-            } catch (e) {
-                if (onError) onError('JSON Parse Error');
+            if (expectText) {
+                onSuccess(xhr.responseText);
+            } else {
+                try {
+                    var data = JSON.parse(xhr.responseText);
+                    onSuccess(data);
+                } catch (e) {
+                    if (onError) onError('JSON Parse Error');
+                }
             }
         } else {
             if (onError) onError('Status ' + xhr.status);
@@ -174,8 +192,97 @@ function initWeather() {
 }
 
 // ==========================================
-// 7. NOTÍCIAS (G1 & CNN)
+// 7. NOTÍCIAS E AGENDA
 // ==========================================
+
+// COLE O LINK DA SUA AGENDA (iCal) AQUI:
+var calendarUrls = [
+    'https://calendar.google.com/calendar/ical/guido%40conjunto.com.br/public/basic.ics',
+    'https://calendar.google.com/calendar/ical/conjunto.com.br_gu2qnl2hqlcj77ki53qptckong%40group.calendar.google.com/public/basic.ics'
+]; 
+var agendaText = '';
+
+function fetchAgenda() {
+    if (!calendarUrls || calendarUrls.length === 0) return;
+    
+    var allEvents = [];
+    var requestsCompleted = 0;
+    
+    function processICal(data) {
+        if (data && typeof data === 'string') {
+            var lines = data.split('\n');
+            var currentEvent = null;
+            var now = new Date();
+            
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                if (line === 'BEGIN:VEVENT') {
+                    currentEvent = {};
+                } else if (line === 'END:VEVENT') {
+                    if (currentEvent && currentEvent.start && currentEvent.start > now) {
+                        allEvents.push(currentEvent);
+                    }
+                    currentEvent = null;
+                } else if (currentEvent) {
+                    if (line.indexOf('DTSTART') === 0) {
+                        var parts = line.split(':');
+                        if (parts.length > 1) {
+                            var dateStr = parts[1];
+                            var year = parseInt(dateStr.substring(0, 4));
+                            var month = parseInt(dateStr.substring(4, 6)) - 1;
+                            var day = parseInt(dateStr.substring(6, 8));
+                            var hour = 0, min = 0;
+                            if (dateStr.length >= 13) {
+                                hour = parseInt(dateStr.substring(9, 11));
+                                min = parseInt(dateStr.substring(11, 13));
+                            }
+                            
+                            var isUTC = dateStr.indexOf('Z') !== -1;
+                            if (isUTC) {
+                                currentEvent.start = new Date(Date.UTC(year, month, day, hour, min));
+                            } else {
+                                currentEvent.start = new Date(year, month, day, hour, min);
+                            }
+                        }
+                    } else if (line.indexOf('SUMMARY:') === 0) {
+                        currentEvent.summary = line.substring(8).replace(/\\,/g, ',');
+                    }
+                }
+            }
+        }
+        
+        requestsCompleted++;
+        if (requestsCompleted === calendarUrls.length) {
+            finishAgendaLoad();
+        }
+    }
+    
+    function finishAgendaLoad() {
+        allEvents.sort(function(a, b) { return a.start - b.start; });
+        
+        if (allEvents.length > 0) {
+            var nextEv = allEvents[0];
+            var h = nextEv.start.getHours().toString();
+            var m = nextEv.start.getMinutes().toString();
+            if (h.length < 2) h = '0' + h;
+            if (m.length < 2) m = '0' + m;
+            
+            var now = new Date();
+            var isToday = (nextEv.start.getDate() === now.getDate() && nextEv.start.getMonth() === now.getMonth() && nextEv.start.getFullYear() === now.getFullYear());
+            var prefix = isToday ? 'Hoje às ' + h + ':' + m : nextEv.start.getDate() + '/' + (nextEv.start.getMonth()+1) + ' às ' + h + ':' + m;
+            
+            agendaText = nextEv.summary + ' (' + prefix + ')';
+        } else {
+            agendaText = '';
+        }
+    }
+
+    for (var i = 0; i < calendarUrls.length; i++) {
+        var proxyUrl = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(calendarUrls[i]);
+        ajaxGet(proxyUrl, processICal, function() { processICal(null); }, true);
+    }
+}
+
 var newsItems = [];
 var currentNewsIndex = 0;
 var newsInterval = null;
@@ -204,6 +311,14 @@ function fetchNews() {
         }
         requestsCompleted++;
         if (requestsCompleted === 2) {
+            if (agendaText) {
+                // Injeta a agenda como o primeiro item "falso" de notícia, piscando em roxo
+                tempNews.unshift({
+                    title: '<span style="color: #c084fc;">🗓️ Próximo Compromisso: ' + agendaText + '</span>',
+                    source: 'AGENDA',
+                    date: new Date() // Fica no topo da ordenação
+                });
+            }
             finishNewsLoad(tempNews);
         }
     }
@@ -260,12 +375,14 @@ setInterval(updateTime, 1000);
 updateTime();
 fetchFinance();
 initWeather();
+fetchAgenda();
 fetchNews();
 
-// Atualiza o clima, finanças e notícias a cada 15 minutos
+// Atualiza o clima, finanças, agenda e notícias a cada 15 minutos
 setInterval(function() {
     fetchFinance();
     if (currentLat && currentLon) fetchWeather(currentLat, currentLon);
+    fetchAgenda();
     fetchNews();
 }, 15 * 60 * 1000);
 
