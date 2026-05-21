@@ -610,20 +610,20 @@ h1, h2, h3, h4, p {
         -webkit-box-pack: center !important; -webkit-justify-content: center !important; justify-content: center !important;
     }
     
-    /* 1. CLOCK (Topo inteiro) */
+    /* 1. CLOCK (Topo) */
     .clock-card {
-        top: 10px; left: 10px; right: 10px;
-        height: 180px !important;
-        padding: 20px !important;
+        top: 2%; left: 2%; right: 2%;
+        height: 15% !important;
+        padding: 10px !important;
     }
-    #time { font-size: 5.5rem !important; }
-    .date-text { font-size: 1.4rem !important; margin-top: 10px !important; }
+    #time { font-size: 4.5rem !important; }
+    .date-text { font-size: 1.2rem !important; margin-top: 5px !important; }
     
-    /* 2. FINANCE (Abaixo do relógio, 4 colunas) */
+    /* 2. FINANCE (Criptos) */
     .finance-card {
-        top: 200px; left: 10px; right: 10px;
-        height: 160px !important;
-        padding: 20px 5px !important;
+        top: 19%; left: 2%; right: 2%;
+        height: 15% !important;
+        padding: 10px 5px !important;
     }
     .finance-grid { 
         display: -webkit-box !important; display: -webkit-flex !important; display: flex !important;
@@ -634,56 +634,55 @@ h1, h2, h3, h4, p {
         overflow: visible !important; 
     }
     .finance-item { width: 25% !important; float: none !important; margin: 0 !important; text-align: center; }
-    .finance-item p, .finance-item .label { font-size: 1rem !important; margin-bottom: 8px !important; word-wrap: break-word; }
-    .finance-item h2 { font-size: 1.8rem !important; margin: 5px 0 !important; }
-    .finance-item .var-label { font-size: 1.1rem !important; }
-    #finance-status { display: none !important; } /* Oculta texto pra poupar espaco */
+    .finance-item p, .finance-item .label { font-size: 0.9rem !important; margin-bottom: 5px !important; word-wrap: break-word; }
+    .finance-item h2 { font-size: 1.4rem !important; margin: 2px 0 !important; }
+    .finance-item .var-label { font-size: 1rem !important; }
+    #finance-status { display: none !important; } 
     
     /* 3. CALENDAR (Meio Esquerda) */
     .calendar-card {
-        top: 370px; left: 10px;
-        width: calc(50% - 15px) !important;
-        height: 320px !important;
-        padding: 20px !important;
+        top: 36%; left: 2%;
+        width: 47% !important;
+        height: 31% !important;
+        padding: 15px !important;
     }
-    .month-header h3 { font-size: 1.5rem !important; margin-bottom: 10px !important; }
-    .day-cell { padding: 6px 0 !important; font-size: 1.1rem !important; }
-    .day-cell .today-marker { width: 32px; height: 32px; line-height: 32px; }
+    .month-header h3 { font-size: 1.2rem !important; margin-bottom: 8px !important; }
+    .day-cell { padding: 4px 0 !important; font-size: 0.95rem !important; }
+    .day-cell .today-marker { width: 28px; height: 28px; line-height: 28px; font-size: 0.95rem !important; }
     
     /* 4. TOP-BAR (Meio Direita) */
     .top-bar-card {
-        top: 370px; right: 10px;
-        width: calc(50% - 15px) !important;
-        height: 320px !important;
-        padding: 20px !important;
+        top: 36%; right: 2%;
+        width: 47% !important;
+        height: 31% !important;
+        padding: 15px !important;
     }
     .weather-section {
         display: block !important;
         width: 100% !important;
         border-right: none !important;
         border-bottom: 1px solid rgba(255,255,255,0.1);
-        padding: 0 0 20px 0 !important;
+        padding: 0 0 10px 0 !important;
         text-align: center !important;
         height: auto !important;
     }
-    #temperature { font-size: 3rem !important; display: inline-block !important; }
-    #humidity { font-size: 2.2rem !important; display: inline-block !important; margin: 0 0 0 15px !important; }
+    #temperature { font-size: 2.2rem !important; display: inline-block !important; }
+    #humidity { font-size: 1.8rem !important; display: inline-block !important; margin: 0 0 0 10px !important; }
     .news-section {
         display: block !important;
         width: 100% !important;
-        padding: 20px 0 0 0 !important;
+        padding: 10px 0 0 0 !important;
         height: auto !important;
         margin: 0 !important;
         border-top: none !important;
     }
-    #news-source { font-size: 1.1rem !important; margin-right: 10px !important; }
-    #news-text { font-size: 1.3rem !important; }
+    #news-source { font-size: 1rem !important; margin-right: 5px !important; }
+    #news-text { font-size: 1.1rem !important; }
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
-        top: 700px; bottom: 10px; left: 10px; right: 10px;
-        height: auto !important; /* Estica automaticamente até o fundo da tela! */
-        width: auto !important;
+        top: 69%; bottom: 2%; left: 2%; right: 2%;
+        height: auto !important;
     }
 
     /* Relógios sobrepostos no modo vertical (Noturno e FDS) */
