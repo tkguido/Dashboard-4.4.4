@@ -29,9 +29,13 @@ function updateTime() {
     var wkDateEl = document.getElementById('wk-date');
     if (wkDateEl) wkDateEl.textContent = dateString;
 
-    // --- BARRAS DE PROGRESSO (DIA / ANO) ---
+    // --- BARRAS DE PROGRESSO (DIA / MÊS / ANO) ---
     var daySeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
     var dayPct = (daySeconds / 86400) * 100;
+    
+    var startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    var endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    var monthPct = ((now - startOfMonth) / (endOfMonth - startOfMonth)) * 100;
     
     var startOfYear = new Date(now.getFullYear(), 0, 1);
     var endOfYear = new Date(now.getFullYear() + 1, 0, 1);
@@ -39,6 +43,9 @@ function updateTime() {
     
     var dayProg = document.getElementById('day-progress');
     if (dayProg) dayProg.style.width = dayPct + '%';
+    
+    var monthProg = document.getElementById('month-progress');
+    if (monthProg) monthProg.style.width = monthPct + '%';
     
     var yearProg = document.getElementById('year-progress');
     if (yearProg) yearProg.style.width = yearPct + '%';
@@ -56,14 +63,17 @@ function updateTime() {
         var nightOverlay = document.getElementById('night-mode-overlay');
         var weekendOverlay = document.getElementById('weekend-mode-overlay');
         var iframe = document.getElementById('yt-iframe');
+        var progressContainer = document.getElementById('progress-container');
         
         // 1. Esconde todos
         if (nightOverlay) nightOverlay.className = "hidden";
         if (weekendOverlay) weekendOverlay.className = "hidden";
+        if (progressContainer) progressContainer.style.display = "block";
         
         // 2. Aplica o novo estado
         if (currentMode === 'NIGHT') {
             if (nightOverlay) nightOverlay.className = "";
+            if (progressContainer) progressContainer.style.display = "none";
             if (iframe) iframe.src = ''; // Desliga som
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) weekendOverlay.className = "";
@@ -291,9 +301,10 @@ function fetchAgenda() {
                 novaLista.unshift(agendaItem);
                 newsItems = novaLista;
                 
-                // Se a notícia atual estivesse vazia, força a atualização
-                if (newsItems.length === 1 && typeof displayCurrentNews === 'function') {
-                    displayCurrentNews();
+                // Força a exibição IMEDIATA da agenda assim que ela carrega
+                if (typeof displayCurrentNews === 'function') {
+                    currentNewsIndex = 0; // Vai pro topo da lista
+                    displayCurrentNews(); // Mostra na tela na hora
                 }
             }
         } else {
