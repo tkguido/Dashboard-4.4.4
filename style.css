@@ -10,11 +10,11 @@ body {
     transition: background-color 3s ease-in-out;
 }
 
-/* Fundo Dinâmico Sensorial (Clima) */
-body.bg-rain { background-color: #061121; } /* Escuro, profundo e levemente azulado (Tempestade) */
-body.bg-sun { background-color: #1a110a; } /* Quente, dourado escuro sutil (Sol) */
-body.bg-cloud { background-color: #101621; } /* Cinza nublado suave */
-body.bg-clear-night { background-color: #030508; } /* Noite clara muito escura */
+/* Fundo Dinâmico Sensorial (Clima) - Modo Monocromático Tech */
+body.bg-rain { background-color: #0a0a0a; } /* Cinza escuro asfalto */
+body.bg-sun { background-color: #121212; } /* Cinza carvão iluminado */
+body.bg-cloud { background-color: #0c0c0c; } /* Cinza nublado obsidiana */
+body.bg-clear-night { background-color: #000000; } /* Preto puro OLED */
 
 /* =========================================
    BARRAS DE PROGRESSO DO TEMPO
@@ -53,18 +53,18 @@ body.bg-clear-night { background-color: #030508; } /* Noite clara muito escura *
     clear: both;
 }
 
-/* Estilo Base dos Cartões */
+/* Estilo Base dos Cartões - Minimalista Tecnológico (Carbon) */
 .card {
-    background: rgba(25, 25, 25, 0.95); /* 97% Preto para melhor contraste com o fundo */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #09090b; /* Quase preto (Zinc 950) */
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Borda fantasma muito sutil */
     border-radius: 12px;
     padding: 10px;
     box-sizing: border-box;
-    margin-bottom: 20px; /* Alinhando com o horizontal */
+    margin-bottom: 20px;
     overflow: hidden;
-    /* Glow sutil para Android 4.4 */
-    -webkit-box-shadow: 0 0 25px rgba(255, 255, 255, 0.03), inset 0 0 15px rgba(255, 255, 255, 0.02);
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.03), inset 0 0 15px rgba(255, 255, 255, 0.02);
+    /* Sombreamento tech */
+    -webkit-box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.02);
     transition: box-shadow 0.3s ease;
 }
 
