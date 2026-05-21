@@ -573,6 +573,8 @@ h1, h2, h3, h4, p {
     .month-container { width: 100%; margin: 0; } /* 1 mês ocupa tudo */
     .day-cell { font-size: 0.9rem; padding: 4px 0; }
     .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
+}
+
 @media (max-width: 899px) {
     body, html {
         overflow-y: auto !important; /* Habilita rolagem no modo retrato se a tela for pequena */
