@@ -604,6 +604,13 @@ h1, h2, h3, h4, p {
         box-sizing: border-box;
     }
     
+    /* Flexbox centralizado verticalmente para as caixas */
+    .clock-card, .finance-card, .calendar-card, .top-bar-card {
+        display: -webkit-box !important; display: -webkit-flex !important; display: flex !important;
+        -webkit-box-orient: vertical !important; -webkit-flex-direction: column !important; flex-direction: column !important;
+        -webkit-box-pack: center !important; -webkit-justify-content: center !important; justify-content: center !important;
+    }
+    
     /* 1. CLOCK (Topo inteiro) */
     .clock-card {
         top: 10px; left: 10px; right: 10px;
@@ -618,7 +625,6 @@ h1, h2, h3, h4, p {
         top: 160px; left: 10px; right: 10px;
         height: 110px !important;
         padding: 15px 5px !important;
-        display: block !important;
     }
     .finance-grid { display: block !important; width: 100%; }
     .finance-item { width: 25% !important; float: left; margin: 0 !important; text-align: center; }
@@ -643,7 +649,6 @@ h1, h2, h3, h4, p {
         width: calc(50% - 15px) !important;
         height: 280px !important;
         padding: 15px !important;
-        display: block !important;
     }
     .weather-section {
         display: block !important;
