@@ -607,39 +607,42 @@ h1, h2, h3, h4, p {
     /* 1. CLOCK (Topo inteiro) */
     .clock-card {
         top: 10px; left: 10px; right: 10px;
-        height: 110px !important;
-        padding: 10px !important;
+        height: 140px !important;
+        padding: 15px !important;
     }
-    #time { font-size: 3rem !important; }
+    #time { font-size: 4rem !important; }
+    .date-text { font-size: 1.1rem !important; margin-top: 5px !important; }
     
     /* 2. FINANCE (Abaixo do relógio, 4 colunas) */
     .finance-card {
-        top: 130px; left: 10px; right: 10px;
-        height: 80px !important;
-        padding: 5px !important;
+        top: 160px; left: 10px; right: 10px;
+        height: 110px !important;
+        padding: 15px 5px !important;
         display: block !important;
     }
     .finance-grid { display: block !important; width: 100%; }
-    .finance-item { width: 25% !important; float: left; margin: 0 !important; }
-    .finance-item h2 { font-size: 1.1rem !important; margin: 2px 0 !important; }
+    .finance-item { width: 25% !important; float: left; margin: 0 !important; text-align: center; }
+    .finance-item p { font-size: 0.9rem !important; margin-bottom: 5px !important; }
+    .finance-item h2 { font-size: 1.4rem !important; margin: 2px 0 !important; }
     #finance-status { display: none !important; } /* Oculta texto pra poupar espaco */
     
     /* 3. CALENDAR (Meio Esquerda) */
     .calendar-card {
-        top: 220px; left: 10px;
+        top: 280px; left: 10px;
         width: calc(50% - 15px) !important;
-        height: 250px !important;
-        padding: 10px !important;
+        height: 280px !important;
+        padding: 15px !important;
     }
-    .day-cell { padding: 2px 0 !important; font-size: 0.8rem; }
-    .day-cell .today-marker { width: 22px; height: 22px; line-height: 22px; }
+    .month-header h3 { font-size: 1.2rem !important; }
+    .day-cell { padding: 4px 0 !important; font-size: 0.95rem; }
+    .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
     
     /* 4. TOP-BAR (Meio Direita) */
     .top-bar-card {
-        top: 220px; right: 10px;
+        top: 280px; right: 10px;
         width: calc(50% - 15px) !important;
-        height: 250px !important;
-        padding: 10px !important;
+        height: 280px !important;
+        padding: 15px !important;
         display: block !important;
     }
     .weather-section {
@@ -647,24 +650,24 @@ h1, h2, h3, h4, p {
         width: 100% !important;
         border-right: none !important;
         border-bottom: 1px solid rgba(255,255,255,0.1);
-        padding: 0 0 10px 0 !important;
+        padding: 0 0 15px 0 !important;
         text-align: center !important;
-        height: 100px;
+        height: 110px;
     }
-    #temperature { font-size: 1.8rem !important; display: block !important; }
-    #humidity { font-size: 1.4rem !important; display: block !important; margin: 0 !important; }
+    #temperature { font-size: 2.2rem !important; display: inline-block !important; }
+    #humidity { font-size: 1.8rem !important; display: inline-block !important; margin: 0 0 0 10px !important; }
     .news-section {
         display: block !important;
         width: 100% !important;
-        padding: 10px 0 0 0 !important;
-        height: 130px;
+        padding: 15px 0 0 0 !important;
+        height: 140px;
         margin: 0 !important;
         border-top: none !important;
     }
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
-        top: 480px; bottom: 10px; left: 10px; right: 10px;
+        top: 570px; bottom: 10px; left: 10px; right: 10px;
         height: auto !important; /* Estica automaticamente até o fundo da tela! */
         width: auto !important;
     }
