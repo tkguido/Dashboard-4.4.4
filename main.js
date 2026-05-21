@@ -589,3 +589,18 @@ function loadPresetYouTube() {
     
     setYouTubeIframe(finalUrl);
 }
+
+// ==========================================
+// 7. BLUETOOTH KEEP-ALIVE (Áudio Fantasma)
+// ==========================================
+// Cria um áudio inaudível para impedir que caixas de som Bluetooth entrem em suspensão na madrugada
+var silentAudio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');
+silentAudio.volume = 0.01;
+
+setInterval(function() {
+    var h = new Date().getHours();
+    // Toca o áudio fantasma de 5 em 5 minutos durante a noite
+    if (h >= 19 || h < 7) {
+        silentAudio.play().catch(function(e){});
+    }
+}, 5 * 60 * 1000);
