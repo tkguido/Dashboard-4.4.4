@@ -42,7 +42,7 @@ body.bg-clear-night { background-color: #030508; } /* Noite clara muito escura *
 /* Container Principal */
 #dashboard-wrapper {
     position: absolute;
-    top: 10px; bottom: 10px; left: 10px; right: 10px;
+    top: 10px; height: calc(100% - 20px); left: 10px; right: 10px;
     box-sizing: border-box;
 }
 
@@ -590,10 +590,9 @@ h1, h2, h3, h4, p {
     #dashboard-wrapper {
         padding: 0 !important;
         position: absolute !important;
-        top: 0; left: 0; right: 0; bottom: 0;
-        width: auto !important;
-        min-height: auto !important;
-        height: auto !important;
+        top: 0; left: 0;
+        width: 100% !important;
+        height: 100% !important;
         overflow: hidden;
     }
     .col-left, .col-right { 
@@ -617,18 +616,18 @@ h1, h2, h3, h4, p {
     
     /* 1. CLOCK (Topo) */
     .clock-card {
-        top: 2%; bottom: 83%; left: 2%; right: 2%;
-        height: auto !important;
-        padding: 1vh !important;
+        top: 2% !important; left: 2%; right: 2%;
+        height: 15% !important;
+        padding: 1.5vh !important;
     }
-    #time { font-size: 8vh !important; }
-    .date-text { font-size: 2vh !important; margin-top: 1vh !important; }
+    #time { font-size: 6vh !important; }
+    .date-text { font-size: 1.5vh !important; margin-top: 1vh !important; }
     
     /* 2. FINANCE (Criptos) */
     .finance-card {
-        top: 19%; bottom: 66%; left: 2%; right: 2%;
-        height: auto !important;
-        padding: 1vh 1vw !important;
+        top: 19% !important; left: 2%; right: 2%;
+        height: 15% !important;
+        padding: 1.5vh 1vw !important;
     }
     .finance-grid { 
         display: -webkit-box !important; display: -webkit-flex !important; display: flex !important;
@@ -639,28 +638,28 @@ h1, h2, h3, h4, p {
         overflow: visible !important; 
     }
     .finance-item { width: 25% !important; float: none !important; margin: 0 !important; text-align: center; }
-    .finance-item p, .finance-item .label { font-size: 1.5vh !important; margin-bottom: 0.5vh !important; word-wrap: break-word; }
-    .finance-item h2 { font-size: 3vh !important; margin: 0.5vh 0 !important; }
-    .finance-item .var-label { font-size: 1.5vh !important; }
+    .finance-item p, .finance-item .label { font-size: 1.2vh !important; margin-bottom: 0.5vh !important; word-wrap: break-word; }
+    .finance-item h2 { font-size: 2.2vh !important; margin: 0.5vh 0 !important; }
+    .finance-item .var-label { font-size: 1.2vh !important; }
     #finance-status { display: none !important; } 
     
     /* 3. CALENDAR (Meio Esquerda) */
     .calendar-card {
-        top: 36%; bottom: 33%; left: 2%;
+        top: 36% !important; left: 2%;
         width: 47% !important;
-        height: auto !important;
-        padding: 2vh !important;
+        height: 31% !important;
+        padding: 1.5vh !important;
     }
-    .month-header h3 { font-size: 2vh !important; margin-bottom: 1vh !important; }
-    .day-cell { padding: 0.5vh 0 !important; font-size: 1.8vh !important; }
-    .day-cell .today-marker { width: 3vh; height: 3vh; line-height: 3vh; font-size: 1.8vh !important; }
+    .month-header h3 { font-size: 1.5vh !important; margin-bottom: 1vh !important; }
+    .day-cell { padding: 0.5vh 0 !important; font-size: 1.3vh !important; }
+    .day-cell .today-marker { width: 2.2vh; height: 2.2vh; line-height: 2.2vh; font-size: 1.3vh !important; }
     
     /* 4. TOP-BAR (Meio Direita) */
     .top-bar-card {
-        top: 36%; bottom: 33%; right: 2%;
+        top: 36% !important; right: 2%;
         width: 47% !important;
-        height: auto !important;
-        padding: 2vh !important;
+        height: 31% !important;
+        padding: 1.5vh !important;
     }
     .weather-section {
         display: block !important;
@@ -671,8 +670,8 @@ h1, h2, h3, h4, p {
         text-align: center !important;
         height: auto !important;
     }
-    #temperature { font-size: 5vh !important; display: inline-block !important; }
-    #humidity { font-size: 3.5vh !important; display: inline-block !important; margin: 0 0 0 1vw !important; }
+    #temperature { font-size: 4vh !important; display: inline-block !important; }
+    #humidity { font-size: 2.5vh !important; display: inline-block !important; margin: 0 0 0 1vw !important; }
     .news-section {
         display: block !important;
         width: 100% !important;
@@ -681,13 +680,13 @@ h1, h2, h3, h4, p {
         margin: 0 !important;
         border-top: none !important;
     }
-    #news-source { font-size: 1.5vh !important; margin-right: 1vw !important; }
-    #news-text { font-size: 2vh !important; }
+    #news-source { font-size: 1.2vh !important; margin-right: 1vw !important; }
+    #news-text { font-size: 1.4vh !important; }
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
-        top: 69%; bottom: 2%; left: 2%; right: 2%;
-        height: auto !important;
+        top: 69% !important; left: 2%; right: 2%;
+        height: 29% !important;
     }
 
     /* Relógios sobrepostos no modo vertical (Noturno e FDS) */
