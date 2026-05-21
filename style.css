@@ -516,7 +516,7 @@ h1, h2, h3, h4, p {
    ========================================= */
 
 /* Desktop/Tablet Landscape: 2 Colunas! */
-@media (min-width: 700px) {
+@media (min-width: 700px) and (orientation: landscape) {
     #dashboard-wrapper { 
         padding: 20px; 
         max-width: 100%; 
@@ -575,13 +575,39 @@ h1, h2, h3, h4, p {
     .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
 }
 
-@media (max-width: 699px) {
+@media (max-width: 699px), (orientation: portrait) {
     .col-left, .col-right { width: 100%; float: none; height: auto; padding-right: 0; }
-    .clock-card, .top-bar-card, .finance-card, .player-card, .calendar-card {
+    .clock-card, .top-bar-card, .finance-card, .calendar-card {
         width: 100% !important;
         float: none !important;
         margin-right: 0 !important;
         height: auto !important;
         clear: both !important;
+    }
+    
+    .player-card {
+        width: 100% !important;
+        float: none !important;
+        margin-right: 0 !important;
+        height: 400px !important; /* Altura fixa para o player no modo vertical/mobile para não sumir */
+        clear: both !important;
+    }
+    
+    /* Layout horizontal para clima e notícias no mobile/portrait */
+    .top-bar-card {
+        display: block !important;
+        height: auto !important;
+    }
+    .weather-section, .news-section {
+        display: block !important;
+        width: 100% !important;
+        border-right: none !important;
+        padding: 0 !important;
+        text-align: center !important;
+    }
+    .news-section {
+        margin-top: 15px;
+        padding-top: 15px !important;
+        border-top: 1px solid rgba(255,255,255,0.1);
     }
 }
