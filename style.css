@@ -616,7 +616,7 @@ h1, h2, h3, h4, p {
     
     /* 1. CLOCK (Topo) */
     .clock-card {
-        top: 2% !important; left: 2%; right: 2%;
+        top: 2vw !important; left: 2vw !important; right: 2vw !important; width: auto !important;
         height: 15% !important;
         padding: 1.5vh !important;
     }
@@ -625,7 +625,8 @@ h1, h2, h3, h4, p {
     
     /* 2. FINANCE (Criptos) */
     .finance-card {
-        top: 19% !important; left: 2%; right: 2%;
+        top: -webkit-calc(15% + 4vw) !important; top: calc(15% + 4vw) !important; 
+        left: 2vw !important; right: 2vw !important; width: auto !important;
         height: 15% !important;
         padding: 1.5vh 1vw !important;
     }
@@ -645,8 +646,9 @@ h1, h2, h3, h4, p {
     
     /* 3. CALENDAR (Meio Esquerda) */
     .calendar-card {
-        top: 36% !important; left: 2%;
-        width: 47% !important;
+        top: -webkit-calc(30% + 6vw) !important; top: calc(30% + 6vw) !important; 
+        left: 2vw !important; right: auto !important;
+        width: -webkit-calc(50% - 3vw) !important; width: calc(50% - 3vw) !important;
         height: 31% !important;
         padding: 1.5vh !important;
     }
@@ -656,8 +658,9 @@ h1, h2, h3, h4, p {
     
     /* 4. TOP-BAR (Meio Direita) */
     .top-bar-card {
-        top: 36% !important; right: 2%;
-        width: 47% !important;
+        top: -webkit-calc(30% + 6vw) !important; top: calc(30% + 6vw) !important; 
+        right: 2vw !important; left: auto !important;
+        width: -webkit-calc(50% - 3vw) !important; width: calc(50% - 3vw) !important;
         height: 31% !important;
         padding: 1.5vh !important;
     }
@@ -685,8 +688,10 @@ h1, h2, h3, h4, p {
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
-        top: 69% !important; left: 2%; right: 2%;
-        height: 29% !important;
+        top: -webkit-calc(61% + 8vw) !important; top: calc(61% + 8vw) !important; 
+        bottom: 2vw !important;
+        left: 2vw !important; right: 2vw !important; width: auto !important;
+        height: auto !important;
     }
 
     /* Relógios sobrepostos no modo vertical (Noturno e FDS) */
