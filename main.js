@@ -17,9 +17,12 @@ function updateTime() {
     
     // Atualiza relogio principal, noturno e fim de semana
     document.getElementById('time').textContent = timeString;
-    document.getElementById('night-time').textContent = hours + '   ' + minutes;
+    
+    var stackedTimeHTML = '<span class="t-hr">' + hours + '</span><span class="t-colon">:</span><span class="t-min">' + minutes + '</span>';
+    document.getElementById('night-time').innerHTML = stackedTimeHTML;
+    
     var wkTimeEl = document.getElementById('wk-time');
-    if (wkTimeEl) wkTimeEl.textContent = timeString;
+    if (wkTimeEl) wkTimeEl.innerHTML = stackedTimeHTML;
     
     // Data
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
