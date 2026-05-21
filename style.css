@@ -574,6 +574,9 @@ h1, h2, h3, h4, p {
     .day-cell { font-size: 0.9rem; padding: 4px 0; }
     .day-cell .today-marker { width: 26px; height: 26px; line-height: 26px; }
 @media (max-width: 899px) {
+    body, html {
+        overflow-y: auto !important; /* Habilita rolagem no modo retrato se a tela for pequena */
+    }
     #dashboard-wrapper {
         padding: 10px;
     }
@@ -590,7 +593,7 @@ h1, h2, h3, h4, p {
         width: 100% !important;
         float: none !important;
         margin-right: 0 !important;
-        height: 400px !important; /* Altura fixa para o player no modo vertical/mobile para não sumir */
+        height: 350px !important; /* Altura um pouco menor para caber na tela sem rolar tanto */
         clear: both !important;
     }
     
