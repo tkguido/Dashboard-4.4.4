@@ -41,10 +41,13 @@ body.bg-clear-night { background-color: #030508; } /* Noite clara muito escura *
 
 /* Container Principal */
 #dashboard-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Clearfix para flutuações */
@@ -363,6 +366,10 @@ h1, h2, h3, h4, p {
 
 /* --- Responsividade Básica (Tablets Verticais e Mobile) --- */
 @media (max-width: 900px) {
+    #dashboard-wrapper {
+        position: relative;
+        overflow: auto;
+    }
     .top-bar-card, .finance-card {
         width: 100%;
         float: none;
@@ -577,46 +584,91 @@ h1, h2, h3, h4, p {
 
 @media (max-width: 899px), (orientation: portrait) {
     body, html {
-        overflow-y: auto !important; /* Habilita rolagem no modo retrato se a tela for pequena */
+        overflow: hidden !important; /* Trava a rolagem, agora tudo cabe na tela por padrão */
     }
     #dashboard-wrapper {
-        padding: 10px;
-    }
-    .col-left, .col-right { width: 100%; float: none; height: auto; padding-right: 0; }
-    .clock-card, .top-bar-card, .finance-card, .calendar-card {
+        padding: 0 !important;
+        position: relative !important;
         width: 100% !important;
-        float: none !important;
-        margin-right: 0 !important;
-        height: auto !important;
-        clear: both !important;
+        height: 100vh !important;
+        overflow: hidden;
+    }
+    .col-left, .col-right { 
+        width: 100%; float: none; height: 100%; padding: 0; 
     }
     
-    .player-card {
-        width: 100% !important;
-        float: none !important;
-        margin-right: 0 !important;
-        height: 350px !important; /* Altura um pouco menor para caber na tela sem rolar tanto */
-        clear: both !important;
+    /* Removemos o fluxo normal e forçamos a posição absoluta para desenhar a tela exata */
+    .card {
+        margin: 0 !important;
+        position: absolute !important;
+        box-sizing: border-box;
     }
     
-    /* Layout horizontal para clima e notícias no mobile/portrait */
-    .top-bar-card {
+    /* 1. CLOCK (Topo inteiro) */
+    .clock-card {
+        top: 10px; left: 10px; right: 10px;
+        height: 110px !important;
+        padding: 10px !important;
+    }
+    #time { font-size: 3rem !important; }
+    
+    /* 2. FINANCE (Abaixo do relógio, 4 colunas) */
+    .finance-card {
+        top: 130px; left: 10px; right: 10px;
+        height: 80px !important;
+        padding: 5px !important;
         display: block !important;
-        height: auto !important;
     }
-    .weather-section, .news-section {
+    .finance-grid { display: block !important; width: 100%; }
+    .finance-item { width: 25% !important; float: left; margin: 0 !important; }
+    .finance-item h2 { font-size: 1.1rem !important; margin: 2px 0 !important; }
+    #finance-status { display: none !important; } /* Oculta texto pra poupar espaco */
+    
+    /* 3. CALENDAR (Meio Esquerda) */
+    .calendar-card {
+        top: 220px; left: 10px;
+        width: calc(50% - 15px) !important;
+        height: 250px !important;
+        padding: 10px !important;
+    }
+    .day-cell { padding: 2px 0 !important; font-size: 0.8rem; }
+    .day-cell .today-marker { width: 22px; height: 22px; line-height: 22px; }
+    
+    /* 4. TOP-BAR (Meio Direita) */
+    .top-bar-card {
+        top: 220px; right: 10px;
+        width: calc(50% - 15px) !important;
+        height: 250px !important;
+        padding: 10px !important;
+        display: block !important;
+    }
+    .weather-section {
         display: block !important;
         width: 100% !important;
         border-right: none !important;
-        padding: 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 0 0 10px 0 !important;
         text-align: center !important;
+        height: 100px;
     }
+    #temperature { font-size: 1.8rem !important; display: block !important; }
+    #humidity { font-size: 1.4rem !important; display: block !important; margin: 0 !important; }
     .news-section {
-        margin-top: 15px;
-        padding-top: 15px !important;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        display: block !important;
+        width: 100% !important;
+        padding: 10px 0 0 0 !important;
+        height: 130px;
+        margin: 0 !important;
+        border-top: none !important;
     }
     
+    /* 5. PLAYER (Fundo inteiro) */
+    .player-card {
+        top: 480px; bottom: 10px; left: 10px; right: 10px;
+        height: auto !important; /* Estica automaticamente até o fundo da tela! */
+        width: auto !important;
+    }
+
     /* Relógios sobrepostos no modo vertical (Noturno e FDS) */
     .t-colon { display: none !important; }
     .t-hr, .t-min { display: block !important; line-height: 0.85 !important; text-align: center; }
