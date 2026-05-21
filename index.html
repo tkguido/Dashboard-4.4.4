@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=61">
+    <link rel="stylesheet" href="style.css?v=62">
 </head>
 <body>
     
@@ -43,40 +43,40 @@
             <!-- Coluna da Esquerda (25%) -->
             <div class="col-left">
                 <!-- Relógio e Data -->
-                <div class="card glass clock-card">
+                <div class="card glass clock-card" style="top: 10px;">
                     <h1 id="time">00:00</h1>
                     <p id="date" class="date-text">Carregando data...</p>
                 </div>
 
                 <!-- Finanças (Moedas e Criptos) -->
-                <div class="card glass finance-card">
-                    <div class="finance-grid" id="finance-container">
-                        <div class="finance-item">
+                <div class="card glass finance-card" style="top: 160px; height: 140px; padding: 15px 5px;">
+                    <div class="finance-grid" id="finance-container" style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%;">
+                        <div class="finance-item" style="width: 25%; text-align: center;">
                             <span class="label">BITCOIN</span>
-                            <h2 id="btc-price">Carregando...</h2>
+                            <h2 id="btc-price" style="font-size: 1.3rem; margin: 2px 0;">Carregando...</h2>
                             <span id="btc-var" class="var-label"></span>
                         </div>
-                        <div class="finance-item">
+                        <div class="finance-item" style="width: 25%; text-align: center;">
                             <span class="label">DÓLAR</span>
-                            <h2 id="usd-price">Carregando...</h2>
+                            <h2 id="usd-price" style="font-size: 1.3rem; margin: 2px 0;">Carregando...</h2>
                             <span id="usd-var" class="var-label"></span>
                         </div>
-                        <div class="finance-item">
+                        <div class="finance-item" style="width: 25%; text-align: center;">
                             <span class="label">ETHEREUM</span>
-                            <h2 id="eth-price">Carregando...</h2>
+                            <h2 id="eth-price" style="font-size: 1.3rem; margin: 2px 0;">Carregando...</h2>
                             <span id="eth-var" class="var-label"></span>
                         </div>
-                        <div class="finance-item">
+                        <div class="finance-item" style="width: 25%; text-align: center;">
                             <span class="label">EURO</span>
-                            <h2 id="eur-price">Carregando...</h2>
+                            <h2 id="eur-price" style="font-size: 1.3rem; margin: 2px 0;">Carregando...</h2>
                             <span id="eur-var" class="var-label"></span>
                         </div>
                     </div>
-                    <p class="subtext" style="margin-top: 1rem; font-size: 0.75rem;" id="finance-status">Atualizando cotações...</p>
+                    <p class="subtext" style="margin-top: 1rem; font-size: 0.75rem; display: none;" id="finance-status">Atualizando cotações...</p>
                 </div>
 
                 <!-- Calendários -->
-                <div class="card glass calendar-card">
+                <div class="card glass calendar-card" style="top: 310px;">
                     <div id="calendars-container" class="calendars-grid">
                         <!-- Preenchido via JS -->
                     </div>
@@ -86,7 +86,7 @@
             <!-- Coluna da Direita (75%) -->
             <div class="col-right">
                 <!-- Top Bar: Clima + Notícias (Compatível com Android 4.4 usando display: table) -->
-                <div class="card glass top-bar-card" style="display: table; width: 100%; padding: 15px; box-sizing: border-box; height: 130px; margin-bottom: 20px;">
+                <div class="card glass top-bar-card" style="display: table; width: 100%; padding: 15px; box-sizing: border-box; height: 130px; margin-bottom: 20px; top: 310px;">
                     <!-- Lado Esquerdo: Clima -->
                     <div class="weather-section" style="display: table-cell; width: 28%; vertical-align: middle; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px; text-align: center;">
                         <div>
@@ -106,7 +106,7 @@
                 </div>
 
                 <!-- YouTube Player (Rádio Musical / Hub) -->
-                <div class="card glass player-card">
+                <div class="card glass player-card" style="top: 600px;">
                     <div class="yt-controls" style="display: flex; gap: 20px; align-items: center; justify-content: space-between;">
                         <select id="yt-preset" onchange="loadPresetYouTube()" style="width: 100%; max-width: 300px; flex-shrink: 0;">
                             <optgroup label="🎶 Música (Ao Vivo)">
@@ -129,6 +129,6 @@
             </div>
         </div>
     </div>
-    <script src="main.js?v=61"></script>
+    <script src="main.js?v=62"></script>
 </body>
 </html>

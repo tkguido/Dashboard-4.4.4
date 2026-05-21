@@ -623,18 +623,25 @@ h1, h2, h3, h4, p {
     /* 2. FINANCE (Abaixo do relógio, 4 colunas) */
     .finance-card {
         top: 160px; left: 10px; right: 10px;
-        height: 110px !important;
+        height: 140px !important;
         padding: 15px 5px !important;
     }
-    .finance-grid { display: block !important; width: 100%; overflow: hidden !important; }
-    .finance-item { width: 25% !important; float: left; margin: 0 !important; text-align: center; }
-    .finance-item p { font-size: 0.9rem !important; margin-bottom: 5px !important; }
+    .finance-grid { 
+        display: -webkit-box !important; display: -webkit-flex !important; display: flex !important;
+        -webkit-box-orient: horizontal !important; -webkit-flex-direction: row !important; flex-direction: row !important;
+        -webkit-box-pack: justify !important; -webkit-justify-content: space-around !important; justify-content: space-around !important;
+        -webkit-box-align: center !important; -webkit-align-items: center !important; align-items: center !important;
+        width: 100%; 
+        overflow: visible !important; 
+    }
+    .finance-item { width: 25% !important; float: none !important; margin: 0 !important; text-align: center; }
+    .finance-item p { font-size: 0.85rem !important; margin-bottom: 5px !important; word-wrap: break-word; }
     .finance-item h2 { font-size: 1.4rem !important; margin: 2px 0 !important; }
     #finance-status { display: none !important; } /* Oculta texto pra poupar espaco */
     
     /* 3. CALENDAR (Meio Esquerda) */
     .calendar-card {
-        top: 280px; left: 10px;
+        top: 310px; left: 10px;
         width: calc(50% - 15px) !important;
         height: 280px !important;
         padding: 15px !important;
@@ -645,7 +652,7 @@ h1, h2, h3, h4, p {
     
     /* 4. TOP-BAR (Meio Direita) */
     .top-bar-card {
-        top: 280px; right: 10px;
+        top: 310px; right: 10px;
         width: calc(50% - 15px) !important;
         height: 280px !important;
         padding: 15px !important;
@@ -672,7 +679,7 @@ h1, h2, h3, h4, p {
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
-        top: 570px; bottom: 10px; left: 10px; right: 10px;
+        top: 600px; bottom: 10px; left: 10px; right: 10px;
         height: auto !important; /* Estica automaticamente até o fundo da tela! */
         width: auto !important;
     }
