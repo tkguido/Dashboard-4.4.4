@@ -150,9 +150,12 @@ var currentLat = -30.0346; // Padrão Porto Alegre
 var currentLon = -51.2177;
 
 function fetchWeather(lat, lon) {
-    // A cartada final: Open-Meteo bloqueou nosso Proxy gratuito por limite de requisições.
-    // Solução: Mudar para wttr.in que suporta texto plano nativo, Android 4.4, e CORS aberto!
-    var url = 'https://wttr.in/' + lat + ',' + lon + '?format=%t|%h|%c|%C';
+    // A cartada final definitiva: wttr.in via HTTPS direto falha no Android 4.4 devido ao certificado Let's Encrypt expirado.
+    // E HTTP direto falha por bloqueio de Mixed Content (HTTPS -> HTTP).
+    // Solução: Usamos o Proxy Codetabs (que tem SSL do Cloudflare, 100% suportado no Android 4.4) 
+    // para envelopar a chamada HTTP do wttr.in!
+    var targetUrl = 'http://wttr.in/' + lat + ',' + lon + '?format=%t|%h|%c|%C';
+    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl);
     
     ajaxGet(url, function(data) {
         if(data) {
@@ -190,7 +193,7 @@ function fetchWeather(lat, lon) {
             }
         }
     }, function(error) {
-        console.error('Erro clima wttr:', error);
+        console.error('Erro clima wttr via proxy:', error);
         document.getElementById('location-status').textContent = 'Erro ao atualizar clima';
     }, true); // expectText = true
 }
