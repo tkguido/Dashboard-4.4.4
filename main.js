@@ -150,37 +150,49 @@ var currentLat = -30.0346; // Padrão Porto Alegre
 var currentLon = -51.2177;
 
 function fetchWeather(lat, lon) {
-    // A cartada final: O Open-Meteo tem Let's Encrypt (bloqueado no Android 4.4)
-    // Então embrulhamos a requisição em um Proxy Público que roda em Cloudflare (Liberado no Android 4.4!)
-    var baseWeatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,weather_code&timezone=auto';
-    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(baseWeatherUrl);
+    // A cartada final: Open-Meteo bloqueou nosso Proxy gratuito por limite de requisições.
+    // Solução: Mudar para wttr.in que suporta texto plano nativo, Android 4.4, e CORS aberto!
+    var url = 'https://wttr.in/' + lat + ',' + lon + '?format=%t|%h|%c|%C';
     
     ajaxGet(url, function(data) {
-        if(data && data.current) {
-            var temp = data.current.temperature_2m;
-            var humidity = data.current.relative_humidity_2m;
-            var code = data.current.weather_code;
-            
-            // Fundo Dinâmico Sensorial baseado no clima
-            document.body.className = ''; // Limpa classes
-            if (code === 0) document.body.className = 'bg-sun';
-            else if (code >= 1 && code <= 48) document.body.className = 'bg-cloud';
-            else if (code >= 51 && code <= 99) document.body.className = 'bg-rain';
-            
-            document.getElementById('temperature').innerHTML = Math.round(temp) + '°C <span style="font-size: 2rem;">' + getWeatherIcon(code) + '</span>';
-            document.getElementById('humidity').textContent = humidity + '%';
-            
-            var wkTempEl = document.getElementById('wk-temp');
-            if (wkTempEl) wkTempEl.innerHTML = Math.round(temp) + '°C ' + getWeatherIcon(code);
-            var wkHumEl = document.getElementById('wk-hum');
-            if (wkHumEl) wkHumEl.textContent = humidity + '%';
-            
-            document.getElementById('location-status').textContent = 'Dados do clima atualizados';
+        if(data) {
+            var parts = data.split('|');
+            if(parts.length >= 4) {
+                var temp = parts[0].replace('+', ''); // Remove the + sign if present
+                var humidity = parts[1];
+                var icon = parts[2].trim();
+                var condition = parts[3].toLowerCase();
+                
+                // Fundo Dinâmico Sensorial baseado no clima
+                document.body.className = ''; // Limpa classes
+                if (condition.indexOf('rain') !== -1 || condition.indexOf('drizzle') !== -1 || condition.indexOf('shower') !== -1 || condition.indexOf('thunder') !== -1) {
+                    document.body.className = 'bg-rain';
+                } else if (condition.indexOf('cloud') !== -1 || condition.indexOf('overcast') !== -1 || condition.indexOf('fog') !== -1 || condition.indexOf('mist') !== -1) {
+                    document.body.className = 'bg-cloud';
+                } else if (condition.indexOf('sun') !== -1 || condition.indexOf('clear') !== -1) {
+                    var h = new Date().getHours();
+                    if (h >= 19 || h < 6) {
+                        document.body.className = 'bg-clear-night';
+                    } else {
+                        document.body.className = 'bg-sun';
+                    }
+                }
+                
+                document.getElementById('temperature').innerHTML = temp + ' <span style="font-size: 2rem;">' + icon + '</span>';
+                document.getElementById('humidity').textContent = humidity;
+                
+                var wkTempEl = document.getElementById('wk-temp');
+                if (wkTempEl) wkTempEl.innerHTML = temp + ' ' + icon;
+                var wkHumEl = document.getElementById('wk-hum');
+                if (wkHumEl) wkHumEl.textContent = humidity;
+                
+                document.getElementById('location-status').textContent = 'Dados do clima atualizados';
+            }
         }
     }, function(error) {
-        console.error('Erro clima Proxy:', error);
+        console.error('Erro clima wttr:', error);
         document.getElementById('location-status').textContent = 'Erro ao atualizar clima';
-    });
+    }, true); // expectText = true
 }
 
 function initWeather() {
