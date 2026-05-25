@@ -706,6 +706,19 @@ h1, h2, h3, h4, p {
     }
     
     #wk-time {
-        font-size: 22vh !important;
+        font-size: 16vh !important;
+    }
+    #wk-date {
+        font-size: 2.8vh !important;
+        margin-top: 1vh !important;
+        margin-bottom: 3vh !important;
+    }
+    .wk-weather {
+        font-size: 5vh !important;
+        margin-bottom: 2vh !important;
+        white-space: nowrap !important;
+    }
+    .wk-btc {
+        font-size: 2.5vh !important;
     }
 }
