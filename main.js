@@ -60,6 +60,12 @@ function updateTime() {
     var isNight = (currentHour >= 19 || currentHour < 7);
     var isWeekend = (currentDay === 0 || currentDay === 6);
     
+    // Modo de Teste via URL (?test_weekend=1)
+    if (window.location.search.indexOf('test_weekend=1') !== -1) {
+        isNight = false; // Desativa o modo noturno para visualizar o fds
+        isWeekend = true;
+    }
+    
     var currentMode = isNight ? 'NIGHT' : (isWeekend ? 'WEEKEND' : 'DAY');
     
     if (currentMode !== previousMode) {
