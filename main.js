@@ -454,12 +454,12 @@ function getVariationIndicator(pctChange) {
 }
 
 function fetchFinance() {
-    var url = 'https://economia.awesomeapi.com.br/json/last/BTC-USD,ETH-USD,USD-BRL,EUR-BRL';
+    var url = 'https://economia.awesomeapi.com.br/json/last/BTC-USD,ETH-USD,XRP-USD,SOL-USD,USD-BRL,EUR-BRL';
     ajaxGet(url, function(data) {
         // Função auxiliar para injetar valor e cor
         function applyFinance(idPrefix, obj, isCurrency) {
             var varObj = getVariationIndicator(obj.pctChange);
-            var valStr = isCurrency ? 'R$ ' + parseFloat(obj.bid).toFixed(2).replace('.', ',') : '$' + parseFloat(obj.bid).toLocaleString('en-US', {maximumFractionDigits: 0});
+            var valStr = isCurrency ? 'R$ ' + parseFloat(obj.bid).toFixed(2).replace('.', ',') : '$' + parseFloat(obj.bid).toLocaleString('en-US', {maximumFractionDigits: 2});
             
             var priceEl = document.getElementById(idPrefix + '-price');
             priceEl.textContent = valStr;
@@ -479,6 +479,8 @@ function fetchFinance() {
         
         applyFinance('btc', data.BTCUSD, false);
         applyFinance('eth', data.ETHUSD, false);
+        applyFinance('sol', data.SOLUSD, false);
+        applyFinance('xrp', data.XRPUSD, false);
         applyFinance('usd', data.USDBRL, true);
         applyFinance('eur', data.EURBRL, true);
         
