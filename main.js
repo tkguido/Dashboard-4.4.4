@@ -153,6 +153,9 @@ function pollTradeAlerts() {
         targetUrl += '&since=' + lastId;
     }
     
+    // Adiciona timestamp para contornar o cache rigoroso do codetabs proxy
+    targetUrl += (targetUrl.indexOf('?') === -1 ? '?' : '&') + 'cb=' + new Date().getTime();
+    
     // Proxy para contornar SSL do Android 4.4
     var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl);
     
