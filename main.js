@@ -478,11 +478,9 @@ function fetchFinance() {
         }
         
         applyFinance('btc', data.BTCUSD, false);
-        applyFinance('eth', data.ETHUSD, false);
         applyFinance('sol', data.SOLUSD, false);
         applyFinance('xrp', data.XRPUSD, false);
         applyFinance('usd', data.USDBRL, true);
-        applyFinance('eur', data.EURBRL, true);
         
         var now = new Date();
         var h = now.getHours();
