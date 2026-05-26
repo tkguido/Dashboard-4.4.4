@@ -140,6 +140,76 @@ function ajaxGet(url, onSuccess, onError, expectText) {
     xhr.send();
 }
 
+/* =========================================
+   TRADE ALERTS (NTFY.SH)
+   ========================================= */
+var alertTimeout = null;
+
+function initTradeAlerts() {
+    // Escuta eventos SSE via ntfy.sh (Tópico aleatório/secreto)
+    var topic = 'guido_crypto_dashboard_alerts_99x';
+    var url = 'https://ntfy.sh/' + topic + '/sse';
+    
+    if (typeof EventSource !== 'undefined') {
+        var source = new EventSource(url);
+        
+        source.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            if (data.event === 'message') {
+                showTradeAlert(data.title || 'ALERTA', data.message);
+            }
+        };
+        
+        source.onerror = function(e) {
+            console.error('SSE Error:', e);
+            // EventSource tenta reconectar automaticamente
+        };
+    } else {
+        console.warn('EventSource não suportado neste navegador.');
+    }
+}
+
+function showTradeAlert(title, message) {
+    var overlay = document.getElementById('trade-alert-overlay');
+    var titleEl = document.getElementById('trade-alert-title');
+    var msgEl = document.getElementById('trade-alert-msg');
+    var audioEl = document.getElementById('trade-alert-sound');
+    
+    if (!overlay) return;
+    
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+    
+    // Determina a cor com base no título
+    overlay.className = ''; // limpa
+    if (title.toUpperCase().indexOf('COMPRA') !== -1 || title.toUpperCase().indexOf('BUY') !== -1) {
+        overlay.classList.add('buy-alert');
+    } else if (title.toUpperCase().indexOf('VENDA') !== -1 || title.toUpperCase().indexOf('SELL') !== -1) {
+        overlay.classList.add('sell-alert');
+    }
+    
+    overlay.classList.add('show-alert');
+    
+    // Tocar som
+    if (audioEl) {
+        audioEl.currentTime = 0;
+        var playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(function(error) {
+                console.log("Audio autoplay prevented", error);
+            });
+        }
+    }
+    
+    if (alertTimeout) {
+        clearTimeout(alertTimeout);
+    }
+    
+    alertTimeout = setTimeout(function() {
+        overlay.classList.remove('show-alert');
+    }, 15000); // 15 segundos na tela
+}
+
 // 2. Clima e Prognóstico (Open-Meteo)
 function getWeatherIcon(code) {
     if (code === 0) return '☀️'; // Céu limpo
@@ -638,3 +708,4 @@ setInterval(function() {
         silentAudio.play().catch(function(e){});
     }
 }, 5 * 60 * 1000);
+initTradeAlerts();

@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=72">
+    <link rel="stylesheet" href="style.css?v=80">
 </head>
 <body>
     
+    <!-- Trade Alert Overlay -->
+    <div id="trade-alert-overlay" class="hidden" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; border-radius: 12px; padding: 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s ease;">
+        <h2 id="trade-alert-title" style="margin: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">ALERTA DE TRADE</h2>
+        <p id="trade-alert-msg" style="margin: 10px 0 0 0; font-size: 1.2rem; font-weight: 300;">Executado com sucesso</p>
+    </div>
+
     <!-- Night Mode Clock Overlay -->
     <div id="night-mode-overlay" class="hidden">
         <h1 id="night-time">00:00</h1>
@@ -129,6 +135,8 @@
             </div>
         </div>
     </div>
-    <script src="main.js?v=72"></script>
+    <audio id="trade-alert-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=coin-drop-39914.mp3" preload="auto"></audio>
+
+    <script src="main.js?v=80"></script>
 </body>
 </html>
