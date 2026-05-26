@@ -145,28 +145,42 @@ function ajaxGet(url, onSuccess, onError, expectText) {
    ========================================= */
 var alertTimeout = null;
 
-function initTradeAlerts() {
-    // Escuta eventos SSE via ntfy.sh (Tópico aleatório/secreto)
+function pollTradeAlerts() {
     var topic = 'guido_crypto_dashboard_alerts_99x';
-    var url = 'https://ntfy.sh/' + topic + '/sse';
-    
-    if (typeof EventSource !== 'undefined') {
-        var source = new EventSource(url);
-        
-        source.onmessage = function(e) {
-            var data = JSON.parse(e.data);
-            if (data.event === 'message') {
-                showTradeAlert(data.title || 'ALERTA', data.message);
-            }
-        };
-        
-        source.onerror = function(e) {
-            console.error('SSE Error:', e);
-            // EventSource tenta reconectar automaticamente
-        };
-    } else {
-        console.warn('EventSource não suportado neste navegador.');
+    var lastId = localStorage.getItem('last_ntfy_id');
+    var targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
+    if (lastId) {
+        targetUrl += '&since=' + lastId;
     }
+    
+    // Proxy para contornar SSL do Android 4.4
+    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            var lines = xhr.responseText.split('\n');
+            for (var i = 0; i < lines.length; i++) {
+                if (!lines[i]) continue;
+                try {
+                    var data = JSON.parse(lines[i]);
+                    if (data.event === 'message') {
+                        localStorage.setItem('last_ntfy_id', data.id);
+                        showTradeAlert(data.title || 'ALERTA', data.message);
+                    }
+                } catch(e) {}
+            }
+        }
+    };
+    xhr.send();
+}
+
+function initTradeAlerts() {
+    // Poll logo ao iniciar
+    pollTradeAlerts();
+    // Poll a cada 10 segundos
+    setInterval(pollTradeAlerts, 10000);
 }
 
 function showTradeAlert(title, message) {
