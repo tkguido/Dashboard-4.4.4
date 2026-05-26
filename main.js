@@ -458,22 +458,32 @@ function fetchFinance() {
     ajaxGet(url, function(data) {
         // Função auxiliar para injetar valor e cor
         function applyFinance(idPrefix, obj, isCurrency) {
-            var varObj = getVariationIndicator(obj.pctChange);
-            var valStr = isCurrency ? 'R$ ' + parseFloat(obj.bid).toFixed(2).replace('.', ',') : '$' + parseFloat(obj.bid).toLocaleString('en-US', {maximumFractionDigits: 2});
-            
-            var priceEl = document.getElementById(idPrefix + '-price');
-            priceEl.textContent = valStr;
-            priceEl.style.color = varObj.color; // Pinta o valor de verde/vermelho
-            
-            document.getElementById(idPrefix + '-var').innerHTML = '<span style="color:' + varObj.color + '">' + varObj.icon + ' ' + obj.pctChange + '%</span>';
-            
-            // Binding para o modo fim de semana
-            if (idPrefix === 'btc') {
-                var wkBtcEl = document.getElementById('wk-btc-price');
-                if (wkBtcEl) {
-                    wkBtcEl.textContent = valStr;
-                    wkBtcEl.style.color = varObj.color;
+            try {
+                if (!obj || !obj.bid) return;
+                var varObj = getVariationIndicator(obj.pctChange);
+                var valStr = isCurrency ? 'R$ ' + parseFloat(obj.bid).toFixed(2).replace('.', ',') : '$' + parseFloat(obj.bid).toLocaleString('en-US', {maximumFractionDigits: 2});
+                
+                var priceEl = document.getElementById(idPrefix + '-price');
+                if (priceEl) {
+                    priceEl.textContent = valStr;
+                    priceEl.style.color = varObj.color;
                 }
+                
+                var varEl = document.getElementById(idPrefix + '-var');
+                if (varEl) {
+                    varEl.innerHTML = '<span style="color:' + varObj.color + '">' + varObj.icon + ' ' + obj.pctChange + '%</span>';
+                }
+                
+                // Binding para o modo fim de semana
+                if (idPrefix === 'btc') {
+                    var wkBtcEl = document.getElementById('wk-btc-price');
+                    if (wkBtcEl) {
+                        wkBtcEl.textContent = valStr;
+                        wkBtcEl.style.color = varObj.color;
+                    }
+                }
+            } catch (e) {
+                console.error('Erro ao aplicar finanças para', idPrefix, e);
             }
         }
         
