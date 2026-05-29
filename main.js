@@ -562,12 +562,10 @@ function fetchFinance() {
                 }
                 
                 // Binding para o modo fim de semana
-                if (idPrefix === 'btc') {
-                    var wkBtcEl = document.getElementById('wk-btc-price');
-                    if (wkBtcEl) {
-                        wkBtcEl.textContent = valStr;
-                        wkBtcEl.style.color = varObj.color;
-                    }
+                var wkEl = document.getElementById('wk-' + idPrefix + '-price');
+                if (wkEl) {
+                    wkEl.textContent = valStr;
+                    wkEl.style.color = varObj.color;
                 }
             } catch (e) {
                 console.error('Erro ao aplicar finanças para', idPrefix, e);

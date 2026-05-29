@@ -439,17 +439,16 @@ h1, h2, h3, h4, p {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: #000000;
-    z-index: 9998; /* Fica abaixo do modo noturno caso haja sobreposição acidental */
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 #weekend-mode-overlay.hidden {
     display: none;
 }
 .weekend-cell {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     width: 100%;
     text-align: center;
     color: #e0f2fe;
@@ -474,10 +473,14 @@ h1, h2, h3, h4, p {
 #wk-hum {
     color: #0ea5e9;
 }
-.wk-btc {
-    font-size: 5vh;
-    font-weight: 500;
-    color: #94a3b8;
+.wk-crypto-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 5vh;
+}
+.wk-crypto {
+    text-align: center;
 }
 #wk-btc-price {
     color: #4ade80;
@@ -735,19 +738,24 @@ h1, h2, h3, h4, p {
     }
     
     #wk-time {
-        font-size: 16vh !important;
+        font-size: 20vh !important;
+        margin-top: -5vh !important;
     }
     #wk-date {
-        font-size: 2.8vh !important;
-        margin-top: 1vh !important;
-        margin-bottom: 3vh !important;
+        font-size: 3vh !important;
+        margin-top: 2vh !important;
+        margin-bottom: 5vh !important;
     }
     .wk-weather {
         font-size: 5vh !important;
         margin-bottom: 2vh !important;
         white-space: nowrap !important;
     }
-    .wk-btc {
-        font-size: 2.5vh !important;
+    .wk-crypto-grid {
+        gap: 20px !important;
+        margin-top: 3vh !important;
+    }
+    .wk-crypto {
+        font-size: 2.2vh !important;
     }
 }
