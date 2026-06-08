@@ -421,7 +421,7 @@ function fetchAgenda() {
     }
 
     for (var i = 0; i < calendarUrls.length; i++) {
-        var proxyUrl = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(calendarUrls[i]);
+        var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(calendarUrls[i]);
         ajaxGet(proxyUrl, processICal, function() { processICal(null); }, true);
     }
 }
@@ -434,8 +434,8 @@ function fetchNews() {
     var statusEl = document.getElementById('news-status');
     if(statusEl) statusEl.textContent = 'Atualizando...';
     
-    var g1Url = 'https://api.codetabs.com/v1/proxy/?quest=https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/rss/g1/';
-    var cnnUrl = 'https://api.codetabs.com/v1/proxy/?quest=https://api.rss2json.com/v1/api.json?rss_url=https://www.cnnbrasil.com.br/feed/';
+    // ESPN Copa do Mundo via rss2json.com (não precisa de proxy pois o rss2json já tem CORS)
+    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com.br/espn/rss/futebol/copa-do-mundo';
     
     var tempNews = [];
     var requestsCompleted = 0;
@@ -453,7 +453,7 @@ function fetchNews() {
             }
         }
         requestsCompleted++;
-        if (requestsCompleted === 2) {
+        if (requestsCompleted === 1) { // Só temos 1 feed agora
             // A agenda já é inserida dinamicamente no outro método, mas se estiver pronta, injetamos agora
             if (agendaText) {
                 tempNews.unshift({
@@ -466,8 +466,7 @@ function fetchNews() {
         }
     }
     
-    ajaxGet(g1Url, function(data) { processResponse(data, 'G1'); }, function() { processResponse(null, 'G1'); });
-    ajaxGet(cnnUrl, function(data) { processResponse(data, 'CNN'); }, function() { processResponse(null, 'CNN'); });
+    ajaxGet(cnnUrl, function(data) { processResponse(data, 'Copa do Mundo'); }, function() { processResponse(null, 'Copa do Mundo'); });
 }
 
 function finishNewsLoad(articles) {
@@ -504,7 +503,8 @@ function displayCurrentNews() {
     var item = newsItems[currentNewsIndex];
     
     // Style do Badge
-    var badgeColor = item.source === 'G1' ? '#c8102e' : '#cc0000'; 
+    var badgeColor = '#005a1d'; // Verde Copa
+    if (item.source === 'AGENDA') badgeColor = '#c084fc';
     var badgeStyle = 'background:' + badgeColor + '; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle;';
     
     tickerEl.innerHTML = '<span style="' + badgeStyle + '">' + item.source + '</span> ' + item.title;
