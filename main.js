@@ -153,14 +153,12 @@ function pollTradeAlerts() {
         targetUrl += '&since=' + lastId;
     }
     
-    // Adiciona timestamp para contornar o cache rigoroso do codetabs proxy
+    // Adiciona timestamp para contornar cache
     targetUrl += (targetUrl.indexOf('?') === -1 ? '?' : '&') + 'cb=' + new Date().getTime();
     
-    // Proxy para contornar SSL do Android 4.4
-    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl);
-    
+    // Conexão direta via XHR (sem proxy) para testar suporte nativo do Android 4.4 ao Let's Encrypt
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open('GET', targetUrl, true);
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             var lines = xhr.responseText.split('\n');
@@ -227,74 +225,63 @@ function showTradeAlert(title, message) {
     }, 15000); // 15 segundos na tela
 }
 
-// 2. Clima e Prognóstico (Open-Meteo)
-function getWeatherIcon(code) {
-    if (code === 0) return '☀️'; // Céu limpo
-    if (code >= 1 && code <= 3) return '🌤️'; // Parcialmente nublado
-    if (code >= 45 && code <= 48) return '🌫️'; // Nevoeiro
-    if (code >= 51 && code <= 67) return '🌧️'; // Chuva
-    if (code >= 71 && code <= 77) return '❄️'; // Neve
-    if (code >= 80 && code <= 82) return '🌦️'; // Pancadas de chuva
-    if (code >= 95 && code <= 99) return '⛈️'; // Tempestade
-    return '☁️'; // Padrão
+function getWeatherIcon(slug) {
+    var icons = {
+        'clear_day': '☀️',
+        'clear_night': '🌙',
+        'cloud': '☁️',
+        'cloudly_day': '🌤️',
+        'cloudly_night': '🌥️',
+        'rain': '🌧️',
+        'storm': '⛈️',
+        'snow': '❄️',
+        'hail': '🌧️',
+        'fog': '🌫️'
+    };
+    return icons[slug] || '☁️';
 }
 
-var currentLat = -30.0346; // Padrão Porto Alegre
-var currentLon = -51.2177;
-
-function fetchWeather(lat, lon) {
-    // A cartada final definitiva: wttr.in via HTTPS direto falha no Android 4.4 devido ao certificado Let's Encrypt expirado.
-    // E HTTP direto falha por bloqueio de Mixed Content (HTTPS -> HTTP).
-    // Solução: Usamos o Proxy Codetabs (que tem SSL do Cloudflare, 100% suportado no Android 4.4) 
-    // para envelopar a chamada HTTP do wttr.in!
-    var targetUrl = 'http://wttr.in/' + lat + ',' + lon + '?format=%t|%h|%c|%C';
-    var url = 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl);
-    
+function fetchWeather() {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
     ajaxGet(url, function(data) {
-        if(data) {
-            var parts = data.split('|');
-            if(parts.length >= 4) {
-                var temp = parts[0].replace('+', ''); // Remove the + sign if present
-                var humidity = parts[1];
-                var icon = parts[2].trim();
-                var condition = parts[3].toLowerCase();
-                
-                // Fundo Dinâmico Sensorial baseado no clima
-                document.body.className = ''; // Limpa classes
-                if (condition.indexOf('rain') !== -1 || condition.indexOf('drizzle') !== -1 || condition.indexOf('shower') !== -1 || condition.indexOf('thunder') !== -1) {
-                    document.body.className = 'bg-rain';
-                } else if (condition.indexOf('cloud') !== -1 || condition.indexOf('overcast') !== -1 || condition.indexOf('fog') !== -1 || condition.indexOf('mist') !== -1) {
-                    document.body.className = 'bg-cloud';
-                } else if (condition.indexOf('sun') !== -1 || condition.indexOf('clear') !== -1) {
-                    var h = new Date().getHours();
-                    if (h >= 19 || h < 6) {
-                        document.body.className = 'bg-clear-night';
-                    } else {
-                        document.body.className = 'bg-sun';
-                    }
+        if(data && data.current) {
+            var temp = Math.round(data.current.temperature_2m);
+            var humidity = data.current.relative_humidity_2m;
+            var code = data.current.weather_code;
+            var icon = getWeatherIcon(code);
+            
+            document.body.className = ''; 
+            if (code >= 51 && code <= 99) {
+                document.body.className = 'bg-rain';
+            } else if (code >= 1 && code <= 48) {
+                document.body.className = 'bg-cloud';
+            } else {
+                var h = new Date().getHours();
+                if (h >= 19 || h < 6) {
+                    document.body.className = 'bg-clear-night';
+                } else {
+                    document.body.className = 'bg-sun';
                 }
-                
-                var tempEl = document.getElementById('temperature');
-                if (tempEl) tempEl.innerHTML = temp + ' <span style="font-size: 2rem;">' + icon + '</span>';
-                
-                var humEl = document.getElementById('humidity');
-                if (humEl) humEl.textContent = humidity;
-                
-                var wkTempEl = document.getElementById('wk-temp');
-                if (wkTempEl) wkTempEl.innerHTML = temp + ' ' + icon;
-                
-                var wkHumEl = document.getElementById('wk-hum');
-                if (wkHumEl) wkHumEl.textContent = humidity;
-                
-                var locStatusEl = document.getElementById('location-status');
-                if (locStatusEl) locStatusEl.textContent = 'Dados do clima atualizados';
             }
+            
+            var tempEl = document.getElementById('temperature');
+            if(tempEl) tempEl.innerHTML = temp + '°C <span style="font-size: 2rem;">' + icon + '</span>';
+            var humEl = document.getElementById('humidity');
+            if(humEl) humEl.textContent = humidity + '%';
+            
+            var wkTempEl = document.getElementById('wk-temp');
+            if(wkTempEl) wkTempEl.innerHTML = temp + '°C ' + icon;
+            var wkHumEl = document.getElementById('wk-hum');
+            if(wkHumEl) wkHumEl.textContent = humidity + '%';
+            
+            var locStatusEl = document.getElementById('location-status');
+            if(locStatusEl) locStatusEl.textContent = 'Porto Alegre';
         }
     }, function(error) {
-        console.error('Erro clima wttr via proxy:', error);
+        console.error('Erro clima OpenMeteo:', error);
         var locStatusEl = document.getElementById('location-status');
-        if (locStatusEl) locStatusEl.textContent = 'Erro ao atualizar clima';
-    }, true); // expectText = true
+        if(locStatusEl) locStatusEl.textContent = 'Erro API Clima';
+    }, false); // JSON nativo
 }
 
 function initWeather() {
