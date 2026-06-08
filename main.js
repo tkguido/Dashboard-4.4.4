@@ -146,25 +146,9 @@ function ajaxGet(url, onSuccess, onError, expectText) {
 var alertTimeout = null;
 
 function pollTradeAlerts() {
-    var topic = 'guido_crypto_dashboard_alerts_99x';
-    var lastId = localStorage.getItem('last_ntfy_id');
     // INVIÁVEL: ntfy.sh exige Let's Encrypt, e Android 4.4 ignora o certificado instalado para conexões em segundo plano (XHR).
     // Como os proxies gratuitos acabaram, não há como ler do ntfy.sh neste tablet.
     console.log("Trade alerts desabilitados devido a incompatibilidade SSL do Android 4.4 com ntfy.sh.");
-    // targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
-            for (var i = 0; i < lines.length; i++) {
-                if (!lines[i]) continue;
-                try {
-                    var data = JSON.parse(lines[i]);
-                    if (data.event === 'message') {
-                        localStorage.setItem('last_ntfy_id', data.id);
-                        showTradeAlert(data.title || 'ALERTA', data.message);
-                    }
-                } catch(e) {}
-            }
-        }
-    };
-    xhr.send();
 }
 
 function initTradeAlerts() {
