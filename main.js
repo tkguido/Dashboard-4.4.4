@@ -148,7 +148,6 @@ var alertTimeout = null;
 function pollTradeAlerts() {
     var topic = 'guido_crypto_dashboard_alerts_99x';
     var lastId = localStorage.getItem('last_ntfy_id');
-    // Forçando HTTPS, já que HTTP falha via Mixed Content
     var targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
     if (lastId) {
         targetUrl += '&since=' + lastId;
@@ -157,9 +156,11 @@ function pollTradeAlerts() {
     // Adiciona timestamp para contornar cache
     targetUrl += (targetUrl.indexOf('?') === -1 ? '?' : '&') + 'cb=' + new Date().getTime();
     
-    // Conexão direta via XHR (sem proxy) para testar suporte nativo do Android 4.4 ao Let's Encrypt
+    // Proxy AllOrigins porque Codetabs caiu e Android 4.4 não suporta SSL nativo
+    var url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', targetUrl, true);
+    xhr.open('GET', url, true);
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             var lines = xhr.responseText.split('\n');
@@ -243,8 +244,8 @@ function getWeatherIcon(slug) {
 }
 
 function fetchWeather() {
-    // Retornando a HTTPS
-    var url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
+    var targetUrl = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
+    var url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
     ajaxGet(url, function(data) {
         if(data && data.current) {
             var temp = Math.round(data.current.temperature_2m);
