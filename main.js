@@ -148,19 +148,10 @@ var alertTimeout = null;
 function pollTradeAlerts() {
     var topic = 'guido_crypto_dashboard_alerts_99x';
     var lastId = localStorage.getItem('last_ntfy_id');
-    var targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
-    if (lastId) {
-        targetUrl += '&since=' + lastId;
-    }
-    
-    // Conexão direta via HTTPS (o certificado atualizado no tablet deve resolver)
-    targetUrl += (targetUrl.indexOf('?') === -1 ? '?' : '&') + 'cb=' + new Date().getTime();
-    
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', targetUrl, true);
-    xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            var lines = xhr.responseText.split('\n');
+    // INVIÁVEL: ntfy.sh exige Let's Encrypt, e Android 4.4 ignora o certificado instalado para conexões em segundo plano (XHR).
+    // Como os proxies gratuitos acabaram, não há como ler do ntfy.sh neste tablet.
+    console.log("Trade alerts desabilitados devido a incompatibilidade SSL do Android 4.4 com ntfy.sh.");
+    // targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
             for (var i = 0; i < lines.length; i++) {
                 if (!lines[i]) continue;
                 try {
@@ -241,46 +232,74 @@ function getWeatherIcon(slug) {
 }
 
 function fetchWeather() {
-    var url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
+    // Usando BrasilAPI (Certificado Cloudflare nativamente suportado no Android 4.4)
+    // 237 é o código para Porto Alegre
+    var url = 'https://brasilapi.com.br/api/cptec/v1/clima/previsao/237';
     ajaxGet(url, function(data) {
-        if(data && data.current) {
-            var temp = Math.round(data.current.temperature_2m);
-            var humidity = data.current.relative_humidity_2m;
-            var code = data.current.weather_code;
-            var icon = getWeatherIcon(code);
+        if(data && data.clima && data.clima.length > 0) {
+            var climaHoje = data.clima[0];
+            var min = climaHoje.min;
+            var max = climaHoje.max;
+            var cond = climaHoje.condicao; // ex: 'pn', 'c', 't', 'ps'
             
-            document.body.className = ''; 
-            if (code >= 51 && code <= 99) {
+            var locStatusEl = document.getElementById('location-status');
+            var weatherIconEl = document.getElementById('weather-icon');
+            
+            // Format: 16° ~ 18°
+            var tempStr = min + '&deg; ~ ' + max + '&deg;';
+            locStatusEl.innerHTML = tempStr;
+            
+            // Map condicao to icons
+            var iconClass = 'fas fa-sun';
+            var iconColor = '#FDB813';
+            
+            var chuva = ['c', 'ci', 'ec', 'cm', 'cn', 'pt', 'pm', 'np', 'pc', 'cv', 'ch'];
+            var tempestade = ['t', 'in'];
+            var nublado = ['pn', 'e', 'n'];
+            
+            if (chuva.indexOf(cond) !== -1) {
+                iconClass = 'fas fa-cloud-rain';
+                iconColor = '#60a5fa';
                 document.body.className = 'bg-rain';
-            } else if (code >= 1 && code <= 48) {
+            } else if (tempestade.indexOf(cond) !== -1) {
+                iconClass = 'fas fa-bolt';
+                iconColor = '#fbbf24';
+                document.body.className = 'bg-rain';
+            } else if (nublado.indexOf(cond) !== -1) {
+                iconClass = 'fas fa-cloud';
+                iconColor = '#94a3b8';
                 document.body.className = 'bg-cloud';
             } else {
+                // Claro ou outro
                 var h = new Date().getHours();
                 if (h >= 19 || h < 6) {
                     document.body.className = 'bg-clear-night';
+                    iconClass = 'fas fa-moon';
+                    iconColor = '#cbd5e1';
                 } else {
                     document.body.className = 'bg-sun';
                 }
             }
             
+            weatherIconEl.className = iconClass;
+            weatherIconEl.style.color = iconColor;
+            
+            var iconHtml = '<i class="' + iconClass + '" style="color:' + iconColor + '"></i>';
+            
             var tempEl = document.getElementById('temperature');
-            if(tempEl) tempEl.innerHTML = temp + '°C <span style="font-size: 2rem;">' + icon + '</span>';
+            if(tempEl) tempEl.innerHTML = tempStr + ' <span style="font-size: 2rem;">' + iconHtml + '</span>';
             var humEl = document.getElementById('humidity');
-            if(humEl) humEl.textContent = humidity + '%';
+            if(humEl) humEl.textContent = climaHoje.condicao_desc;
             
             var wkTempEl = document.getElementById('wk-temp');
-            if(wkTempEl) wkTempEl.innerHTML = temp + '°C ' + icon;
+            if(wkTempEl) wkTempEl.innerHTML = tempStr + ' ' + iconHtml;
             var wkHumEl = document.getElementById('wk-hum');
-            if(wkHumEl) wkHumEl.textContent = humidity + '%';
-            
-            var locStatusEl = document.getElementById('location-status');
-            if(locStatusEl) locStatusEl.textContent = 'Porto Alegre';
+            if(wkHumEl) wkHumEl.textContent = climaHoje.condicao_desc;
         }
-    }, function(error) {
-        console.error('Erro clima OpenMeteo:', error);
+    }, function(err) {
         var locStatusEl = document.getElementById('location-status');
-        if(locStatusEl) locStatusEl.textContent = 'Erro API Clima';
-    }, false); // JSON nativo
+        if (locStatusEl) locStatusEl.textContent = 'Erro Clima';
+    }, false);
 }
 
 function initWeather() {
