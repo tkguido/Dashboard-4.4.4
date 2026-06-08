@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=84">
+    <link rel="stylesheet" href="style.css?v=86">
 </head>
 <body>
     
@@ -102,17 +102,8 @@
             <div class="col-right">
                 <!-- Top Bar: Clima + Notícias (Compatível com Android 4.4 usando display: table) -->
                 <div class="card glass top-bar-card" style="display: table; width: 100%; padding: 15px; box-sizing: border-box; height: 130px; margin-bottom: 20px; top: 310px;">
-                    <!-- Lado Esquerdo: Clima -->
-                    <div class="weather-section" style="display: table-cell; width: 28%; vertical-align: middle; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px; text-align: center;">
-                        <div>
-                            <h2 id="temperature" style="font-size: 2.2rem; margin: 0; display: inline-block; vertical-align: middle;">--°C</h2>
-                            <h2 id="humidity" style="font-size: 1.8rem; margin: 0 0 0 10px; color: #0ea5e9; display: inline-block; vertical-align: middle;">--%</h2>
-                        </div>
-                        <p id="location-status" class="subtext" style="margin-top: 5px; font-size: 0.75rem; margin-bottom: 0;">Aguardando...</p>
-                    </div>
-
-                    <!-- Lado Direito: Notícias G1/CNN -->
-                    <div class="news-section" style="display: table-cell; width: 72%; vertical-align: middle; padding-left: 20px; overflow: hidden;">
+                    <!-- Lado Direito: Notícias G1/CNN (Agora ocupa 100%) -->
+                    <div class="news-section" style="display: table-cell; width: 100%; vertical-align: middle; padding: 0 10px; overflow: hidden; text-align: center;">
                         <marquee id="news-ticker" scrollamount="4" style="font-size: 1.15rem; color: #f8fafc; font-weight: 500; width: 100%; line-height: 1.4; display: block; white-space: nowrap;">
                             Carregando manchetes do G1 e CNN Brasil...
                         </marquee>
@@ -146,6 +137,6 @@
     </div>
     <audio id="trade-alert-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=coin-drop-39914.mp3" preload="auto"></audio>
 
-    <script src="main.js?v=84"></script>
+    <script src="main.js?v=86"></script>
 </body>
 </html>

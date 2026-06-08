@@ -274,20 +274,26 @@ function fetchWeather(lat, lon) {
                     }
                 }
                 
-                document.getElementById('temperature').innerHTML = temp + ' <span style="font-size: 2rem;">' + icon + '</span>';
-                document.getElementById('humidity').textContent = humidity;
+                var tempEl = document.getElementById('temperature');
+                if (tempEl) tempEl.innerHTML = temp + ' <span style="font-size: 2rem;">' + icon + '</span>';
+                
+                var humEl = document.getElementById('humidity');
+                if (humEl) humEl.textContent = humidity;
                 
                 var wkTempEl = document.getElementById('wk-temp');
                 if (wkTempEl) wkTempEl.innerHTML = temp + ' ' + icon;
+                
                 var wkHumEl = document.getElementById('wk-hum');
                 if (wkHumEl) wkHumEl.textContent = humidity;
                 
-                document.getElementById('location-status').textContent = 'Dados do clima atualizados';
+                var locStatusEl = document.getElementById('location-status');
+                if (locStatusEl) locStatusEl.textContent = 'Dados do clima atualizados';
             }
         }
     }, function(error) {
         console.error('Erro clima wttr via proxy:', error);
-        document.getElementById('location-status').textContent = 'Erro ao atualizar clima';
+        var locStatusEl = document.getElementById('location-status');
+        if (locStatusEl) locStatusEl.textContent = 'Erro ao atualizar clima';
     }, true); // expectText = true
 }
 
