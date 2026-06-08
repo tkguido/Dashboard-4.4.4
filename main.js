@@ -148,8 +148,8 @@ var alertTimeout = null;
 function pollTradeAlerts() {
     var topic = 'guido_crypto_dashboard_alerts_99x';
     var lastId = localStorage.getItem('last_ntfy_id');
-    // Testando chamadas HTTP pura para contornar problemas de SSL (Let's Encrypt) do Android 4.4
-    var targetUrl = 'http://ntfy.sh/' + topic + '/json?poll=1';
+    // Forçando HTTPS, já que HTTP falha via Mixed Content
+    var targetUrl = 'https://ntfy.sh/' + topic + '/json?poll=1';
     if (lastId) {
         targetUrl += '&since=' + lastId;
     }
@@ -243,8 +243,8 @@ function getWeatherIcon(slug) {
 }
 
 function fetchWeather() {
-    // Usando HTTP puro para evitar problema de certificado SSL no Android 4.4
-    var url = 'http://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
+    // Retornando a HTTPS
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
     ajaxGet(url, function(data) {
         if(data && data.current) {
             var temp = Math.round(data.current.temperature_2m);
