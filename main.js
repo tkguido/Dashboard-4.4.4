@@ -153,14 +153,11 @@ function pollTradeAlerts() {
         targetUrl += '&since=' + lastId;
     }
     
-    // Adiciona timestamp para contornar cache
+    // Conexão direta via HTTPS (o certificado atualizado no tablet deve resolver)
     targetUrl += (targetUrl.indexOf('?') === -1 ? '?' : '&') + 'cb=' + new Date().getTime();
     
-    // Proxy AllOrigins porque Codetabs caiu e Android 4.4 não suporta SSL nativo
-    var url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
-    
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open('GET', targetUrl, true);
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             var lines = xhr.responseText.split('\n');
@@ -244,8 +241,7 @@ function getWeatherIcon(slug) {
 }
 
 function fetchWeather() {
-    var targetUrl = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
-    var url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl);
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=-30.0346&longitude=-51.2177&current=temperature_2m,relative_humidity_2m,weather_code';
     ajaxGet(url, function(data) {
         if(data && data.current) {
             var temp = Math.round(data.current.temperature_2m);
