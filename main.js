@@ -265,8 +265,10 @@ function fetchWeather() {
                 }
             }
             
-            weatherIconEl.className = iconClass;
-            weatherIconEl.style.color = iconColor;
+            if (weatherIconEl) {
+                weatherIconEl.className = iconClass;
+                weatherIconEl.style.color = iconColor;
+            }
             
             var iconHtml = '<i class="' + iconClass + '" style="color:' + iconColor + '"></i>';
             
