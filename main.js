@@ -434,8 +434,8 @@ function fetchNews() {
     var statusEl = document.getElementById('news-status');
     if(statusEl) statusEl.textContent = 'Atualizando...';
     
-    // ESPN Copa do Mundo via rss2json.com (não precisa de proxy pois o rss2json já tem CORS)
-    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com.br/espn/rss/futebol/copa-do-mundo';
+    // G1 Copa do Mundo via rss2json.com (ESPN bloqueou o rss2json, mas o G1 funciona perfeito)
+    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/rss/g1/futebol/copa-do-mundo/';
     
     var tempNews = [];
     var requestsCompleted = 0;
@@ -505,9 +505,17 @@ function displayCurrentNews() {
     // Style do Badge
     var badgeColor = '#005a1d'; // Verde Copa
     if (item.source === 'AGENDA') badgeColor = '#c084fc';
-    var badgeStyle = 'background:' + badgeColor + '; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle;';
+    var badgeStyle = 'background:' + badgeColor + '; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle; display:inline-block; margin-bottom:4px;';
     
-    tickerEl.innerHTML = '<span style="' + badgeStyle + '">' + item.source + '</span> ' + item.title;
+    // Animação de Fade Out
+    tickerEl.style.opacity = 0;
+    
+    setTimeout(function() {
+        tickerEl.innerHTML = '<div style="margin-bottom: 2px;"><span style="' + badgeStyle + '">' + item.source + '</span></div><div style="font-size: 1.1rem; line-height: 1.3; color: #e2e8f0; white-space: normal;">' + item.title + '</div>';
+        
+        // Animação de Fade In
+        tickerEl.style.opacity = 1;
+    }, 500);
     
     currentNewsIndex++;
     if (currentNewsIndex >= newsItems.length) currentNewsIndex = 0;
