@@ -434,38 +434,22 @@ function fetchNews() {
     var statusEl = document.getElementById('news-status');
     if(statusEl) statusEl.textContent = 'Atualizando...';
     
-    // Usar allorigins e fazer parse manual do XML para evitar falhas do rss2json
-    var cnnUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://g1.globo.com/rss/g1/futebol/copa-do-mundo/');
+    // rss2json.com funciona no tablet. O problema anterior foi usar a URL da Copa do Mundo que estava VAZIA no G1!
+    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/rss/g1/';
     
     var tempNews = [];
     var requestsCompleted = 0;
     
     function processResponse(data, sourceName) {
-        if (data && data.contents) {
-            try {
-                var parser = new DOMParser();
-                var xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                var items = xmlDoc.getElementsByTagName("item");
-                
-                for (var i = 0; i < Math.min(items.length, 10); i++) {
-                    var titleNode = items[i].getElementsByTagName("title")[0];
-                    var pubDateNode = items[i].getElementsByTagName("pubDate")[0];
-                    
-                    var title = titleNode ? titleNode.textContent : "Sem título";
-                    var pubDateStr = pubDateNode ? pubDateNode.textContent : "";
-                    var pubDate = pubDateStr ? new Date(pubDateStr.replace(/-/g, '/')) : new Date();
-                    
-                    // Limpar CDATA se houver
-                    title = title.replace("<![CDATA[", "").replace("]]>", "").trim();
-                    
-                    tempNews.push({
-                        title: title,
-                        source: sourceName,
-                        date: pubDate
-                    });
-                }
-            } catch(e) {
-                console.log("Erro no parse do XML: ", e);
+        if (data && data.items) {
+            for (var i = 0; i < Math.min(data.items.length, 10); i++) {
+                var item = data.items[i];
+                var pubDate = item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')) : new Date();
+                tempNews.push({
+                    title: item.title,
+                    source: sourceName,
+                    date: pubDate
+                });
             }
         }
         requestsCompleted++;
