@@ -434,8 +434,8 @@ function fetchNews() {
     var statusEl = document.getElementById('news-status');
     if(statusEl) statusEl.textContent = 'Atualizando...';
     
-    // rss2json.com funciona no tablet. O problema anterior foi usar a URL da Copa do Mundo que estava VAZIA no G1!
-    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/rss/g1/';
+    // Usar Gazeta Esportiva pois a ESPN bloqueou o rss2json e o G1 Futebol foi desativado pela Globo.
+    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.gazetaesportiva.com/feed/';
     
     var tempNews = [];
     var requestsCompleted = 0;
