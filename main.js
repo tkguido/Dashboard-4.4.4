@@ -444,6 +444,46 @@ function fetchAgenda() {
 var newsItems = [];
 var currentNewsIndex = 0;
 var newsInterval = null;
+var previousScores = {};
+
+function triggerGoalAnimation() {
+    var overlay = document.getElementById('goal-overlay');
+    var ball = document.getElementById('goal-ball');
+    if (!overlay || !ball) return;
+    
+    overlay.classList.remove('hidden');
+    
+    // Reseta estado inicial
+    ball.style.transition = 'none';
+    ball.style.opacity = '0';
+    ball.style.transform = 'scale(0.1) rotate(0deg)';
+    overlay.style.transition = 'none';
+    overlay.style.background = 'rgba(0,0,0,0)';
+    
+    // Força reflow
+    void overlay.offsetWidth;
+    
+    // Ativa as transições
+    ball.style.transition = 'transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease-in';
+    overlay.style.transition = 'background 0.5s ease';
+    
+    // Inicia a animação
+    overlay.style.background = 'rgba(0,0,0,0.8)';
+    ball.style.opacity = '1';
+    ball.style.transform = 'scale(30) rotate(1080deg)';
+    
+    setTimeout(function() {
+        // Desaparece
+        ball.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        ball.style.opacity = '0';
+        ball.style.transform = 'scale(40) rotate(1080deg)';
+        overlay.style.background = 'rgba(0,0,0,0)';
+        
+        setTimeout(function() {
+            overlay.classList.add('hidden');
+        }, 500);
+    }, 2500);
+}
 
 function fetchNews() {
     var statusEl = document.getElementById('news-status');
@@ -485,6 +525,21 @@ function fetchNews() {
                             var clock = comp.status && comp.status.displayClock ? comp.status.displayClock : "";
                             timeLabel = clock ? clock : "AO VIVO";
                         }
+                        
+                        var matchKey = team1 + "-" + team2;
+                        var s1 = parseInt(score1, 10) || 0;
+                        var s2 = parseInt(score2, 10) || 0;
+                        
+                        if (previousScores[matchKey]) {
+                            var oldS1 = previousScores[matchKey].home;
+                            var oldS2 = previousScores[matchKey].away;
+                            
+                            // Aumentou o placar de algum time? GOL!
+                            if (s1 > oldS1 || s2 > oldS2) {
+                                triggerGoalAnimation();
+                            }
+                        }
+                        previousScores[matchKey] = { home: s1, away: s2 };
                         
                         var text = '<span style="color: #38bdf8; font-weight: bold; min-width: 45px; display: inline-block;">' + timeLabel + '</span> | ' + team1 + " " + score1 + " x " + score2 + " " + team2;
                         

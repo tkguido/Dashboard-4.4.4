@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css?v=94">
 </head>
 <body>
-    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v107</div>
+    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v108</div>
     <!-- Trade Alert Overlay -->
     <div id="trade-alert-overlay" class="hidden" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; border-radius: 12px; padding: 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s ease;">
         <h2 id="trade-alert-title" style="margin: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">ALERTA DE TRADE</h2>
@@ -47,6 +47,11 @@
 
     <!-- Efeito Comemorativo (Hora Redonda) -->
     <div id="celebration-overlay" class="hidden"></div>
+    
+    <!-- Efeito de Gol -->
+    <div id="goal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); transition: background 0.5s ease;">
+        <div id="goal-ball" style="font-size: 50px; opacity: 0; transform: scale(0.1) rotate(0deg); transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease-in;">⚽</div>
+    </div>
 
     <!-- Barras de Progresso de Tempo (Dia/Mês/Ano) -->
     <div id="progress-container">
@@ -148,6 +153,6 @@
     </div>
     <audio id="trade-alert-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=coin-drop-39914.mp3" preload="auto"></audio>
 
-    <script src="main.js?v=107"></script>
+    <script src="main.js?v=108"></script>
 </body>
 </html>
