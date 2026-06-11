@@ -514,6 +514,7 @@ function fetchNews() {
                         var state = comp.status ? comp.status.type.state : "";
                         
                         var timeLabel = "";
+                        var isLive = false;
                         if (state === "pre" || status === "Scheduled") {
                             var eventDate = new Date(event.date);
                             timeLabel = eventDate.getHours() + "h";
@@ -521,9 +522,11 @@ function fetchNews() {
                             timeLabel = "FIM";
                         } else if (status === "Half") {
                             timeLabel = "INT";
+                            isLive = true;
                         } else {
                             var clock = comp.status && comp.status.displayClock ? comp.status.displayClock : "";
                             timeLabel = clock ? clock : "AO VIVO";
+                            isLive = true;
                         }
                         
                         var matchKey = team1 + "-" + team2;
@@ -541,7 +544,10 @@ function fetchNews() {
                         }
                         previousScores[matchKey] = { home: s1, away: s2 };
                         
-                        var text = '<span style="color: #38bdf8; font-weight: bold; min-width: 45px; display: inline-block;">' + timeLabel + '</span> | ' + team1 + " " + score1 + " x " + score2 + " " + team2;
+                        var liveIndicator = isLive ? '<span class="live-dot">●</span>' : '';
+                        var timeColor = isLive ? '#22c55e' : '#38bdf8'; // Verde se live, azul claro senão
+                        
+                        var text = '<span style="color: ' + timeColor + '; font-weight: bold; min-width: 45px; display: inline-block;">' + liveIndicator + timeLabel + '</span> | ' + team1 + " " + score1 + " x " + score2 + " " + team2;
                         
                         tempNews.push({
                             title: text,
