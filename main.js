@@ -215,55 +215,68 @@ function getWeatherIcon(slug) {
     return icons[slug] || '☁️';
 }
 
-function fetchWeather() {
-    // Usando BrasilAPI (Certificado Cloudflare nativamente suportado no Android 4.4)
-    // 237 é o código para Porto Alegre
-    var url = 'https://brasilapi.com.br/api/cptec/v1/clima/previsao/237';
+function fetchWeather(lat, lon) {
+    // Coordenadas default para Porto Alegre se a geolocalização falhar
+    var latitude = lat || -30.0346;
+    var longitude = lon || -51.2177;
+    
+    // Open-Meteo não precisa de chave, tem suporte a CORS e HTTPS para Android 4.4
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + latitude + '&longitude=' + longitude + '&current_weather=true';
+    
     ajaxGet(url, function(data) {
-        if(data && data.clima && data.clima.length > 0) {
-            var climaHoje = data.clima[0];
-            var min = climaHoje.min;
-            var max = climaHoje.max;
-            var cond = climaHoje.condicao; // ex: 'pn', 'c', 't', 'ps'
+        if(data && data.current_weather) {
+            var current = data.current_weather;
+            var temp = Math.round(current.temperature);
+            var code = current.weathercode;
+            var isDay = current.is_day === 1;
             
             var locStatusEl = document.getElementById('location-status');
             var weatherIconEl = document.getElementById('weather-icon');
             
-            // Format: 16° ~ 18°
-            var tempStr = min + '&deg; ~ ' + max + '&deg;';
-            locStatusEl.innerHTML = tempStr;
+            // Format: Apenas a temperatura atual
+            var tempStr = temp + '&deg;';
+            if (locStatusEl) locStatusEl.innerHTML = ''; // Limpa subtitulo, a não ser que a gente queira outra coisa aqui
             
-            // Map condicao to icons
-            var iconClass = 'fas fa-sun';
-            var iconColor = '#FDB813';
+            // Map WMO code to description and icons
+            var desc = 'Nublado';
+            var iconClass = 'fas fa-cloud';
+            var iconColor = '#94a3b8';
+            var bgClass = 'bg-cloud';
             
-            var chuva = ['c', 'ci', 'ec', 'cm', 'cn', 'pt', 'pm', 'np', 'pc', 'cv', 'ch'];
-            var tempestade = ['t', 'in'];
-            var nublado = ['pn', 'e', 'n'];
-            
-            if (chuva.indexOf(cond) !== -1) {
-                iconClass = 'fas fa-cloud-rain';
-                iconColor = '#60a5fa';
-                document.body.className = 'bg-rain';
-            } else if (tempestade.indexOf(cond) !== -1) {
-                iconClass = 'fas fa-bolt';
-                iconColor = '#fbbf24';
-                document.body.className = 'bg-rain';
-            } else if (nublado.indexOf(cond) !== -1) {
-                iconClass = 'fas fa-cloud';
-                iconColor = '#94a3b8';
-                document.body.className = 'bg-cloud';
-            } else {
-                // Claro ou outro
-                var h = new Date().getHours();
-                if (h >= 19 || h < 6) {
-                    document.body.className = 'bg-clear-night';
+            if (code === 0 || code === 1) {
+                desc = 'Céu Limpo';
+                if (isDay) {
+                    iconClass = 'fas fa-sun';
+                    iconColor = '#FDB813';
+                    bgClass = 'bg-sun';
+                } else {
                     iconClass = 'fas fa-moon';
                     iconColor = '#cbd5e1';
-                } else {
-                    document.body.className = 'bg-sun';
+                    bgClass = 'bg-clear-night';
                 }
+            } else if (code === 2 || code === 3 || code === 45 || code === 48) {
+                desc = code === 45 || code === 48 ? 'Nevoeiro' : 'Nublado';
+                iconClass = 'fas fa-cloud';
+                iconColor = '#94a3b8';
+                bgClass = 'bg-cloud';
+            } else if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
+                desc = 'Chuva';
+                iconClass = 'fas fa-cloud-rain';
+                iconColor = '#60a5fa';
+                bgClass = 'bg-rain';
+            } else if (code >= 95) {
+                desc = 'Tempestade';
+                iconClass = 'fas fa-bolt';
+                iconColor = '#fbbf24';
+                bgClass = 'bg-rain';
+            } else if ((code >= 71 && code <= 77) || code === 85 || code === 86) {
+                desc = 'Neve';
+                iconClass = 'fas fa-snowflake';
+                iconColor = '#e2e8f0';
+                bgClass = 'bg-cloud';
             }
+            
+            document.body.className = bgClass;
             
             if (weatherIconEl) {
                 weatherIconEl.className = iconClass;
@@ -273,14 +286,16 @@ function fetchWeather() {
             var iconHtml = '<i class="' + iconClass + '" style="color:' + iconColor + '"></i>';
             
             var tempEl = document.getElementById('temperature');
-            if(tempEl) tempEl.innerHTML = tempStr + ' <span style="font-size: 2rem;">' + iconHtml + '</span>';
+            if(tempEl) tempEl.innerHTML = tempStr;
+            
             var humEl = document.getElementById('humidity');
-            if(humEl) humEl.textContent = climaHoje.condicao_desc;
+            if(humEl) humEl.textContent = desc;
             
             var wkTempEl = document.getElementById('wk-temp');
             if(wkTempEl) wkTempEl.innerHTML = tempStr + ' ' + iconHtml;
+            
             var wkHumEl = document.getElementById('wk-hum');
-            if(wkHumEl) wkHumEl.textContent = climaHoje.condicao_desc;
+            if(wkHumEl) wkHumEl.textContent = desc;
         }
     }, function(err) {
         var locStatusEl = document.getElementById('location-status');
