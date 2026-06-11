@@ -434,22 +434,52 @@ function fetchNews() {
     var statusEl = document.getElementById('news-status');
     if(statusEl) statusEl.textContent = 'Atualizando...';
     
-    // Usar Gazeta Esportiva pois a ESPN bloqueou o rss2json e o G1 Futebol foi desativado pela Globo.
-    var cnnUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.gazetaesportiva.com/feed/';
+    // URL dos jogos da Copa do Mundo (ESPN Scoreboard API) - Funciona com CORS nativo
+    var cnnUrl = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
     
     var tempNews = [];
     var requestsCompleted = 0;
     
     function processResponse(data, sourceName) {
-        if (data && data.items) {
-            for (var i = 0; i < Math.min(data.items.length, 10); i++) {
-                var item = data.items[i];
-                var pubDate = item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')) : new Date();
-                tempNews.push({
-                    title: item.title,
-                    source: sourceName,
-                    date: pubDate
-                });
+        if (data && data.events && data.events.length > 0) {
+            for (var i = 0; i < data.events.length; i++) {
+                var event = data.events[i];
+                if (event.competitions && event.competitions.length > 0) {
+                    var comp = event.competitions[0];
+                    if (comp.competitors && comp.competitors.length >= 2) {
+                        var home = comp.competitors[0];
+                        var away = comp.competitors[1];
+                        
+                        var team1 = home.team.displayName || home.team.abbreviation;
+                        var score1 = home.score || "0";
+                        var team2 = away.team.displayName || away.team.abbreviation;
+                        var score2 = away.score || "0";
+                        
+                        var status = comp.status ? comp.status.type.shortDetail : "";
+                        var state = comp.status ? comp.status.type.state : "";
+                        
+                        if (state === "pre" || status === "Scheduled") {
+                            var eventDate = new Date(event.date);
+                            var hrs = eventDate.getHours();
+                            var mins = eventDate.getMinutes();
+                            if(hrs < 10) hrs = '0' + hrs;
+                            if(mins < 10) mins = '0' + mins;
+                            status = "Hoje às " + hrs + ":" + mins;
+                        } else if (state === "post" || status === "Final" || status === "FT") {
+                            status = "Encerrado";
+                        } else if (status === "Half") {
+                            status = "Intervalo";
+                        }
+                        
+                        var text = team1 + " " + score1 + " x " + score2 + " " + team2 + " (" + status + ")";
+                        
+                        tempNews.push({
+                            title: text,
+                            source: 'COPA',
+                            date: new Date(event.date)
+                        });
+                    }
+                }
             }
         }
         requestsCompleted++;
@@ -475,7 +505,7 @@ function finishNewsLoad(articles) {
     
     if (articles.length === 0) {
         if(statusEl) statusEl.textContent = 'Erro';
-        if(tickerEl) tickerEl.innerHTML = 'Não foi possível carregar as notícias no momento.';
+        if(tickerEl) tickerEl.innerHTML = '<div style="margin-bottom: 2px;"><span style="background:#005a1d; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle; display:inline-block; margin-bottom:4px;">COPA</span></div><div style="font-size: 1.1rem; line-height: 1.3; color: #e2e8f0; white-space: normal;">Nenhum jogo da Copa programado para hoje.</div>';
         return;
     }
     
