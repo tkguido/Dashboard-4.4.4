@@ -641,8 +641,8 @@ setInterval(function() {
     fetchAgenda();
 }, 15 * 60 * 1000);
 
-// Atualiza placar da Copa de forma mais rápida (a cada 3 minutos) para lances ao vivo
-setInterval(fetchNews, 3 * 60 * 1000);
+// Atualiza placar da Copa de forma mais rápida (a cada 1 minuto) para lances ao vivo
+setInterval(fetchNews, 1 * 60 * 1000);
 
 // 3. Finanças (AwesomeAPI)
 function getVariationIndicator(pctChange) {
