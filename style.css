@@ -683,7 +683,7 @@ h1, h2, h3, h4, p {
     .calendar-card {
         top: -webkit-calc(30% + 6vw) !important; top: calc(30% + 6vw) !important; 
         left: 2vw !important; right: auto !important;
-        width: -webkit-calc(50% - 3vw) !important; width: calc(50% - 3vw) !important;
+        width: -webkit-calc(40% - 3vw) !important; width: calc(40% - 3vw) !important;
         height: 31% !important;
         padding: 1.5vh !important;
     }
@@ -695,7 +695,7 @@ h1, h2, h3, h4, p {
     .top-bar-card {
         top: -webkit-calc(30% + 6vw) !important; top: calc(30% + 6vw) !important; 
         right: 2vw !important; left: auto !important;
-        width: -webkit-calc(50% - 3vw) !important; width: calc(50% - 3vw) !important;
+        width: -webkit-calc(60% - 3vw) !important; width: calc(60% - 3vw) !important;
         height: 31% !important;
         padding: 1.5vh !important;
     }
@@ -720,6 +720,9 @@ h1, h2, h3, h4, p {
     }
     #news-source { font-size: 1.2vh !important; margin-right: 1vw !important; }
     #news-text { font-size: 1.4vh !important; }
+    
+    /* Ensure news ticker content scales nicely */
+    #news-ticker { font-size: 1.5vh !important; }
     
     /* 5. PLAYER (Fundo inteiro) */
     .player-card {
