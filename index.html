@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css?v=94">
 </head>
 <body>
-    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v112</div>
+    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v113</div>
     <!-- Trade Alert Overlay -->
     <div id="trade-alert-overlay" class="hidden" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; border-radius: 12px; padding: 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s ease;">
         <h2 id="trade-alert-title" style="margin: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">ALERTA DE TRADE</h2>
@@ -49,9 +49,9 @@
     <div id="celebration-overlay" class="hidden"></div>
     
     <!-- Efeito de Gol -->
-    <div id="goal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); transition: background 0.5s ease;">
-        <i id="goal-ball" class="fas fa-futbol" style="font-size: 30vh; color: #fff; opacity: 0; transform: scale(0.01) rotate(0deg); filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));"></i>
-        <h1 id="goal-text" style="position: absolute; font-size: 18vh; color: #fff; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1vw; margin: 0; text-shadow: 0 0 40px rgba(34, 197, 94, 1), 0 0 80px rgba(34, 197, 94, 0.8), 2px 2px 0 #000; opacity: 0; transform: scale(0.5); z-index: 10001; text-align: center;">GOL!</h1>
+    <div id="goal-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); transition: background 0.5s ease; -webkit-transition: background 0.5s ease;">
+        <i id="goal-ball" class="fas fa-futbol" style="font-size: 30vh; color: #fff; opacity: 0; transform: scale(0.01) rotate(0deg); -webkit-transform: scale(0.01) rotate(0deg); filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); -webkit-filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));"></i>
+        <h1 id="goal-text" style="position: absolute; font-size: 18vh; color: #fff; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1vw; margin: 0; text-shadow: 0 0 40px rgba(34, 197, 94, 1), 0 0 80px rgba(34, 197, 94, 0.8), 2px 2px 0 #000; opacity: 0; transform: scale(0.5); -webkit-transform: scale(0.5); z-index: 10001; text-align: center;">GOL!</h1>
     </div>
 
     <!-- Barras de Progresso de Tempo (Dia/Mês/Ano) -->
@@ -154,6 +154,6 @@
     </div>
     <audio id="trade-alert-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=coin-drop-39914.mp3" preload="auto"></audio>
 
-    <script src="main.js?v=112"></script>
+    <script src="main.js?v=113"></script>
 </body>
 </html>
