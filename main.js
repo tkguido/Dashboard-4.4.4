@@ -449,6 +449,7 @@ var previousScores = {};
 function triggerGoalAnimation() {
     var overlay = document.getElementById('goal-overlay');
     var ball = document.getElementById('goal-ball');
+    var textEl = document.getElementById('goal-text');
     if (!overlay || !ball) return;
     
     overlay.classList.remove('hidden');
@@ -456,9 +457,14 @@ function triggerGoalAnimation() {
     // Reseta estado inicial
     ball.style.transition = 'none';
     ball.style.opacity = '0';
-    ball.style.transform = 'scale(0.1) rotate(0deg)';
+    ball.style.transform = 'scale(0.01) rotate(0deg)';
     overlay.style.transition = 'none';
     overlay.style.background = 'rgba(0,0,0,0)';
+    
+    if (textEl) {
+        textEl.style.animation = 'none';
+        textEl.style.opacity = '0';
+    }
     
     // Força reflow
     void overlay.offsetWidth;
@@ -467,22 +473,30 @@ function triggerGoalAnimation() {
     ball.style.transition = 'transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease-in';
     overlay.style.transition = 'background 0.5s ease';
     
-    // Inicia a animação
+    // Inicia a animação da bola
     overlay.style.background = 'rgba(0,0,0,0.8)';
     ball.style.opacity = '1';
-    ball.style.transform = 'scale(30) rotate(1080deg)';
+    ball.style.transform = 'scale(5) rotate(1080deg)';
+    
+    // Inicia a animação do texto depois que a bola cresceu um pouco
+    if (textEl) {
+        setTimeout(function() {
+            textEl.style.animation = 'flash-goal 1.5s ease-out forwards';
+        }, 1000);
+    }
     
     setTimeout(function() {
         // Desaparece
         ball.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         ball.style.opacity = '0';
-        ball.style.transform = 'scale(40) rotate(1080deg)';
+        ball.style.transform = 'scale(6) rotate(1080deg)';
         overlay.style.background = 'rgba(0,0,0,0)';
         
         setTimeout(function() {
             overlay.classList.add('hidden');
+            if (textEl) textEl.style.animation = 'none';
         }, 500);
-    }, 2500);
+    }, 3000); // aumentei um pouquinho o tempo de exibição para caber o texto
 }
 
 function fetchNews() {
