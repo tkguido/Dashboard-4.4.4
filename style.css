@@ -574,7 +574,7 @@ h1, h2, h3, h4, p {
     
     /* Layout de Colunas */
     .col-left {
-        width: 25%;
+        width: 20%;
         float: left;
         height: 100%;
         padding-right: 20px; /* Margem direita como padding interno pra n quebrar width */
@@ -582,7 +582,7 @@ h1, h2, h3, h4, p {
     }
     
     .col-right {
-        width: 75%;
+        width: 80%;
         float: left;
         height: 100%;
         box-sizing: border-box;
