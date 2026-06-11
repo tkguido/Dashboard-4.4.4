@@ -458,20 +458,20 @@ function fetchNews() {
                         var status = comp.status ? comp.status.type.shortDetail : "";
                         var state = comp.status ? comp.status.type.state : "";
                         
+                        var timeLabel = "";
                         if (state === "pre" || status === "Scheduled") {
                             var eventDate = new Date(event.date);
-                            var hrs = eventDate.getHours();
-                            var mins = eventDate.getMinutes();
-                            if(hrs < 10) hrs = '0' + hrs;
-                            if(mins < 10) mins = '0' + mins;
-                            status = "Hoje às " + hrs + ":" + mins;
+                            timeLabel = eventDate.getHours() + "h";
                         } else if (state === "post" || status === "Final" || status === "FT") {
-                            status = "Encerrado";
+                            timeLabel = "FIM";
                         } else if (status === "Half") {
-                            status = "Intervalo";
+                            timeLabel = "INT";
+                        } else {
+                            var clock = comp.status && comp.status.displayClock ? comp.status.displayClock : "";
+                            timeLabel = clock ? clock : "AO VIVO";
                         }
                         
-                        var text = team1 + " " + score1 + " x " + score2 + " " + team2 + " (" + status + ")";
+                        var text = '<span style="color: #38bdf8; font-weight: bold; min-width: 45px; display: inline-block;">' + timeLabel + '</span> | ' + team1 + " " + score1 + " x " + score2 + " " + team2;
                         
                         tempNews.push({
                             title: text,
@@ -564,13 +564,15 @@ initWeather();
 fetchAgenda();
 fetchNews();
 
-// Atualiza o clima, finanças, agenda e notícias a cada 15 minutos
+// Atualiza o clima, finanças e agenda a cada 15 minutos
 setInterval(function() {
     fetchFinance();
     if (currentLat && currentLon) fetchWeather(currentLat, currentLon);
     fetchAgenda();
-    fetchNews();
 }, 15 * 60 * 1000);
+
+// Atualiza placar da Copa de forma mais rápida (a cada 3 minutos) para lances ao vivo
+setInterval(fetchNews, 3 * 60 * 1000);
 
 // 3. Finanças (AwesomeAPI)
 function getVariationIndicator(pctChange) {
