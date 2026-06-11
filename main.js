@@ -521,7 +521,7 @@ function finishNewsLoad(articles) {
         var html = '<div style="margin-bottom: 8px;"><span style="background:#005a1d; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; margin-right:8px; vertical-align:middle; display:inline-block;">COPA DO MUNDO</span><span style="font-size:0.9rem; color:#94a3b8; vertical-align:middle;">JOGOS DE HOJE</span></div>';
         html += '<div style="display:flex; flex-direction:column; justify-content:center; gap:6px; font-size:1.05rem;">';
         for (var i = 0; i < articles.length; i++) {
-            html += '<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0;">' + articles[i].title + '</div>';
+            html += '<div style="white-space: normal; color: #e2e8f0; margin-bottom: 2px;">' + articles[i].title + '</div>';
         }
         html += '</div>';
         tickerEl.innerHTML = html;
