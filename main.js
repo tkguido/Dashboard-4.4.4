@@ -483,8 +483,8 @@ function triggerGoalAnimation(customText) {
     // Inicia a animação da bola
     overlay.style.background = 'rgba(0,0,0,0.8)';
     ball.style.opacity = '1';
-    ball.style.webkitTransform = 'scale(25) rotate(1080deg)';
-    ball.style.transform = 'scale(25) rotate(1080deg)';
+    ball.style.webkitTransform = 'scale(5) rotate(1080deg)';
+    ball.style.transform = 'scale(5) rotate(1080deg)';
     
     // Inicia a animação do texto depois que a bola cresceu um pouco
     if (textEl) {
@@ -500,8 +500,8 @@ function triggerGoalAnimation(customText) {
         ball.style.webkitTransition = 'opacity 0.5s ease, -webkit-transform 0.5s ease';
         ball.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         ball.style.opacity = '0';
-        ball.style.webkitTransform = 'scale(26) rotate(1080deg)';
-        ball.style.transform = 'scale(26) rotate(1080deg)';
+        ball.style.webkitTransform = 'scale(6) rotate(1080deg)';
+        ball.style.transform = 'scale(6) rotate(1080deg)';
         overlay.style.background = 'rgba(0,0,0,0)';
         
         if (textEl) {
