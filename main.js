@@ -446,7 +446,7 @@ var currentNewsIndex = 0;
 var newsInterval = null;
 var previousScores = {};
 
-function triggerGoalAnimation() {
+function triggerGoalAnimation(customText) {
     var overlay = document.getElementById('goal-overlay');
     var ball = document.getElementById('goal-ball');
     var textEl = document.getElementById('goal-text');
@@ -468,6 +468,7 @@ function triggerGoalAnimation() {
         textEl.style.webkitAnimation = 'none';
         textEl.style.animation = 'none';
         textEl.style.opacity = '0';
+        textEl.innerHTML = customText || 'GOL!';
     }
     
     // Força reflow
@@ -566,7 +567,7 @@ function fetchNews() {
                             
                             // Aumentou o placar de algum time? GOL!
                             if (s1 > oldS1 || s2 > oldS2) {
-                                triggerGoalAnimation();
+                                triggerGoalAnimation('GOL!<br><span style="font-size: 0.4em; letter-spacing: 2px;">' + team1 + ' ' + s1 + ' x ' + s2 + ' ' + team2 + '</span>');
                             }
                         }
                         previousScores[matchKey] = { home: s1, away: s2 };
