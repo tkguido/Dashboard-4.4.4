@@ -510,7 +510,7 @@ function triggerGoalAnimation(customText) {
                 textEl.style.animation = 'none';
             }
         }, 500);
-    }, 3000); // aumentei um pouquinho o tempo de exibição para caber o texto
+    }, 6000); // aumentei o tempo de exibição para 6 segundos
 }
 
 function fetchNews() {
@@ -567,7 +567,7 @@ function fetchNews() {
                             
                             // Aumentou o placar de algum time? GOL!
                             if (s1 > oldS1 || s2 > oldS2) {
-                                triggerGoalAnimation('GOL!<br><span style="font-size: 0.4em; letter-spacing: 2px;">' + team1 + ' ' + s1 + ' x ' + s2 + ' ' + team2 + '</span>');
+                                triggerGoalAnimation('GOOOL!<br><br><span style="font-size: 0.5em; line-height: 1.2; display: block; text-transform: uppercase;">' + team1 + '<br><span style="font-size: 1.5em; font-weight: 900; color: #fff;">' + s1 + 'x' + s2 + '</span><br>' + team2 + '</span>');
                             }
                         }
                         previousScores[matchKey] = { home: s1, away: s2 };
