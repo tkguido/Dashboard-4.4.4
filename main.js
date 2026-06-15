@@ -465,9 +465,9 @@ function triggerGoalAnimation(customText) {
     overlay.style.background = 'rgba(0,0,0,0)';
     
     if (textEl) {
-        textEl.style.webkitAnimation = 'none';
-        textEl.style.animation = 'none';
         textEl.style.opacity = '0';
+        textEl.style.webkitTransform = 'scale(0.5)';
+        textEl.style.transform = 'scale(0.5)';
         textEl.innerHTML = customText || 'GOL!';
     }
     
@@ -489,8 +489,9 @@ function triggerGoalAnimation(customText) {
     // Inicia a animação do texto depois que a bola cresceu um pouco
     if (textEl) {
         setTimeout(function() {
-            textEl.style.webkitAnimation = 'flash-goal 1.5s ease-out forwards';
-            textEl.style.animation = 'flash-goal 1.5s ease-out forwards';
+            textEl.style.opacity = '1';
+            textEl.style.webkitTransform = 'scale(1)';
+            textEl.style.transform = 'scale(1)';
         }, 1000);
     }
     
@@ -503,12 +504,14 @@ function triggerGoalAnimation(customText) {
         ball.style.transform = 'scale(6) rotate(1080deg)';
         overlay.style.background = 'rgba(0,0,0,0)';
         
+        if (textEl) {
+            textEl.style.opacity = '0';
+            textEl.style.webkitTransform = 'scale(1.2)';
+            textEl.style.transform = 'scale(1.2)';
+        }
+        
         setTimeout(function() {
             overlay.classList.add('hidden');
-            if (textEl) {
-                textEl.style.webkitAnimation = 'none';
-                textEl.style.animation = 'none';
-            }
         }, 500);
     }, 6000); // aumentei o tempo de exibição para 6 segundos
 }
@@ -567,7 +570,7 @@ function fetchNews() {
                             
                             // Aumentou o placar de algum time? GOL!
                             if (s1 > oldS1 || s2 > oldS2) {
-                                triggerGoalAnimation('GOOOL!<br><br><span style="font-size: 0.5em; line-height: 1.2; display: block; text-transform: uppercase;">' + team1 + '<br><span style="font-size: 1.5em; font-weight: 900; color: #fff;">' + s1 + 'x' + s2 + '</span><br>' + team2 + '</span>');
+                                triggerGoalAnimation('GOOOL!<br><br><span style="font-size: 0.6em; line-height: 1.2; display: block; text-transform: uppercase; font-weight: 900;">' + team1 + '<br><span style="font-size: 1.5em; font-weight: 900; color: #fff;">' + s1 + 'x' + s2 + '</span><br>' + team2 + '</span>');
                             }
                         }
                         previousScores[matchKey] = { home: s1, away: s2 };
