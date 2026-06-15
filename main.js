@@ -469,6 +469,12 @@ function triggerGoalAnimation(customText) {
         textEl.style.webkitTransform = 'scale(0.5)';
         textEl.style.transform = 'scale(0.5)';
         textEl.innerHTML = customText || 'GOL!';
+        var textContainer = document.getElementById('goal-text-container');
+        if (textContainer) {
+            textContainer.style.opacity = '0';
+            textContainer.style.webkitTransition = 'opacity 0.5s ease';
+            textContainer.style.transition = 'opacity 0.5s ease';
+        }
     }
     
     // Força reflow
@@ -492,6 +498,8 @@ function triggerGoalAnimation(customText) {
             textEl.style.opacity = '1';
             textEl.style.webkitTransform = 'scale(1)';
             textEl.style.transform = 'scale(1)';
+            var textContainer = document.getElementById('goal-text-container');
+            if (textContainer) textContainer.style.opacity = '1';
         }, 1000);
     }
     
@@ -508,6 +516,8 @@ function triggerGoalAnimation(customText) {
             textEl.style.opacity = '0';
             textEl.style.webkitTransform = 'scale(1.2)';
             textEl.style.transform = 'scale(1.2)';
+            var textContainer = document.getElementById('goal-text-container');
+            if (textContainer) textContainer.style.opacity = '0';
         }
         
         setTimeout(function() {
