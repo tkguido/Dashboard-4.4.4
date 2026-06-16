@@ -481,7 +481,7 @@ h1, h2, h3, h4, p {
 }
 
 #wk-time {
-    font-size: 10vh;
+    font-size: 8vh;
     font-weight: 400;
     margin: 0;
     line-height: 1;
@@ -501,23 +501,34 @@ h1, h2, h3, h4, p {
 }
 
 .wk-crypto-label {
-    font-size: 1.5vh;
+    font-size: 1.2vh;
     opacity: 0.9;
     letter-spacing: 1px;
     font-weight: 500;
+    text-transform: uppercase;
 }
 
 .wk-crypto-val {
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 500;
     margin-top: 0.5vh;
 }
 
 #wk-weather-container {
-    font-size: 10vh;
+    font-size: 8vh;
     font-weight: 400;
     line-height: 1;
     text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+/* Ajustes finos para Portrait (tablet em pé) para evitar que a fonte VH fique gigantesca e estoure a tela */
+@media (orientation: portrait) {
+    #wk-time { font-size: 15vw; }
+    #wk-weather-container { font-size: 15vw; }
+    .wk-crypto { margin: 0 1vw; }
+    .wk-crypto-label { font-size: 2vw; }
+    .wk-crypto-val { font-size: 3.5vw; margin-top: 0.2vh; }
+    .weekend-top-bar { padding: 0 2vw; }
 }
 
 /* =========================================
