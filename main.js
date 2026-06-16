@@ -948,7 +948,7 @@ window.toggleWkMusic = function(e) {
     if (!isWkMusicPlaying) {
         // Toca a playlist 70s/80s (WnCfvAMM9eY)
         container.innerHTML = '<iframe id="yt-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/WnCfvAMM9eY?autoplay=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px;"></iframe>';
-        btn.innerHTML = '⏹️ MÚSICA';
+        btn.innerHTML = '⏹️';
         isWkMusicPlaying = true;
         
         // Ativa tela cheia pra garantir
@@ -956,7 +956,7 @@ window.toggleWkMusic = function(e) {
     } else {
         // Para a música removendo o iframe
         container.innerHTML = '';
-        btn.innerHTML = '▶️ MÚSICA';
+        btn.innerHTML = '▶️';
         isWkMusicPlaying = false;
     }
 };
