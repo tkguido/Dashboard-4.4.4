@@ -44,7 +44,7 @@ var currentPhotoIndex = 0;
 var currentPhotoLayer = 1;
 var photoRotationInterval = null;
 
-function rotatePhoto() {
+function rotatePhoto(isFirst) {
     if (photoList.length === 0) return;
     
     var layer1 = document.getElementById('photo-layer-1');
@@ -58,6 +58,11 @@ function rotatePhoto() {
     // Pré-carrega a imagem para evitar tela preta
     var img = new Image();
     img.onload = function() {
+        if (isFirst === true) {
+            // Só esconde o dashboard normal DEPOIS que a primeira foto carregar
+            document.getElementById('dashboard-wrapper').style.opacity = '0';
+        }
+        
         if (currentPhotoLayer === 1) {
             layer2.style.backgroundImage = 'url(' + photoUrl + ')';
             layer2.style.opacity = '1';
@@ -72,7 +77,7 @@ function rotatePhoto() {
     };
     img.onerror = function() {
         // Se der erro ao carregar, tenta a próxima logo em seguida
-        rotatePhoto();
+        rotatePhoto(isFirst);
     };
     img.src = photoUrl;
 }
@@ -159,14 +164,20 @@ function updateTime() {
             if (photoRotationInterval) { clearInterval(photoRotationInterval); photoRotationInterval = null; }
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) weekendOverlay.className = "";
-            if (iframe) iframe.src = ''; // Desliga som
+            if (iframe && !isWkMusicPlaying) {
+                // Toca um vídeo silencioso em loop infinito para evitar que a tela escureça por inatividade
+                iframe.src = 'https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&loop=1&playlist=g4mHPeMROJU';
+            }
             if (!photoRotationInterval) {
                 // Mistura as fotos iniciais pra não ser sempre a mesma ordem
                 photoList.sort(function() { return 0.5 - Math.random() });
-                rotatePhoto(); // Roda a primeira imediatamente
+                rotatePhoto(true); // true = é a primeira foto
                 photoRotationInterval = setInterval(rotatePhoto, 30000); // 30 segundos
             }
-            document.getElementById('dashboard-wrapper').style.opacity = '0';
+            
+            // Pausa a atualização de preços
+            clearInterval(priceUpdateInterval);
+            priceUpdateInterval = null;
         } else if (currentMode === 'DAY') {
             // Volta para a rádio normal
             if (typeof loadPresetYouTube === 'function') {
@@ -959,19 +970,16 @@ window.toggleWkMusic = function(e) {
     if (e) e.stopPropagation();
     
     var btn = document.getElementById('wk-music-btn');
-    var container = document.querySelector('.iframe-container');
+    var iframe = document.getElementById('yt-iframe');
     
     if (!isWkMusicPlaying) {
-        // Toca a playlist 70s/80s (WnCfvAMM9eY)
-        container.innerHTML = '<iframe id="yt-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/WnCfvAMM9eY?autoplay=1&controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px;"></iframe>';
+        // Toca a música dos anos 70/80
+        iframe.src = "https://www.youtube.com/embed/WnCfvAMM9eY?autoplay=1&controls=1";
         btn.innerHTML = '⏹️';
         isWkMusicPlaying = true;
-        
-        // Ativa tela cheia pra garantir
-        enterFullscreenAndKeepAwake();
     } else {
-        // Para a música removendo o iframe
-        container.innerHTML = '';
+        // Para a música, mas toca um vídeo silencioso pra manter a tela ligada
+        iframe.src = "https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&loop=1&playlist=g4mHPeMROJU";
         btn.innerHTML = '▶️';
         isWkMusicPlaying = false;
     }
