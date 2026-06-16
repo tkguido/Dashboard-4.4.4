@@ -4,6 +4,7 @@
 // Variável de controle de estado: 'START', 'DAY', 'NIGHT', 'WEEKEND'
 var previousMode = 'START';
 var forcePhotoFrame = false;
+var noSleep = new NoSleep();
 
 // Feriados Nacionais e de POA/RS
 var holidays = [
@@ -183,7 +184,7 @@ function updateTime() {
             if (weekendOverlay) weekendOverlay.className = "";
             if (iframe && !isWkMusicPlaying) {
                 // Toca um vídeo silencioso em loop infinito para evitar que a tela escureça por inatividade
-                iframe.src = 'https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&loop=1&playlist=g4mHPeMROJU';
+                iframe.src = 'https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&mute=1&loop=1&playlist=g4mHPeMROJU';
             }
             if (!photoRotationInterval) {
                 // Mistura as fotos iniciais pra não ser sempre a mesma ordem
@@ -926,14 +927,6 @@ renderCalendars();
 // ==========================================
 // 5. MODO FULLSCREEN E WAKE LOCK
 // ==========================================
-var noSleepVideo = document.createElement('video');
-noSleepVideo.setAttribute('loop', '');
-noSleepVideo.setAttribute('muted', '');
-noSleepVideo.setAttribute('playsinline', '');
-noSleepVideo.style.display = 'none';
-noSleepVideo.src = 'data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQg0OQM1ZQ0Mvw6AQAwTz4QAHBwEAAQAAQQIDQQoT2IQA1xAAXEMEDwABAAABBQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABmRAo4QEAABAAAAAQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABqXAEjDAwAAZ0IANwAAB3YAAAEAAHAAABGSEAkXEQIDQQoT2IQA1xAAXEMEDwABAAABBQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABmRAo4QEAABAAAAAQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABqXAEjDAwAAZ0IANwAAB3YAAAEAAHAAABGSEAkXEBwO';
-document.body.appendChild(noSleepVideo);
-
 function enterFullscreenAndKeepAwake() {
     var elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -941,7 +934,7 @@ function enterFullscreenAndKeepAwake() {
     } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
     }
-    noSleepVideo.play().catch(function(){});
+    noSleep.enable();
 }
 
 document.querySelector('.clock-card').addEventListener('click', function() {
@@ -972,6 +965,7 @@ if (wkTimeContainer) {
 
 // Clique na tela do Porta-Retratos para voltar ao normal (se foi forçado manualmente)
 document.getElementById('weekend-mode-overlay').addEventListener('click', function() {
+    noSleep.enable(); // Ativa caso o usuário interaja
     if (forcePhotoFrame) {
         forcePhotoFrame = false;
         updateTime();
@@ -994,11 +988,13 @@ window.toggleWkMusic = function(e) {
         iframe.src = "https://www.youtube.com/embed/WnCfvAMM9eY?autoplay=1&controls=1";
         btn.innerHTML = '⏹️';
         isWkMusicPlaying = true;
+        noSleep.enable();
     } else {
         // Para a música, mas toca um vídeo silencioso pra manter a tela ligada
-        iframe.src = "https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&loop=1&playlist=g4mHPeMROJU";
+        iframe.src = "https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&mute=1&loop=1&playlist=g4mHPeMROJU";
         btn.innerHTML = '▶️';
         isWkMusicPlaying = false;
+        noSleep.enable();
     }
 };
 
