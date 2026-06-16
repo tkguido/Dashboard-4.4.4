@@ -965,7 +965,7 @@ document.querySelector('.calendar-card').addEventListener('click', function() {
 document.getElementById('mode-toggle-btn').addEventListener('click', function(e) {
     e.stopPropagation();
     noSleep.enable();
-    if (currentMode === 'WEEKEND') {
+    if (previousMode === 'WEEKEND') {
         userModeOverride = 'DASHBOARD';
     } else {
         userModeOverride = 'PHOTO';
