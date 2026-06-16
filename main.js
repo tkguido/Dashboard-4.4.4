@@ -33,31 +33,54 @@ function isWeekendOrHoliday(dateObj) {
 }
 
 // Rotação de Fotos
-var photos = ['./fotos/1.jpg', './fotos/2.jpg', './fotos/3.jpg'];
+var photoList = [];
 var currentPhotoIndex = 0;
 var currentPhotoLayer = 1;
 var photoRotationInterval = null;
 
+function loadPhotoList() {
+    var xhr = new XMLHttpRequest();
+    // Cache buster for the API request so we get new photos if added
+    xhr.open('GET', 'https://api.github.com/repos/tkguido/Dashboard-4.4.4/contents/fotos?t=' + new Date().getTime(), true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            try {
+                var files = JSON.parse(xhr.responseText);
+                photoList = files.filter(function(f) {
+                    return f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/);
+                }).map(function(f) {
+                    return 'fotos/' + f.name;
+                });
+                
+                if (photoList.length > 0) {
+                    // Embaralha as fotos
+                    photoList.sort(function() { return 0.5 - Math.random() });
+                    rotatePhoto();
+                }
+            } catch(e) { console.log("Erro parseando fotos", e); }
+        }
+    };
+    xhr.send();
+}
+
 function rotatePhoto() {
-    var nextPhoto = photos[currentPhotoIndex];
-    currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+    if (photoList.length === 0) return;
     
     var layer1 = document.getElementById('photo-layer-1');
     var layer2 = document.getElementById('photo-layer-2');
     
     if (!layer1 || !layer2) return;
     
-    // Adiciona timestamp fake para forçar recarregamento se a imagem mudar, 
-    // mas como são locais e fixas não é necessário, porém ajuda no cache se editadas.
-    var photoUrl = nextPhoto + '?' + new Date().getTime();
+    var photoUrl = photoList[currentPhotoIndex] + '?v=' + new Date().getTime();
+    currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
     
     if (currentPhotoLayer === 1) {
-        layer2.style.backgroundImage = 'url(' + photoUrl + ')';
+        layer2.style.backgroundImage = 'url("' + photoUrl + '")';
         layer2.style.opacity = '1';
         layer1.style.opacity = '0';
         currentPhotoLayer = 2;
     } else {
-        layer1.style.backgroundImage = 'url(' + photoUrl + ')';
+        layer1.style.backgroundImage = 'url("' + photoUrl + '")';
         layer1.style.opacity = '1';
         layer2.style.opacity = '0';
         currentPhotoLayer = 1;
@@ -147,8 +170,11 @@ function updateTime() {
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) weekendOverlay.className = "";
             if (iframe) iframe.src = ''; // Desliga som
+            // Fetch list of photos and start rotating
+            if (photoList.length === 0) {
+                loadPhotoList();
+            }
             if (!photoRotationInterval) {
-                rotatePhoto(); // Roda a primeira imediatamente
                 photoRotationInterval = setInterval(rotatePhoto, 30000); // 30 segundos
             }
         } else if (currentMode === 'DAY') {
