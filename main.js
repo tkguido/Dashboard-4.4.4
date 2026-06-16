@@ -221,6 +221,16 @@ function updateTime() {
         previousMode = currentMode;
     }
 
+    // --- DEBUG INFO ---
+    var debugDiv = document.getElementById('debug-info');
+    if (!debugDiv) {
+        debugDiv = document.createElement('div');
+        debugDiv.id = 'debug-info';
+        debugDiv.style.cssText = 'position: fixed; top: 20px; right: 5px; color: #00ff00; font-size: 10px; z-index: 10000; font-family: monospace; background: rgba(0,0,0,0.8); padding: 5px; pointer-events: none;';
+        document.body.appendChild(debugDiv);
+    }
+    debugDiv.innerHTML = 'uM:' + userModeOverride + ' cM:' + currentMode + ' pM:' + previousMode + ' isP:' + isPhotoFrame + ' fPF:' + forcePhotoFrame + ' night:' + isNight + ' wnd:' + isWeekendOrHoliday(now);
+
     // --- EFEITO COMEMORATIVO (HORA REDONDA) ---
     var currentSeconds = now.getSeconds();
     var celebOverlay = document.getElementById('celebration-overlay');
@@ -994,13 +1004,19 @@ if (wkTimeContainer) {
     });
 }
 
-// Clique na tela do Porta-Retratos para voltar ao normal
-document.getElementById('weekend-mode-overlay').addEventListener('click', function(e) {
+function exitWeekendModeHandler(e) {
     if (e.target.id === 'wk-music-btn') return;
+    if (e.type === 'touchstart') {
+        e.preventDefault(); // Evita double-firing do click
+    }
     try { noSleep.enable(); } catch(err) {}
     userModeOverride = 'DASHBOARD';
     updateTime();
-});
+}
+
+// Clique na tela do Porta-Retratos para voltar ao normal
+document.getElementById('weekend-mode-overlay').addEventListener('click', exitWeekendModeHandler);
+document.getElementById('weekend-mode-overlay').addEventListener('touchstart', exitWeekendModeHandler);
 
 // Função para o botão de música no porta-retratos
 var isWkMusicPlaying = false;
