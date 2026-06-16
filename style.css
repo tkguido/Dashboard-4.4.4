@@ -444,7 +444,7 @@ h1, h2, h3, h4, p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 6vh;
+    padding-top: 4vh;
     box-sizing: border-box;
 }
 #weekend-mode-overlay.hidden {
@@ -463,45 +463,61 @@ h1, h2, h3, h4, p {
 #photo-frame-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 40vh;
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
     pointer-events: none;
     z-index: 2;
 }
-.weekend-cell {
+
+.weekend-top-bar {
     width: 100%;
-    text-align: center;
-    color: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4vw;
+    box-sizing: border-box;
     z-index: 10;
+    color: #fff;
 }
+
 #wk-time {
-    font-size: 14vh;
-    font-weight: 500;
+    font-size: 10vh;
+    font-weight: 400;
     margin: 0;
     line-height: 1;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
-#wk-date {
-    font-size: 3.5vh;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    color: #e2e8f0;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-.wk-weather {
-    font-size: 6vh;
-    font-weight: 600;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
+
 .wk-crypto-grid {
     display: flex;
     justify-content: center;
-    margin-top: 2vh;
+    align-items: center;
 }
+
 .wk-crypto {
     text-align: center;
+    margin: 0 1.5vw;
     text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    margin: 0 2.5vw;
+}
+
+.wk-crypto-label {
+    font-size: 1.5vh;
+    opacity: 0.9;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.wk-crypto-val {
+    font-size: 2.5vh;
+    font-weight: 500;
+    margin-top: 0.5vh;
+}
+
+#wk-weather-container {
+    font-size: 10vh;
+    font-weight: 400;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
 /* =========================================

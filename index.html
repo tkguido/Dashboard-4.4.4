@@ -6,10 +6,10 @@
     <title>Minimal Dashboard (Legacy Mode)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=126">
+    <link rel="stylesheet" href="style.css?v=127">
 </head>
 <body>
-    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v126</div>
+    <div style="position: fixed; top: 5px; right: 5px; color: #ff0000; font-size: 10px; z-index: 9999; font-weight: bold;">v127</div>
     <!-- Trade Alert Overlay -->
     <div id="trade-alert-overlay" class="hidden" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; border-radius: 12px; padding: 20px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s ease;">
         <h2 id="trade-alert-title" style="margin: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;">ALERTA DE TRADE</h2>
@@ -27,31 +27,31 @@
         <div id="photo-layer-2" class="photo-layer"></div>
         <div id="photo-frame-overlay"></div>
         
-        <div class="weekend-cell">
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <h1 id="wk-time" style="margin-right: 3vw;">00:00</h1>
-                <div class="wk-weather">
-                    <span id="wk-temp">--°C</span>
-                </div>
+        <div class="weekend-top-bar">
+            <!-- Left: Time -->
+            <div id="wk-time-container">
+                <h1 id="wk-time">00:00</h1>
             </div>
-            <p id="wk-date">Carregando data...</p>
+            
+            <!-- Center: Cryptos -->
             <div class="wk-crypto-grid">
                 <div class="wk-crypto">
-                    <div style="font-size: 1.5vh; opacity: 0.8; letter-spacing: 2px;">BITCOIN</div>
-                    <div id="wk-btc-price" style="font-size: 3vh; font-weight: 500; color: #4ade80;">--</div>
+                    <div class="wk-crypto-label">BITCOIN</div>
+                    <div id="wk-btc-price" class="wk-crypto-val" style="color: #4ade80;">--</div>
                 </div>
                 <div class="wk-crypto">
-                    <div style="font-size: 1.5vh; opacity: 0.8; letter-spacing: 2px;">XRP</div>
-                    <div id="wk-xrp-price" style="font-size: 3vh; font-weight: 500; color: #e2e8f0;">--</div>
+                    <div class="wk-crypto-label">SOLANA</div>
+                    <div id="wk-sol-price" class="wk-crypto-val" style="color: #14f195;">--</div>
                 </div>
                 <div class="wk-crypto">
-                    <div style="font-size: 1.5vh; opacity: 0.8; letter-spacing: 2px;">SOLANA</div>
-                    <div id="wk-sol-price" style="font-size: 3vh; font-weight: 500; color: #14f195;">--</div>
+                    <div class="wk-crypto-label">XRP</div>
+                    <div id="wk-xrp-price" class="wk-crypto-val" style="color: #e2e8f0;">--</div>
                 </div>
-                <div class="wk-crypto">
-                    <div style="font-size: 1.5vh; opacity: 0.8; letter-spacing: 2px;">DÓLAR</div>
-                    <div id="wk-usd-price" style="font-size: 3vh; font-weight: 500; color: #facc15;">--</div>
-                </div>
+            </div>
+            
+            <!-- Right: Weather -->
+            <div id="wk-weather-container">
+                <span id="wk-temp">--°</span>
             </div>
         </div>
     </div>
@@ -168,6 +168,6 @@
     </div>
     <audio id="trade-alert-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=coin-drop-39914.mp3" preload="auto"></audio>
 
-    <script src="main.js?v=126"></script>
+    <script src="main.js?v=127"></script>
 </body>
 </html>
