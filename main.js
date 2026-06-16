@@ -1032,14 +1032,17 @@ function loadPresetYouTube() {
     var val = select.value;
     
     var finalUrl = '';
-    // Troca o src pelo novo vídeo ou playlist (Autoplay=1 para iniciar na hora)
-    if (val.indexOf('list=') !== -1) {
+    
+    if (val === 'SILENCE') {
+        finalUrl = 'https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&mute=1&loop=1&playlist=g4mHPeMROJU';
+    } else if (val.indexOf('list=') !== -1) {
         finalUrl = 'https://www.youtube.com/embed/videoseries?' + val + '&autoplay=1&controls=1';
     } else {
         finalUrl = 'https://www.youtube.com/embed/' + val + '?autoplay=1&controls=1';
     }
     
     setYouTubeIframe(finalUrl);
+    try { noSleep.enable(); } catch(e) {}
 }
 
 // ==========================================
