@@ -184,18 +184,36 @@ function updateTime() {
         var progressContainer = document.getElementById('progress-container');
         
         // 1. Esconde todos
-        if (nightOverlay) nightOverlay.className = "hidden";
-        if (weekendOverlay) weekendOverlay.className = "hidden";
+        if (nightOverlay) {
+            nightOverlay.className = "hidden";
+            nightOverlay.style.display = "none";
+        }
+        if (weekendOverlay) {
+            weekendOverlay.className = "hidden";
+            weekendOverlay.style.display = "none";
+            weekendOverlay.style.opacity = "0";
+            weekendOverlay.style.zIndex = "-1000";
+            weekendOverlay.style.visibility = "hidden";
+        }
         if (progressContainer) progressContainer.style.display = "block";
         
         // 2. Aplica o novo estado
         if (currentMode === 'NIGHT') {
-            if (nightOverlay) nightOverlay.className = "";
+            if (nightOverlay) {
+                nightOverlay.className = "";
+                nightOverlay.style.display = "flex";
+            }
             if (progressContainer) progressContainer.style.display = "none";
             if (iframe) iframe.src = ''; // Desliga som
             if (photoRotationInterval) { clearInterval(photoRotationInterval); photoRotationInterval = null; }
         } else if (currentMode === 'WEEKEND') {
-            if (weekendOverlay) weekendOverlay.className = "";
+            if (weekendOverlay) {
+                weekendOverlay.className = "";
+                weekendOverlay.style.display = "block";
+                weekendOverlay.style.opacity = "1";
+                weekendOverlay.style.zIndex = "50";
+                weekendOverlay.style.visibility = "visible";
+            }
             if (iframe && !isWkMusicPlaying) {
                 // Toca um vídeo silencioso em loop infinito para evitar que a tela escureça por inatividade
                 iframe.src = 'https://www.youtube.com/embed/g4mHPeMROJU?autoplay=1&mute=1&loop=1&playlist=g4mHPeMROJU';
