@@ -194,6 +194,9 @@ function updateTime() {
             weekendOverlay.style.opacity = "0";
             weekendOverlay.style.zIndex = "-1000";
             weekendOverlay.style.visibility = "hidden";
+            // Hack supremo para WebViews jurássicas (joga pra fora da tela fisicamente)
+            weekendOverlay.style.webkitTransform = "translateY(-10000px)";
+            weekendOverlay.style.transform = "translateY(-10000px)";
         }
         if (progressContainer) progressContainer.style.display = "block";
         
@@ -213,6 +216,8 @@ function updateTime() {
                 weekendOverlay.style.opacity = "1";
                 weekendOverlay.style.zIndex = "50";
                 weekendOverlay.style.visibility = "visible";
+                weekendOverlay.style.webkitTransform = "translateY(0)";
+                weekendOverlay.style.transform = "translateY(0)";
             }
             if (iframe && !isWkMusicPlaying) {
                 // Toca um vídeo silencioso em loop infinito para evitar que a tela escureça por inatividade
