@@ -33,35 +33,19 @@ function isWeekendOrHoliday(dateObj) {
 }
 
 // Rotação de Fotos
-var photoList = [];
+// Como o Android 4.4 tem problemas de SSL (Let's Encrypt),
+// não podemos buscar a lista da API do GitHub dinamicamente.
+// A lista precisa ser manual.
+var photoList = [
+    'fotos/1.jpg',
+    'fotos/2.jpg',
+    'fotos/3.jpg',
+    'fotos/joao-1-ano-25-de-abril-de-2026159.jpg',
+    'fotos/joao-1-ano-25-de-abril-de-2026253.jpg'
+];
 var currentPhotoIndex = 0;
 var currentPhotoLayer = 1;
 var photoRotationInterval = null;
-
-function loadPhotoList() {
-    var xhr = new XMLHttpRequest();
-    // Cache buster for the API request so we get new photos if added
-    xhr.open('GET', 'https://api.github.com/repos/tkguido/Dashboard-4.4.4/contents/fotos?t=' + new Date().getTime(), true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            try {
-                var files = JSON.parse(xhr.responseText);
-                photoList = files.filter(function(f) {
-                    return f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/);
-                }).map(function(f) {
-                    return 'fotos/' + f.name;
-                });
-                
-                if (photoList.length > 0) {
-                    // Embaralha as fotos
-                    photoList.sort(function() { return 0.5 - Math.random() });
-                    rotatePhoto();
-                }
-            } catch(e) { console.log("Erro parseando fotos", e); }
-        }
-    };
-    xhr.send();
-}
 
 function rotatePhoto() {
     if (photoList.length === 0) return;
@@ -170,11 +154,10 @@ function updateTime() {
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) weekendOverlay.className = "";
             if (iframe) iframe.src = ''; // Desliga som
-            // Fetch list of photos and start rotating
-            if (photoList.length === 0) {
-                loadPhotoList();
-            }
             if (!photoRotationInterval) {
+                // Mistura as fotos iniciais pra não ser sempre a mesma ordem
+                photoList.sort(function() { return 0.5 - Math.random() });
+                rotatePhoto(); // Roda a primeira imediatamente
                 photoRotationInterval = setInterval(rotatePhoto, 30000); // 30 segundos
             }
         } else if (currentMode === 'DAY') {
