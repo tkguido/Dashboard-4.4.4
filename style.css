@@ -496,12 +496,12 @@ h1, h2, h3, h4, p {
 .wk-crypto-grid {
     display: flex;
     justify-content: center;
-    gap: 5vw;
     margin-top: 2vh;
 }
 .wk-crypto {
     text-align: center;
     text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    margin: 0 2.5vw;
 }
 
 /* =========================================

@@ -33,7 +33,7 @@ function isWeekendOrHoliday(dateObj) {
 }
 
 // Rotação de Fotos
-var photos = ['fotos/1.jpg', 'fotos/2.jpg', 'fotos/3.jpg'];
+var photos = ['./fotos/1.jpg', './fotos/2.jpg', './fotos/3.jpg'];
 var currentPhotoIndex = 0;
 var currentPhotoLayer = 1;
 var photoRotationInterval = null;
@@ -75,14 +75,14 @@ function updateTime() {
     
     var timeString = hours + ':' + minutes;
     
-    // Atualiza relogio principal, noturno e fim de semana
+    // Atualiza relogio principal e noturno
     document.getElementById('time').textContent = timeString;
     
     var stackedTimeHTML = '<span class="t-hr">' + hours + '</span><span class="t-colon">:</span><span class="t-min">' + minutes + '</span>';
     document.getElementById('night-time').innerHTML = stackedTimeHTML;
     
     var wkTimeEl = document.getElementById('wk-time');
-    if (wkTimeEl) wkTimeEl.innerHTML = stackedTimeHTML;
+    if (wkTimeEl) wkTimeEl.innerHTML = timeString;
     
     // Data
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
