@@ -993,10 +993,12 @@ if (wkTimeContainer) {
     });
 }
 
-// Clique na tela do Porta-Retratos para voltar ao normal (se foi forçado manualmente)
-document.getElementById('weekend-mode-overlay').addEventListener('click', function() {
-    noSleep.enable(); // Ativa caso o usuário interaja
-    enterFullscreenAndKeepAwake();
+// Clique na tela do Porta-Retratos para voltar ao normal
+document.getElementById('weekend-mode-overlay').addEventListener('click', function(e) {
+    if (e.target.id === 'wk-music-btn' || e.target.closest('#wk-music-btn')) return;
+    try { noSleep.enable(); } catch(err) {}
+    userModeOverride = 'DASHBOARD';
+    updateTime();
 });
 
 // Função para o botão de música no porta-retratos
