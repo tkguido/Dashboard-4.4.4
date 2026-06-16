@@ -3,6 +3,7 @@
 
 // Variável de controle de estado: 'START', 'DAY', 'NIGHT', 'WEEKEND'
 var previousMode = 'START';
+var forcePhotoFrame = false;
 
 // Feriados Nacionais e de POA/RS
 var holidays = [
@@ -116,7 +117,7 @@ function updateTime() {
     var currentHour = now.getHours();
     
     var isNight = (currentHour >= 19 || currentHour < 7);
-    var isPhotoFrame = isWeekendOrHoliday(now);
+    var isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
     
     // Modo de Teste via URL (?test_weekend=1)
     if (window.location.search.indexOf('test_weekend=1') !== -1) {
@@ -907,6 +908,20 @@ document.querySelector('.clock-card').addEventListener('click', function() {
     setTimeout(function() {
         celebOverlay.className = "hidden";
     }, 4000); // Fica aceso por 4 segundos
+});
+
+// Clique no Calendário para forçar Porta-Retratos
+document.querySelector('.calendar-card').addEventListener('click', function() {
+    forcePhotoFrame = true;
+    updateTime(); // Força a atualização de estado na hora
+});
+
+// Clique na tela do Porta-Retratos para voltar ao normal (se foi forçado manualmente)
+document.getElementById('weekend-mode-overlay').addEventListener('click', function() {
+    if (forcePhotoFrame) {
+        forcePhotoFrame = false;
+        updateTime();
+    }
 });
 
 // ==========================================
