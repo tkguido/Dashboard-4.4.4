@@ -58,13 +58,9 @@ var photoList = [
     'fotos/20260524_144726.jpg',
     'fotos/20260529_191029.jpg',
     'fotos/22032026--theo-4-anos---yasminsilvafoto-91.jpg',
-    'fotos/IMG-20260214-WA0067.jpg',
     'fotos/IMG-20260302-WA0001.jpeg',
     'fotos/IMG-20260302-WA0066.jpeg',
     'fotos/IMG-20260306-WA0009.jpg',
-    'fotos/IMG-20260502-WA0027.jpg',
-    'fotos/IMG-20260531-WA0012.jpg',
-    'fotos/Screenshot_20230629_210611_Photos.jpg',
     'fotos/joao-1-ano-25-de-abril-de-2026253.jpg'
 ];
 var currentPhotoIndex = 0;
