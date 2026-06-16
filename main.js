@@ -122,8 +122,9 @@ function updateTime() {
     var stackedTimeHTML = '<span class="t-hr">' + hours + '</span><span class="t-colon">:</span><span class="t-min">' + minutes + '</span>';
     document.getElementById('night-time').innerHTML = stackedTimeHTML;
     
+    var wkTimeStr = (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
     var wkTimeEl = document.getElementById('wk-time');
-    if (wkTimeEl) wkTimeEl.innerHTML = timeString;
+    if (wkTimeEl) wkTimeEl.innerHTML = wkTimeStr;
     
     // Data
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -186,17 +187,16 @@ function updateTime() {
         // 1. Esconde todos
         if (nightOverlay) {
             nightOverlay.className = "hidden";
-            nightOverlay.style.display = "none";
+            nightOverlay.style.display = "";
         }
         if (weekendOverlay) {
             weekendOverlay.className = "hidden";
-            weekendOverlay.style.display = "none";
-            weekendOverlay.style.opacity = "0";
-            weekendOverlay.style.zIndex = "-1000";
-            weekendOverlay.style.visibility = "hidden";
-            // Hack supremo para WebViews jurássicas (joga pra fora da tela fisicamente)
-            weekendOverlay.style.webkitTransform = "translateY(-10000px)";
-            weekendOverlay.style.transform = "translateY(-10000px)";
+            weekendOverlay.style.display = "";
+            weekendOverlay.style.opacity = "";
+            weekendOverlay.style.zIndex = "";
+            weekendOverlay.style.visibility = "";
+            weekendOverlay.style.webkitTransform = "";
+            weekendOverlay.style.transform = "";
         }
         if (progressContainer) progressContainer.style.display = "block";
         
@@ -204,7 +204,7 @@ function updateTime() {
         if (currentMode === 'NIGHT') {
             if (nightOverlay) {
                 nightOverlay.className = "";
-                nightOverlay.style.display = "flex";
+                nightOverlay.style.display = "";
             }
             if (progressContainer) progressContainer.style.display = "none";
             if (iframe) iframe.src = ''; // Desliga som
@@ -212,12 +212,12 @@ function updateTime() {
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) {
                 weekendOverlay.className = "";
-                weekendOverlay.style.display = "block";
-                weekendOverlay.style.opacity = "1";
-                weekendOverlay.style.zIndex = "50";
-                weekendOverlay.style.visibility = "visible";
-                weekendOverlay.style.webkitTransform = "translateY(0)";
-                weekendOverlay.style.transform = "translateY(0)";
+                weekendOverlay.style.display = "";
+                weekendOverlay.style.opacity = "";
+                weekendOverlay.style.zIndex = "";
+                weekendOverlay.style.visibility = "";
+                weekendOverlay.style.webkitTransform = "";
+                weekendOverlay.style.transform = "";
             }
             if (iframe && !isWkMusicPlaying) {
                 // Toca um vídeo silencioso em loop infinito para evitar que a tela escureça por inatividade
@@ -243,16 +243,6 @@ function updateTime() {
         
         previousMode = currentMode;
     }
-
-    // --- DEBUG INFO ---
-    var debugDiv = document.getElementById('debug-info');
-    if (!debugDiv) {
-        debugDiv = document.createElement('div');
-        debugDiv.id = 'debug-info';
-        debugDiv.style.cssText = 'position: fixed; top: 20px; right: 5px; color: #00ff00; font-size: 10px; z-index: 10000; font-family: monospace; background: rgba(0,0,0,0.8); padding: 5px; pointer-events: none;';
-        document.body.appendChild(debugDiv);
-    }
-    debugDiv.innerHTML = 'uM:' + userModeOverride + ' cM:' + currentMode + ' pM:' + previousMode + ' isP:' + isPhotoFrame + ' fPF:' + forcePhotoFrame + ' night:' + isNight + ' wnd:' + isWeekendOrHoliday(now);
 
     // --- EFEITO COMEMORATIVO (HORA REDONDA) ---
     var currentSeconds = now.getSeconds();
