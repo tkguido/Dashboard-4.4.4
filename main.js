@@ -55,17 +55,26 @@ function rotatePhoto() {
     var photoUrl = photoList[currentPhotoIndex] + '?v=' + new Date().getTime();
     currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
     
-    if (currentPhotoLayer === 1) {
-        layer2.style.backgroundImage = 'url(' + photoUrl + ')';
-        layer2.style.opacity = '1';
-        layer1.style.opacity = '0';
-        currentPhotoLayer = 2;
-    } else {
-        layer1.style.backgroundImage = 'url(' + photoUrl + ')';
-        layer1.style.opacity = '1';
-        layer2.style.opacity = '0';
-        currentPhotoLayer = 1;
-    }
+    // Pré-carrega a imagem para evitar tela preta
+    var img = new Image();
+    img.onload = function() {
+        if (currentPhotoLayer === 1) {
+            layer2.style.backgroundImage = 'url(' + photoUrl + ')';
+            layer2.style.opacity = '1';
+            layer1.style.opacity = '0';
+            currentPhotoLayer = 2;
+        } else {
+            layer1.style.backgroundImage = 'url(' + photoUrl + ')';
+            layer1.style.opacity = '1';
+            layer2.style.opacity = '0';
+            currentPhotoLayer = 1;
+        }
+    };
+    img.onerror = function() {
+        // Se der erro ao carregar, tenta a próxima logo em seguida
+        rotatePhoto();
+    };
+    img.src = photoUrl;
 }
 
 // 1. Relógio, Data e MODO NOTURNO/FIM DE SEMANA
