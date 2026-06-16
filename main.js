@@ -38,9 +38,13 @@ function isWeekendOrHoliday(dateObj) {
 // não podemos buscar a lista da API do GitHub dinamicamente.
 // A lista precisa ser manual.
 var photoList = [
+    'fotos/20200215_175832.jpg',
     'fotos/20200325_194456.jpg',
     'fotos/20200425_210146.jpg',
     'fotos/20200614_115705.jpg',
+    'fotos/20230627_142502.jpg',
+    'fotos/20230723_073725.jpg',
+    'fotos/20231122_182659.jpg',
     'fotos/20260124_153522.jpg',
     'fotos/20260125_161848.jpg',
     'fotos/20260130_180528.jpg',
@@ -54,8 +58,12 @@ var photoList = [
     'fotos/20260529_191029.jpg',
     'fotos/22032026--theo-4-anos---yasminsilvafoto-91.jpg',
     'fotos/IMG-20260214-WA0067.jpg',
+    'fotos/IMG-20260302-WA0001.jpeg',
+    'fotos/IMG-20260302-WA0066.jpeg',
+    'fotos/IMG-20260306-WA0009.jpg',
     'fotos/IMG-20260502-WA0027.jpg',
     'fotos/IMG-20260531-WA0012.jpg',
+    'fotos/Screenshot_20230629_210611_Photos.jpg',
     'fotos/joao-1-ano-25-de-abril-de-2026253.jpg'
 ];
 var currentPhotoIndex = 0;
