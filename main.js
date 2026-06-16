@@ -995,7 +995,7 @@ if (wkTimeContainer) {
 
 // Clique na tela do Porta-Retratos para voltar ao normal
 document.getElementById('weekend-mode-overlay').addEventListener('click', function(e) {
-    if (e.target.id === 'wk-music-btn' || e.target.closest('#wk-music-btn')) return;
+    if (e.target.id === 'wk-music-btn') return;
     try { noSleep.enable(); } catch(err) {}
     userModeOverride = 'DASHBOARD';
     updateTime();
