@@ -967,9 +967,12 @@ document.querySelector('.calendar-card').addEventListener('click', function() {
     updateTime(); // Força a atualização de estado na hora
 });
 
-// Botão Flutuante de Troca Rápida de Modo
-document.getElementById('mode-toggle-btn').addEventListener('click', function(e) {
-    e.stopPropagation();
+// Função global chamada pelos eventos inline no HTML
+window.toggleModeHandler = function(e) {
+    if (e) {
+        e.stopPropagation();
+        e.preventDefault(); // Evita double-fire em touch + click
+    }
     try { noSleep.enable(); } catch(err) {}
     
     // Se o estado atual exibido for WEEKEND, troca para DASHBOARD, senão troca para PHOTO
@@ -979,7 +982,7 @@ document.getElementById('mode-toggle-btn').addEventListener('click', function(e)
         userModeOverride = 'PHOTO';
     }
     updateTime(); // Aplica imediatamente
-});
+};
 
 // Clique no Relógio do Porta Retratos para Tela Cheia e Keep Awake
 var wkTimeContainer = document.getElementById('wk-time-container');
