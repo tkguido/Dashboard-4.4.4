@@ -3,7 +3,8 @@
 
 // Variável de controle de estado: 'START', 'DAY', 'NIGHT', 'WEEKEND'
 var previousMode = 'START';
-var forcePhotoFrame = false;
+var forcePhotoFrame = false; // deprecated
+var userModeOverride = null; // 'PHOTO' | 'DASHBOARD' | null
 var noSleep = new NoSleep();
 
 // Feriados Nacionais e de POA/RS
@@ -162,6 +163,8 @@ function updateTime() {
     
     var isNight = (currentHour >= 19 || currentHour < 7);
     var isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
+    if (userModeOverride === 'PHOTO') isPhotoFrame = true;
+    if (userModeOverride === 'DASHBOARD') isPhotoFrame = false;
     
     // Modo de Teste via URL (?test_weekend=1)
     if (window.location.search.indexOf('test_weekend=1') !== -1) {
@@ -958,8 +961,20 @@ document.querySelector('.clock-card').addEventListener('click', function() {
 
 // Clique no Calendário para forçar Porta-Retratos
 document.querySelector('.calendar-card').addEventListener('click', function() {
-    forcePhotoFrame = true;
+    userModeOverride = 'PHOTO';
     updateTime(); // Força a atualização de estado na hora
+});
+
+// Botão Flutuante de Troca Rápida de Modo
+document.getElementById('mode-toggle-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    noSleep.enable();
+    if (currentMode === 'WEEKEND') {
+        userModeOverride = 'DASHBOARD';
+    } else {
+        userModeOverride = 'PHOTO';
+    }
+    updateTime();
 });
 
 // Clique no Relógio do Porta Retratos para Tela Cheia e Keep Awake
@@ -974,13 +989,7 @@ if (wkTimeContainer) {
 // Clique na tela do Porta-Retratos para voltar ao normal (se foi forçado manualmente)
 document.getElementById('weekend-mode-overlay').addEventListener('click', function() {
     noSleep.enable(); // Ativa caso o usuário interaja
-    if (forcePhotoFrame) {
-        forcePhotoFrame = false;
-        updateTime();
-    } else {
-        // Se já é final de semana e não foi forçado, clicar na foto também dá tela cheia por conveniência
-        enterFullscreenAndKeepAwake();
-    }
+    enterFullscreenAndKeepAwake();
 });
 
 // Função para o botão de música no porta-retratos
