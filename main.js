@@ -4,6 +4,65 @@
 // Variável de controle de estado: 'START', 'DAY', 'NIGHT', 'WEEKEND'
 var previousMode = 'START';
 
+// Feriados Nacionais e de POA/RS
+var holidays = [
+    '01/01', // Confraternização Universal
+    '02/02', // Nossa Senhora dos Navegantes (POA)
+    '21/04', // Tiradentes
+    '01/05', // Dia do Trabalhador
+    '07/09', // Independência do Brasil
+    '20/09', // Revolução Farroupilha (RS)
+    '12/10', // Nossa Senhora Aparecida
+    '02/11', // Finados
+    '15/11', // Proclamação da República
+    '20/11', // Consciência Negra
+    '25/12'  // Natal
+];
+
+function isWeekendOrHoliday(dateObj) {
+    var day = dateObj.getDay();
+    if (day === 0 || day === 6) return true;
+    
+    var d = ('0' + dateObj.getDate()).slice(-2);
+    var m = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+    var dm = d + '/' + m;
+    
+    if (holidays.indexOf(dm) !== -1) return true;
+    return false;
+}
+
+// Rotação de Fotos
+var photos = ['fotos/1.jpg', 'fotos/2.jpg', 'fotos/3.jpg'];
+var currentPhotoIndex = 0;
+var currentPhotoLayer = 1;
+var photoRotationInterval = null;
+
+function rotatePhoto() {
+    var nextPhoto = photos[currentPhotoIndex];
+    currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+    
+    var layer1 = document.getElementById('photo-layer-1');
+    var layer2 = document.getElementById('photo-layer-2');
+    
+    if (!layer1 || !layer2) return;
+    
+    // Adiciona timestamp fake para forçar recarregamento se a imagem mudar, 
+    // mas como são locais e fixas não é necessário, porém ajuda no cache se editadas.
+    var photoUrl = nextPhoto + '?' + new Date().getTime();
+    
+    if (currentPhotoLayer === 1) {
+        layer2.style.backgroundImage = 'url(' + photoUrl + ')';
+        layer2.style.opacity = '1';
+        layer1.style.opacity = '0';
+        currentPhotoLayer = 2;
+    } else {
+        layer1.style.backgroundImage = 'url(' + photoUrl + ')';
+        layer1.style.opacity = '1';
+        layer2.style.opacity = '0';
+        currentPhotoLayer = 1;
+    }
+}
+
 // 1. Relógio, Data e MODO NOTURNO/FIM DE SEMANA
 function updateTime() {
     var now = new Date();
@@ -55,18 +114,17 @@ function updateTime() {
 
     // --- MÁQUINA DE ESTADOS DO PAINEL ---
     var currentHour = now.getHours();
-    var currentDay = now.getDay(); // 0 = Domingo, 6 = Sábado
     
     var isNight = (currentHour >= 19 || currentHour < 7);
-    var isWeekend = (currentDay === 0 || currentDay === 6);
+    var isPhotoFrame = isWeekendOrHoliday(now);
     
     // Modo de Teste via URL (?test_weekend=1)
     if (window.location.search.indexOf('test_weekend=1') !== -1) {
         isNight = false; // Desativa o modo noturno para visualizar o fds
-        isWeekend = true;
+        isPhotoFrame = true;
     }
     
-    var currentMode = isNight ? 'NIGHT' : (isWeekend ? 'WEEKEND' : 'DAY');
+    var currentMode = isNight ? 'NIGHT' : (isPhotoFrame ? 'WEEKEND' : 'DAY');
     
     if (currentMode !== previousMode) {
         var nightOverlay = document.getElementById('night-mode-overlay');
@@ -84,14 +142,20 @@ function updateTime() {
             if (nightOverlay) nightOverlay.className = "";
             if (progressContainer) progressContainer.style.display = "none";
             if (iframe) iframe.src = ''; // Desliga som
+            if (photoRotationInterval) { clearInterval(photoRotationInterval); photoRotationInterval = null; }
         } else if (currentMode === 'WEEKEND') {
             if (weekendOverlay) weekendOverlay.className = "";
             if (iframe) iframe.src = ''; // Desliga som
+            if (!photoRotationInterval) {
+                rotatePhoto(); // Roda a primeira imediatamente
+                photoRotationInterval = setInterval(rotatePhoto, 30000); // 30 segundos
+            }
         } else if (currentMode === 'DAY') {
             // Volta para a rádio normal
             if (typeof loadPresetYouTube === 'function') {
                 loadPresetYouTube();
             }
+            if (photoRotationInterval) { clearInterval(photoRotationInterval); photoRotationInterval = null; }
         }
         
         previousMode = currentMode;
