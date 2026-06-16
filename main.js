@@ -890,17 +890,18 @@ noSleepVideo.style.display = 'none';
 noSleepVideo.src = 'data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQg0OQM1ZQ0Mvw6AQAwTz4QAHBwEAAQAAQQIDQQoT2IQA1xAAXEMEDwABAAABBQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABmRAo4QEAABAAAAAQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABqXAEjDAwAAZ0IANwAAB3YAAAEAAHAAABGSEAkXEQIDQQoT2IQA1xAAXEMEDwABAAABBQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABmRAo4QEAABAAAAAQgOEI0GAYkGQQQSAQEAAAEHCA4QjQYBkgZBBBABAgAAABqXAEjDAwAAZ0IANwAAB3YAAAEAAHAAABGSEAkXEBwO';
 document.body.appendChild(noSleepVideo);
 
-document.querySelector('.clock-card').addEventListener('click', function() {
-    // 1. Tela Cheia (Esconde a barra)
+function enterFullscreenAndKeepAwake() {
     var elem = document.documentElement;
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { /* Android antigo e Chrome */
+    } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
     }
-    
-    // 2. Previne o desligamento da tela rodando um micro video vazio em loop
     noSleepVideo.play().catch(function(){});
+}
+
+document.querySelector('.clock-card').addEventListener('click', function() {
+    enterFullscreenAndKeepAwake();
     
     // 3. Testa a pirotecnia (Edge Lighting) ao clicar no relógio
     var celebOverlay = document.getElementById('celebration-overlay');
@@ -916,11 +917,23 @@ document.querySelector('.calendar-card').addEventListener('click', function() {
     updateTime(); // Força a atualização de estado na hora
 });
 
+// Clique no Relógio do Porta Retratos para Tela Cheia e Keep Awake
+var wkTimeContainer = document.getElementById('wk-time-container');
+if (wkTimeContainer) {
+    wkTimeContainer.addEventListener('click', function(e) {
+        e.stopPropagation();
+        enterFullscreenAndKeepAwake();
+    });
+}
+
 // Clique na tela do Porta-Retratos para voltar ao normal (se foi forçado manualmente)
 document.getElementById('weekend-mode-overlay').addEventListener('click', function() {
     if (forcePhotoFrame) {
         forcePhotoFrame = false;
         updateTime();
+    } else {
+        // Se já é final de semana e não foi forçado, clicar na foto também dá tela cheia por conveniência
+        enterFullscreenAndKeepAwake();
     }
 });
 
