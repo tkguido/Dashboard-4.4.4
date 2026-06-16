@@ -37,6 +37,9 @@ function isWeekendOrHoliday(dateObj) {
 // não podemos buscar a lista da API do GitHub dinamicamente.
 // A lista precisa ser manual.
 var photoList = [
+    'fotos/20200325_194456.jpg',
+    'fotos/20200425_210146.jpg',
+    'fotos/20200614_115705.jpg',
     'fotos/20260124_153522.jpg',
     'fotos/20260125_161848.jpg',
     'fotos/20260130_180528.jpg',
