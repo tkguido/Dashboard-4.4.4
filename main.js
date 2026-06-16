@@ -157,23 +157,24 @@ function updateTime() {
 
     // --- MÁQUINA DE ESTADOS DO PAINEL ---
     var currentHour = now.getHours();
-    
     var isNight = (currentHour >= 19 || currentHour < 7);
-    var isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
+    var isPhotoFrame = false;
     
-    // Modo de Teste via URL (?test_weekend=1)
-    if (window.location.search.indexOf('test_weekend=1') !== -1) {
-        isNight = false; // Desativa o modo noturno para visualizar o fds
-        isPhotoFrame = true;
-    }
+    // Somente avalia os outros modos se NÃO for Modo Noturno (pois 19h as 7h domina tudo)
+    if (!isNight) {
+        isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
+        
+        // Modo de Teste via URL (?test_weekend=1)
+        if (window.location.search.indexOf('test_weekend=1') !== -1) {
+            isPhotoFrame = true;
+        }
 
-    // Overrides de usuário sempre têm prioridade final
-    if (userModeOverride === 'PHOTO') {
-        isPhotoFrame = true;
-        isNight = false; // Override night mode
-    } else if (userModeOverride === 'DASHBOARD') {
-        isPhotoFrame = false;
-        isNight = false; // Override night mode
+        // Overrides de usuário
+        if (userModeOverride === 'PHOTO') {
+            isPhotoFrame = true;
+        } else if (userModeOverride === 'DASHBOARD') {
+            isPhotoFrame = false;
+        }
     }
     
     var currentMode = isNight ? 'NIGHT' : (isPhotoFrame ? 'WEEKEND' : 'DAY');
