@@ -159,8 +159,14 @@ function updateTime() {
     
     var isNight = (currentHour >= 19 || currentHour < 7);
     var isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
-    if (userModeOverride === 'PHOTO') isPhotoFrame = true;
-    if (userModeOverride === 'DASHBOARD') isPhotoFrame = false;
+    
+    if (userModeOverride === 'PHOTO') {
+        isPhotoFrame = true;
+        isNight = false; // Override night mode
+    } else if (userModeOverride === 'DASHBOARD') {
+        isPhotoFrame = false;
+        isNight = false; // Override night mode
+    }
     
     // Modo de Teste via URL (?test_weekend=1)
     if (window.location.search.indexOf('test_weekend=1') !== -1) {
@@ -964,13 +970,15 @@ document.querySelector('.calendar-card').addEventListener('click', function() {
 // Botão Flutuante de Troca Rápida de Modo
 document.getElementById('mode-toggle-btn').addEventListener('click', function(e) {
     e.stopPropagation();
-    noSleep.enable();
+    try { noSleep.enable(); } catch(err) {}
+    
+    // Se o estado atual exibido for WEEKEND, troca para DASHBOARD, senão troca para PHOTO
     if (previousMode === 'WEEKEND') {
         userModeOverride = 'DASHBOARD';
     } else {
         userModeOverride = 'PHOTO';
     }
-    updateTime();
+    updateTime(); // Aplica imediatamente
 });
 
 // Clique no Relógio do Porta Retratos para Tela Cheia e Keep Awake
