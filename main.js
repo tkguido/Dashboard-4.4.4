@@ -1018,6 +1018,15 @@ if (wkTimeContainer) {
     });
 }
 
+var hasEnteredFullscreen = false;
+document.body.addEventListener('click', function() {
+    if (!hasEnteredFullscreen) {
+        enterFullscreenAndKeepAwake();
+        try { noSleep.enable(); } catch(err) {}
+        hasEnteredFullscreen = true;
+    }
+});
+
 function exitWeekendModeHandler(e) {
     if (e.target.id === 'wk-music-btn') return;
     if (e.type === 'touchstart') {
