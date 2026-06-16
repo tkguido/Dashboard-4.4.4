@@ -160,18 +160,19 @@ function updateTime() {
     var isNight = (currentHour >= 19 || currentHour < 7);
     var isPhotoFrame = isWeekendOrHoliday(now) || forcePhotoFrame;
     
+    // Modo de Teste via URL (?test_weekend=1)
+    if (window.location.search.indexOf('test_weekend=1') !== -1) {
+        isNight = false; // Desativa o modo noturno para visualizar o fds
+        isPhotoFrame = true;
+    }
+
+    // Overrides de usuário sempre têm prioridade final
     if (userModeOverride === 'PHOTO') {
         isPhotoFrame = true;
         isNight = false; // Override night mode
     } else if (userModeOverride === 'DASHBOARD') {
         isPhotoFrame = false;
         isNight = false; // Override night mode
-    }
-    
-    // Modo de Teste via URL (?test_weekend=1)
-    if (window.location.search.indexOf('test_weekend=1') !== -1) {
-        isNight = false; // Desativa o modo noturno para visualizar o fds
-        isPhotoFrame = true;
     }
     
     var currentMode = isNight ? 'NIGHT' : (isPhotoFrame ? 'WEEKEND' : 'DAY');
