@@ -786,28 +786,6 @@ h1, h2, h3, h4, p {
     #night-time {
         font-size: 38vh !important; /* Menor para caber as duas linhas na tela */
     }
-    
-    #wk-time {
-        font-size: 20vh !important;
-        margin-top: -5vh !important;
-    }
-    #wk-date {
-        font-size: 3vh !important;
-        margin-top: 2vh !important;
-        margin-bottom: 5vh !important;
-    }
-    .wk-weather {
-        font-size: 5vh !important;
-        margin-bottom: 2vh !important;
-        white-space: nowrap !important;
-    }
-    .wk-crypto-grid {
-        gap: 20px !important;
-        margin-top: 3vh !important;
-    }
-    .wk-crypto {
-        font-size: 2.2vh !important;
-    }
 }
 
 /* Indicador de Jogo Ao Vivo (Copa) */
