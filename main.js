@@ -59,12 +59,12 @@ function rotatePhoto() {
     currentPhotoIndex = (currentPhotoIndex + 1) % photoList.length;
     
     if (currentPhotoLayer === 1) {
-        layer2.style.backgroundImage = 'url("' + photoUrl + '")';
+        layer2.style.backgroundImage = 'url(' + photoUrl + ')';
         layer2.style.opacity = '1';
         layer1.style.opacity = '0';
         currentPhotoLayer = 2;
     } else {
-        layer1.style.backgroundImage = 'url("' + photoUrl + '")';
+        layer1.style.backgroundImage = 'url(' + photoUrl + ')';
         layer1.style.opacity = '1';
         layer2.style.opacity = '0';
         currentPhotoLayer = 1;
@@ -160,6 +160,7 @@ function updateTime() {
                 rotatePhoto(); // Roda a primeira imediatamente
                 photoRotationInterval = setInterval(rotatePhoto, 30000); // 30 segundos
             }
+            document.getElementById('dashboard-wrapper').style.opacity = '0';
         } else if (currentMode === 'DAY') {
             // Volta para a rádio normal
             if (typeof loadPresetYouTube === 'function') {
