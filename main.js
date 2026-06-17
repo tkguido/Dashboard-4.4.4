@@ -969,8 +969,19 @@ function enterFullscreenAndKeepAwake() {
     var elem = document.documentElement;
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullScreen) {
+        elem.webkitRequestFullScreen();
     } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
+    
+    // Tenta ativar o WakeLock API
+    if ('wakeLock' in navigator) {
+        navigator.wakeLock.request('screen').catch(function() {});
     }
     noSleep.enable();
 }
